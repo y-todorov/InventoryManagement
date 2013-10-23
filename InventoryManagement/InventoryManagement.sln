@@ -3,6 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagementMVC", "InventoryManagementMVC\InventoryManagementMVC.csproj", "{E35B16D5-3A2D-4E78-9775-354AE45CDB56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{024BA7AD-9A0E-4D68-AF64-2E3807EE99B5}"
+	ProjectSection(SolutionItems) = preProject
+		Libraries\Antlr3.Runtime.dll = Libraries\Antlr3.Runtime.dll
+		Libraries\EntityFramework.dll = Libraries\EntityFramework.dll
+		Libraries\Kendo.Mvc.dll = Libraries\Kendo.Mvc.dll
+		Libraries\Newtonsoft.Json.dll = Libraries\Newtonsoft.Json.dll
+		Libraries\WebGrease.dll = Libraries\WebGrease.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
