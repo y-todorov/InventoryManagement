@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Kendo.Mvc;
+using RecipiesModelNS;
 
 namespace InventoryManagementMVC.Controllers
 {
