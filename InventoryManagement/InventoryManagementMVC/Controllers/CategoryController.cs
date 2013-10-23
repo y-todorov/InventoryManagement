@@ -15,10 +15,7 @@ namespace InventoryManagementMVC.Controllers
     public class CategoryController : Controller
     {
         private RecipiesEntities db = new RecipiesEntities();
-
-        //
-        // GET: /Category/
-
+        
         public ActionResult Index()
         {
             return View();
@@ -37,52 +34,14 @@ namespace InventoryManagementMVC.Controllers
             return Json(cvms.ToDataSourceResult(request));
         }
 
-        //
-        // GET: /Category/Details/5
-
-        public ActionResult Details(int id = 0)
-        {
-            ProductCategory productcategory = db.ProductCategories.Find(id);
-            if (productcategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(productcategory);
-        }
-
-        //
-        // GET: /Category/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Category/Create
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(ProductCategory productcategory)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.ProductCategories.Add(productcategory);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(productcategory);
-        //}
-
         //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        //public ActionResult Editing_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
         //{
         //    var results = new List<ProductViewModel>();
 
-        //    if (categories != null && ModelState.IsValid)
+        //    if (products != null && ModelState.IsValid)
         //    {
-        //        foreach (var product in categories)
+        //        foreach (var product in products)
         //        {
         //            SessionProductRepository.Insert(product);
         //            results.Add(product);
@@ -92,61 +51,42 @@ namespace InventoryManagementMVC.Controllers
         //    return Json(results.ToDataSourceResult(request, ModelState));
         //}
 
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Editing_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
+        //{
+        //    if (products != null && ModelState.IsValid)
+        //    {
+        //        foreach (var product in products)
+        //        {
+        //            var target = SessionProductRepository.One(p => p.ProductID == product.ProductID);
+        //            if (target != null)
+        //            {
+        //                target.ProductName = product.ProductName;
+        //                target.UnitPrice = product.UnitPrice;
+        //                target.UnitsInStock = product.UnitsInStock;
+        //                target.LastSupply = product.LastSupply;
+        //                target.Discontinued = product.Discontinued;
+        //                SessionProductRepository.Update(target);
+        //            }
+        //        }
+        //    }
 
-        //
-        // GET: /Category/Edit/5
+        //    return Json(products.ToDataSourceResult(request, ModelState));
+        //}
 
-        public ActionResult Edit(int id = 0)
-        {
-            ProductCategory productcategory = db.ProductCategories.Find(id);
-            if (productcategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(productcategory);
-        }
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult Editing_Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
+        //{
+        //    if (products.Any())
+        //    {
+        //        foreach (var product in products)
+        //        {
+        //            SessionProductRepository.Delete(product);
+        //        }
+        //    }
 
-        //
-        // POST: /Category/Edit/5
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(ProductCategory productcategory)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(productcategory).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(productcategory);
-        }
-
-        //
-        // GET: /Category/Delete/5
-
-        public ActionResult Delete(int id = 0)
-        {
-            ProductCategory productcategory = db.ProductCategories.Find(id);
-            if (productcategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(productcategory);
-        }
-
-        //
-        // POST: /Category/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            ProductCategory productcategory = db.ProductCategories.Find(id);
-            db.ProductCategories.Remove(productcategory);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //    return Json(products.ToDataSourceResult(request, ModelState));
+        //}
 
         protected override void Dispose(bool disposing)
         {
