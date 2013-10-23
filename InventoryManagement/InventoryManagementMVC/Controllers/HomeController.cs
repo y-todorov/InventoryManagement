@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Kendo.Mvc;
 
 namespace InventoryManagementMVC.Controllers
 {
@@ -7,6 +8,12 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
+
+            if (!SiteMapManager.SiteMaps.ContainsKey("sitemap"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("sitemap", sitemap =>
+                    sitemap.LoadFrom("~/sitemap.sitemap"));
+            }
 
             return View();
         }
