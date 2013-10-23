@@ -1,23 +1,43 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <siteMap>
   <siteMapNode title="Home" controller="Home" action="Overview">
-    <siteMapNode title="Grid">
-      <siteMapNode controller="grid" action="index" title="First Look (Razor)" area="razor"/>
-      <siteMapNode controller="grid" action="index" title="First Look (ASPX)" area="aspx"/>
-      <siteMapNode controller="grid" action="editing" title="Batch editing (Razor)" area="razor"/>
-      <siteMapNode controller="grid" action="editing" title="Batch editing (ASPX)" area="aspx"/>
-      <siteMapNode controller="grid" action="from-table" title="Initialization from table (Razor)" area="razor"/>
-      <siteMapNode controller="grid" action="from-table" title="Initialization from table (ASPX)" area="aspx"/>
+    <siteMapNode title="Dashboard">
+
     </siteMapNode>
-    <siteMapNode title="Menu">
-      <siteMapNode controller="menu" action="index" title="First Look (Razor)" area="razor"/>
-      <siteMapNode controller="menu" action="index" title="First Look (ASPX)" area="aspx"/>
-      <siteMapNode controller="menu" action="events" title="Events (Razor)" area="razor"/>
-      <siteMapNode controller="menu" action="events" title="Events (ASPX)" area="aspx"/>
-      <siteMapNode controller="menu" action="api" title="API (Razor)" area="razor"/>
-      <siteMapNode controller="menu" action="api" title="API (ASPX)" area="aspx"/>
-      <siteMapNode controller="menu" action="images" title="Images (Razor)" area="razor"/>
-      <siteMapNode controller="menu" action="images" title="Images (ASPX)" area="aspx"/>
+    <siteMapNode title="Charts">
+      <siteMapNode controller="product" action="index" title="Vendors">
+        <siteMapNode controller="product" action="index" title="Vendors purchase value per week" />
+      </siteMapNode>
+    </siteMapNode>
+
+    <siteMapNode title="Production">
+      <siteMapNode controller="product" action="index" title="Products" />
+      <siteMapNode controller="category" action="index" title="Categories" />
+      <siteMapNode controller="unitmeasure" action="index" title="Unit measures" />
+      <siteMapNode controller="store" action="index" title="Stores" />
+      <siteMapNode controller="recipie" action="index" title="Recipies" />
+      <siteMapNode controller="productinventory" action="index" title="Product inventories" />
+      <siteMapNode controller="productwaste" action="index" title="Product sastes" />
+      <siteMapNode controller="recipiewaste" action="index" title="Recipies sastes" />
+    </siteMapNode>
+    <siteMapNode title="Sales">
+
+    </siteMapNode>
+    <siteMapNode title="Purchasing">
+
+    </siteMapNode>
+    <siteMapNode title="Human resources">
+
+    </siteMapNode>
+    <siteMapNode title="History">
+
+    </siteMapNode>
+    <siteMapNode title="Admin">
+
+    </siteMapNode>
+    <siteMapNode title="Account">
+
     </siteMapNode>
   </siteMapNode>
 </siteMap>
