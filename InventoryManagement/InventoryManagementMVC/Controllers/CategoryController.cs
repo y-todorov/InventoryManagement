@@ -34,45 +34,52 @@ namespace InventoryManagementMVC.Controllers
             return Json(cvms.ToDataSourceResult(request));
         }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Editing_Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
-        //{
-        //    var results = new List<ProductViewModel>();
+        //[Bind(Prefix = "models")] IS VERY IMPORTANT, DOWSNT WORK WITHOUT IT
 
-        //    if (products != null && ModelState.IsValid)
-        //    {
-        //        foreach (var product in products)
-        //        {
-        //            SessionProductRepository.Insert(product);
-        //            results.Add(product);
-        //        }
-        //    }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        {
+            var results = new List<CategoryViewModel>();
 
-        //    return Json(results.ToDataSourceResult(request, ModelState));
-        //}
+            if (categories != null && ModelState.IsValid)
+            {
+                foreach (var category in categories)
+                {
+                    db.ProductCategories.Add(new ProductCategory() { CategoryId = category.CategoryId, Name = category.Name, ModifiedByUser=category.ModifiedByUser, ModifiedDate = category.ModifiedDate});
+                    db.SaveChanges();
+                    results.Add(category);
+                }
+            }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Editing_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
-        //{
-        //    if (products != null && ModelState.IsValid)
-        //    {
-        //        foreach (var product in products)
-        //        {
-        //            var target = SessionProductRepository.One(p => p.ProductID == product.ProductID);
-        //            if (target != null)
-        //            {
-        //                target.ProductName = product.ProductName;
-        //                target.UnitPrice = product.UnitPrice;
-        //                target.UnitsInStock = product.UnitsInStock;
-        //                target.LastSupply = product.LastSupply;
-        //                target.Discontinued = product.Discontinued;
-        //                SessionProductRepository.Update(target);
-        //            }
-        //        }
-        //    }
+            return Json(results.ToDataSourceResult(request, ModelState));
+        }
 
-        //    return Json(products.ToDataSourceResult(request, ModelState));
-        //}
+        //[Bind(Prefix = "models")] IS VERY IMPORTANT, DOWSNT WORK WITHOUT IT
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        {
+            if (categories != null && ModelState.IsValid)
+            {
+                //foreach (var product in categories)
+                //{
+                //    var target = SessionProductRepository.One(p => p.ProductID == product.ProductID);
+                //    if (target != null)
+                //    {
+                //        target.ProductName = product.ProductName;
+                //        target.UnitPrice = product.UnitPrice;
+                //        target.UnitsInStock = product.UnitsInStock;
+                //        target.LastSupply = product.LastSupply;
+                //        target.Discontinued = product.Discontinued;
+                //        SessionProductRepository.Update(target);
+                //    }
+                //}
+            }
+
+            return Json(categories.ToDataSourceResult(request, ModelState));
+        }
+
+        //[Bind(Prefix = "models")] IS VERY IMPORTANT, DOWSNT WORK WITHOUT IT
 
         //[AcceptVerbs(HttpVerbs.Post)]
         //public ActionResult Editing_Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)

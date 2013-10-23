@@ -16,7 +16,7 @@ namespace InventoryManagementMVC.Extensions
             PropertyInfo[] props = t.GetProperties();
 
             builder
-                .Groupable(gsb => gsb.Messages(mb => mb.Empty("Yordan not grouped")).Enabled(true))
+                .Groupable(gsb => gsb.Messages(mb => mb.Empty("Drag a column header and drop it here to group by that column")).Enabled(true))
                 .Pageable(pb => pb.PageSizes(true).Refresh(true).Info(true).Enabled(true).Input(true))
                 .Sortable(ssb => ssb.AllowUnsort(true).Enabled(true).SortMode(GridSortMode.MultipleColumn))
                 .Scrollable(s => s.Virtual(true).Height(320))
@@ -24,19 +24,16 @@ namespace InventoryManagementMVC.Extensions
                 {
                     toolbar.Create();
                     toolbar.Save();
-
-                    toolbar.Custom().Text("yodan command");
+                    toolbar.Custom().Text("test custom column");
                 })
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
-                .Filterable(f => f.Extra(true).Messages(fm => fm.And("Yordan add").Filter("Yordan Filter")))
-                .Reorderable(r => r.Columns(true))
-                .ColumnMenu(
-                    c => c.Enabled(true).Columns(true).Filterable(true).Messages(cm => cm.Columns("yordan colimns")
-                        .Filter("yordan filter").SortAscending("yordan asc").SortDescending("yordan desc"))
-                        .Sortable(true))
-                //.DataSource(dataSource => dataSource
-                //    .Ajax()
-                //    .Read(read => read.Action("Read", "Category")))
+                //.Filterable(f => f.Extra(true).Messages(fm => fm.And("Yordan add").Filter("Yordan Filter")))
+                //.Reorderable(r => r.Columns(true))
+                //.ColumnMenu(
+                //    c => c.Enabled(true).Columns(true).Filterable(true).Messages(cm => cm.Columns("yordan colimns")
+                //        .Filter("yordan filter").SortAscending("yordan asc").SortDescending("yordan desc"))
+                //        .Sortable(true))
+              
                 .Columns(columns =>
                 {
                     //columns.AutoGenerate(false);
@@ -66,11 +63,12 @@ namespace InventoryManagementMVC.Extensions
                     {
                         command.Destroy();
                         command.Edit();
-                    }).Width(160);
+                    }); //.Width(160);
                     //columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
                 })
                 .DataSource(dataSource => dataSource
                     .Ajax()
+                    .Batch(true)
                     .PageSize(20)
                     .Model(model => model.Id("CategoryId")) // this is for editing and deleting
                     .Aggregates(a =>
@@ -85,7 +83,7 @@ namespace InventoryManagementMVC.Extensions
                         }
                     })
                     .ServerOperation(false)
-                    //.Events(events => events.Error("error_handler"))
+                    .Events(events => events.Error("error_handler"))
                     .Create("Create", "Category")
                     .Read("Read", "Category")
                     .Update("Update", "Category")
