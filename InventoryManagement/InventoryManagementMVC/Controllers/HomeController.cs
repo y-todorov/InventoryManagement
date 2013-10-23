@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace KendoUIMvcApplication3.Controllers
+namespace InventoryManagementMVC.Controllers
 {
     public class HomeController : Controller
     {
