@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 		Libraries\Kendo.Mvc.dll = Libraries\Kendo.Mvc.dll
 		Libraries\Newtonsoft.Json.dll = Libraries\Newtonsoft.Json.dll
 		Libraries\System.Net.Http.Formatting.dll = Libraries\System.Net.Http.Formatting.dll
+		Libraries\System.Web.Razor.dll = Libraries\System.Web.Razor.dll
 		Libraries\WebGrease.dll = Libraries\WebGrease.dll
 	EndProjectSection
 EndProject
