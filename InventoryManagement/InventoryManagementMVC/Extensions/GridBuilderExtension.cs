@@ -12,11 +12,14 @@ namespace InventoryManagementMVC.Extensions
     {
         public static GridBuilder<T> AddDefaultOptions<T>(this GridBuilder<T> builder) where T : class
         {
-            Type t = typeof (T);
+            Type t = typeof(T);
             PropertyInfo[] props = t.GetProperties();
 
             builder
-                .Groupable(gsb => gsb.Messages(mb => mb.Empty("Drag a column header and drop it here to group by that column")).Enabled(true))
+                .Groupable(
+                    gsb =>
+                        gsb.Messages(mb => mb.Empty("Drag a column header and drop it here to group by that column"))
+                            .Enabled(true))
                 .Pageable(pb => pb.PageSizes(true).Refresh(true).Info(true).Enabled(true).Input(true))
                 .Sortable(ssb => ssb.AllowUnsort(true).Enabled(true).SortMode(GridSortMode.MultipleColumn))
                 .Scrollable(s => s.Virtual(true).Height(320))
@@ -24,7 +27,7 @@ namespace InventoryManagementMVC.Extensions
                 {
                     toolbar.Create();
                     toolbar.Save();
-                    toolbar.Custom().Text("test custom column");
+                    //toolbar.Custom().Text("test custom column");
                 })
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 //.Filterable(f => f.Extra(true).Messages(fm => fm.And("Yordan add").Filter("Yordan Filter")))
@@ -33,30 +36,34 @@ namespace InventoryManagementMVC.Extensions
                 //    c => c.Enabled(true).Columns(true).Filterable(true).Messages(cm => cm.Columns("yordan colimns")
                 //        .Filter("yordan filter").SortAscending("yordan asc").SortDescending("yordan desc"))
                 //        .Sortable(true))
-              
                 .Columns(columns =>
                 {
                     //columns.AutoGenerate(false);
                     foreach (PropertyInfo pi in props)
                     {
-                        if (pi.PropertyType == typeof (string))
+                        if (pi.PropertyType == typeof(string))
                         {
                             columns.Bound(pi.Name);
                         }
-                        if (pi.PropertyType == typeof (double) || pi.PropertyType == typeof (double?))
+                        if (pi.PropertyType == typeof(double) || pi.PropertyType == typeof(double?))
                         {
                             columns.Bound(pi.Name);
                         }
-                        if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
+                        if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
                         {
                             columns.Bound(pi.Name).Format("{0:C3}")
                                 .FooterTemplate(f => f.Sum.Format("Yordan Sum:{0:C1}")
                                 /*f.Max.Format("Yordan Sum:{0:C1}"); */);
                             // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
                         }
-                        if (pi.PropertyType == typeof (DateTime) || pi.PropertyType == typeof (DateTime?))
+                        if (pi.PropertyType == typeof(DateTime) || pi.PropertyType == typeof(DateTime?))
                         {
-                            columns.Bound(pi.Name).Format("{0:MM/dd/yyyy}").Width(240).Title("Yordan Custom Date");
+                            //if (pi.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
+                            //{
+                            //    columns.Bound(pi.Name);
+                            //}
+                            columns.Bound(pi.Name);
+                            //.Format("{0:MM/dd/yyyy}");//.Width(240).Title("Yordan Custom Date");
                         }
                     }
                     columns.Command(command =>
@@ -69,13 +76,21 @@ namespace InventoryManagementMVC.Extensions
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .Batch(true)
-                    .PageSize(20)
-                    .Model(model => model.Id("CategoryId")) // this is for editing and deleting
+                    .PageSize(10)
+                    .Model(
+                        model =>
+                        {
+                            model.Id("CategoryId");
+                            model.Field("ModifiedDate", typeof(DateTime?)).Editable(false);
+                            model.Field("ModifiedByUser", typeof(string)).Editable(false);
+
+                        }
+                    ) // this is for editing and deleting
                     .Aggregates(a =>
                     {
                         foreach (PropertyInfo pi in props)
                         {
-                            if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
+                            if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
                             {
                                 //a.Add(pi.Name, typeof(T)).Sum();
                                 a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();
