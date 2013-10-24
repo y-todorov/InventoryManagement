@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,8 +13,8 @@ namespace InventoryManagementMVC.Extensions
     {
         public static GridBuilder<T> AddDefaultOptions<T>(this GridBuilder<T> builder) where T : class
         {
-            Type t = typeof(T);
-            PropertyInfo[] props = t.GetProperties();
+            Type modelEntityType = typeof (T);
+            PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
 
             builder
                 .Groupable(
@@ -39,30 +40,36 @@ namespace InventoryManagementMVC.Extensions
                 .Columns(columns =>
                 {
                     //columns.AutoGenerate(false);
-                    foreach (PropertyInfo pi in props)
+                    foreach (PropertyInfo propertyInfo in modelEntityProperties)
                     {
-                        if (pi.PropertyType == typeof(string))
+                        if (propertyInfo.PropertyType == typeof (string))
                         {
-                            columns.Bound(pi.Name);
+                            columns.Bound(propertyInfo.Name);
                         }
-                        if (pi.PropertyType == typeof(double) || pi.PropertyType == typeof(double?))
+                        if (propertyInfo.PropertyType == typeof (double) ||
+                            propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(pi.Name);
+                            columns.Bound(propertyInfo.Name);
                         }
-                        if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
+                        if (propertyInfo.PropertyType == typeof (decimal) ||
+                            propertyInfo.PropertyType == typeof (decimal?))
                         {
-                            columns.Bound(pi.Name).Format("{0:C3}")
+                            columns.Bound(propertyInfo.Name).Format("{0:C3}")
                                 .FooterTemplate(f => f.Sum.Format("Yordan Sum:{0:C1}")
                                 /*f.Max.Format("Yordan Sum:{0:C1}"); */);
                             // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
                         }
-                        if (pi.PropertyType == typeof(DateTime) || pi.PropertyType == typeof(DateTime?))
+                        if (propertyInfo.PropertyType == typeof (DateTime) ||
+                            propertyInfo.PropertyType == typeof (DateTime?))
                         {
-                            //if (pi.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
-                            //{
-                            //    columns.Bound(pi.Name);
-                            //}
-                            columns.Bound(pi.Name);
+                            if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                columns.Bound(propertyInfo.Name);//.Format("{0:dd/MM/yyyy HH:mm:ss}"); 
+                            }
+                            else
+                            {
+                                columns.Bound(propertyInfo.Name);
+                            }
                             //.Format("{0:MM/dd/yyyy}");//.Width(240).Title("Yordan Custom Date");
                         }
                     }
@@ -80,17 +87,28 @@ namespace InventoryManagementMVC.Extensions
                     .Model(
                         model =>
                         {
-                            model.Id("CategoryId");
-                            model.Field("ModifiedDate", typeof(DateTime?)).Editable(false);
-                            model.Field("ModifiedByUser", typeof(string)).Editable(false);
+                            //model.Id("CategoryId");
 
+                            PropertyInfo idPropertyInfo =
+                                modelEntityProperties.FirstOrDefault(pi => pi.GetCustomAttributes<KeyAttribute>().Any());
+                            if (idPropertyInfo == null)
+                            {
+                                throw new ApplicationException(string.Format(
+                                    "The entity {0} does not have a key. You should add a KeyAttribute to a property to denote it as a primary key!",
+                                    modelEntityType.FullName));
+                            }
+
+                            string idName = idPropertyInfo.Name;
+                            model.Id(idName);
+                            model.Field("ModifiedDate", typeof (DateTime?)).Editable(false);
+                            model.Field("ModifiedByUser", typeof (string)).Editable(false);
                         }
                     ) // this is for editing and deleting
                     .Aggregates(a =>
                     {
-                        foreach (PropertyInfo pi in props)
+                        foreach (PropertyInfo pi in modelEntityProperties)
                         {
-                            if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
+                            if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
                             {
                                 //a.Add(pi.Name, typeof(T)).Sum();
                                 a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Objects;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -9,13 +10,12 @@ using InventoryManagementMVC.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using RecipiesModelNS;
+using System.Threading;
 
 namespace InventoryManagementMVC.Controllers
 {
     public class CategoryController : Controller
     {
-        private RecipiesEntities db = new RecipiesEntities();
-        
         public ActionResult Index()
         {
             return View();
@@ -23,21 +23,20 @@ namespace InventoryManagementMVC.Controllers
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<CategoryViewModel> cvms = db.ProductCategories.Select
+            List<CategoryViewModel> cvms = ContextFactory.Current.ProductCategories.Select
                 (c => new CategoryViewModel()
                 {
                     CategoryId = c.CategoryId,
                     Name = c.Name,
-                    ModifiedDate = c.ModifiedDate,
+                    ModifiedDate = c.ModifiedDate,//.GetValueOrDefault().ToString(Thread.CurrentThread.CurrentUICulture);,
                     ModifiedByUser = c.ModifiedByUser
                 }).ToList();
             return Json(cvms.ToDataSourceResult(request));
         }
 
-        //[Bind(Prefix = "models")] IS VERY IMPORTANT, DOWSNT WORK WITHOUT IT
-
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
         {
             var results = new List<CategoryViewModel>();
 
@@ -45,8 +44,14 @@ namespace InventoryManagementMVC.Controllers
             {
                 foreach (var category in categories)
                 {
-                    db.ProductCategories.Add(new ProductCategory() { CategoryId = category.CategoryId, Name = category.Name, ModifiedByUser=category.ModifiedByUser, ModifiedDate = category.ModifiedDate});
-                    db.SaveChanges();
+                    ContextFactory.Current.ProductCategories.Add(new ProductCategory()
+                    {
+                        CategoryId = category.CategoryId,
+                        Name = category.Name,
+                        ModifiedByUser = category.ModifiedByUser,
+                        ModifiedDate = category.ModifiedDate
+                    });
+                    ContextFactory.Current.SaveChanges();
                     results.Add(category);
                 }
             }
@@ -54,50 +59,56 @@ namespace InventoryManagementMVC.Controllers
             return Json(results.ToDataSourceResult(request, ModelState));
         }
 
-        //[Bind(Prefix = "models")] IS VERY IMPORTANT, DOWSNT WORK WITHOUT IT
-
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
         {
             if (categories != null && ModelState.IsValid)
             {
-                //foreach (var product in categories)
-                //{
-                //    var target = SessionProductRepository.One(p => p.ProductID == product.ProductID);
-                //    if (target != null)
-                //    {
-                //        target.ProductName = product.ProductName;
-                //        target.UnitPrice = product.UnitPrice;
-                //        target.UnitsInStock = product.UnitsInStock;
-                //        target.LastSupply = product.LastSupply;
-                //        target.Discontinued = product.Discontinued;
-                //        SessionProductRepository.Update(target);
-                //    }
-                //}
+                foreach (CategoryViewModel category in categories)
+                {
+                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
+                    if (productCategory != null)
+                    {
+                        productCategory.CategoryId = category.CategoryId;
+                        productCategory.Name = category.Name;
+                        productCategory.ModifiedByUser = category.ModifiedByUser;
+                        productCategory.ModifiedDate = category.ModifiedDate;
+                        ContextFactory.Current.SaveChanges();
+                    }
+                }
             }
 
             return Json(categories.ToDataSourceResult(request, ModelState));
         }
 
-        //[Bind(Prefix = "models")] IS VERY IMPORTANT, DOWSNT WORK WITHOUT IT
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        {
+            if (categories.Any() && ModelState.IsValid)
+            {
+                foreach (CategoryViewModel category in categories)
+                {
+                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
+                    ContextFactory.Current.ProductCategories.Remove(productCategory);// .ProductCategories.Remove(productCategory);
+            
+                    try
+                    {
+                        ContextFactory.Current.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Editing_Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
-        //{
-        //    if (products.Any())
-        //    {
-        //        foreach (var product in products)
-        //        {
-        //            SessionProductRepository.Delete(product);
-        //        }
-        //    }
+                    }
+                }
+            }
 
-        //    return Json(products.ToDataSourceResult(request, ModelState));
-        //}
+            return Json(categories.ToDataSourceResult(request, ModelState));
+        }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            //db.Dispose();
             base.Dispose(disposing);
         }
     }

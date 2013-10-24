@@ -8,13 +8,12 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int CategoryId { get; set; }
 
-        [Display(Name="Name")]
-        [Required(ErrorMessage="Please enter a name!")]
+        [Display(Name = "Name")]
+        [Required(ErrorMessage = "Please enter a name!")]
         public string Name { get; set; }
 
-        [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")] // this is from globalization
-        
+        //[DataType(DataType.DateTime)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")] // this is from globalization
         public DateTime? ModifiedDate { get; set; }
 
         //[Required(
