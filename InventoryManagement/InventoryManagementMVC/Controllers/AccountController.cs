@@ -7,7 +7,7 @@ using System.Web.Security;
 
 using InventoryManagementMVC.Filters;
 using InventoryManagementMVC.Models;
-using WebMatrix.WebData;
+//using WebMatrix.WebData;
 
 namespace InventoryManagementMVC.Controllers
 {
@@ -36,8 +36,8 @@ namespace InventoryManagementMVC.Controllers
         {
             try
             {
-                if (ModelState.IsValid &&
-                    WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+                //if (ModelState.IsValid &&
+                //    WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
                     //if (model.UserName == "admin")
                 {
                     return RedirectToLocal(returnUrl);
@@ -71,7 +71,7 @@ namespace InventoryManagementMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
+            //WebSecurity.Logout();
 
             return RedirectToAction("Index", "Home");
         }
@@ -98,8 +98,8 @@ namespace InventoryManagementMVC.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    //WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    //WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 //using WebMatrix.WebData;
 //using MvcApplication3.Models;
 using InventoryManagementMVC.Models;
-using WebMatrix.WebData;
+//using WebMatrix.WebData;
 
 namespace InventoryManagementMVC.Filters
 {
@@ -40,7 +40,7 @@ namespace InventoryManagementMVC.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("ConnectionConfig", "aspnet_Users", "UserId", "UserName", autoCreateTables: false);
+                    //WebSecurity.InitializeDatabaseConnection("ConnectionConfig", "aspnet_Users", "UserId", "UserName", autoCreateTables: false);
                 }
                 catch (Exception ex)
                 {
