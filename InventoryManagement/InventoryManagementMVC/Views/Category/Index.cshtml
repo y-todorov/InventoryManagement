@@ -4,9 +4,6 @@
 @model IEnumerable<CategoryViewModel>
 
 @{
-    //ViewBag.Title = "Index";
-
-
     Html.Kendo().Grid(Model)
         .Name("Grid")
         .AddDefaultOptions().Render();

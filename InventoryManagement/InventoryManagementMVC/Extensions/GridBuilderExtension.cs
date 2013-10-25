@@ -76,7 +76,7 @@ namespace InventoryManagementMVC.Extensions
                     columns.Command(command =>
                     {
                         command.Destroy();
-                        command.Edit();
+                        //command.Edit();
                     }); //.Width(160);
                     //columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
                 })
