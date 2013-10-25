@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
+using System.Timers;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -68,6 +70,18 @@ namespace InventoryManagementMVC
             RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
             RegisterAuth();
+
+            // Yordan, test that site is not asleep after 20 mins. of inactivity
+            // By the way this works very well :)
+            Timer timerRequestPage = new Timer(TimeSpan.FromMinutes(10).TotalMilliseconds); // 10 minutes
+            timerRequestPage.Elapsed += timer_Elapsed;
+            timerRequestPage.Start();
+        }
+
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            WebClient client = new WebClient();
+            string res = client.DownloadStringTaskAsync(new Uri("http://inventory.azurewebsites.net/")).Result;
         }
 
         protected void Application_Error(object sender, EventArgs e)

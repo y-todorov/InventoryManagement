@@ -116,7 +116,7 @@ namespace InventoryManagementMVC.Extensions
                             }
                         }
                     })
-                    .ServerOperation(true)
+                    .ServerOperation(false)
                     .Events(events => events.Error("error_handler"))
                     //.Create("Create", "Category")
                     //.Read("Read", "Category")
