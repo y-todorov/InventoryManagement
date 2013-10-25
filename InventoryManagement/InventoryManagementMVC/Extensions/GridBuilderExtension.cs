@@ -23,7 +23,7 @@ namespace InventoryManagementMVC.Extensions
                             .Enabled(true))
                 .Pageable(pb => pb.PageSizes(true).Refresh(true).Info(true).Enabled(true).Input(true))
                 .Sortable(ssb => ssb.AllowUnsort(true).Enabled(true).SortMode(GridSortMode.MultipleColumn))
-                .Scrollable(s => s.Virtual(true).Height(320))
+                //.Scrollable(s => s.Virtual(true).Height(320))
                 .ToolBar(toolbar =>
                 {
                     toolbar.Create();
