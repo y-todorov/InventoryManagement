@@ -12,8 +12,9 @@ namespace InventoryManagementMVC.Models
         [Required(ErrorMessage = "Please enter a name!")]
         public string Name { get; set; }
 
-        //[DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")] // this is from globalization
+        [DisplayFormat(ApplyFormatInEditMode = true)] 
         public DateTime? ModifiedDate { get; set; }
 
         //[Required(

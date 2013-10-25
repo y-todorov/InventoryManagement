@@ -5,11 +5,11 @@
     <siteMapNode title="Dashboard">
 
     </siteMapNode>
-    <siteMapNode title="Charts">
+    <!--<siteMapNode title="Charts">
       <siteMapNode controller="product" action="index" title="Vendors">
         <siteMapNode controller="product" action="index" title="Vendors purchase value per week" />
       </siteMapNode>
-    </siteMapNode>
+    </siteMapNode>-->
 
     <siteMapNode title="Production">
       <siteMapNode controller="product" action="index" title="Products" />
@@ -27,7 +27,7 @@
     <siteMapNode title="Purchasing">
 
     </siteMapNode>
-    <siteMapNode title="Human resources">
+    <!--<siteMapNode title="Human resources">
 
     </siteMapNode>
     <siteMapNode title="History">
@@ -38,6 +38,6 @@
     </siteMapNode>
     <siteMapNode title="Account">
 
-    </siteMapNode>
+    </siteMapNode>-->
   </siteMapNode>
 </siteMap>

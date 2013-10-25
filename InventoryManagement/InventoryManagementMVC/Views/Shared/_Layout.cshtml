@@ -15,7 +15,8 @@
             @{
                 Html.Kendo().Menu()
                     .Name("Menu")
-                    .BindTo("sitemap").Render();
+                    .BindTo("sitemap")
+                    .Render();
             }
 
         </header>
@@ -25,13 +26,13 @@
         </div>
         <footer>
         </footer>
-        
-        <script type="text/javascript">
-            //set current to the "en-GB" culture script
-            //kendo.culture("en-GB");
-</script>
+ 
         <script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.all.min.js"> </script>
         <script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.aspnetmvc.min.js"> </script>
-        <script src="http://cdn.kendostatic.com/2013.2.918/js/cultures/kendo.culture.en-IE.min.js"></script>
+        <script src="http://cdn.kendostatic.com/2013.2.918/js/cultures/kendo.culture.en-IE.min.js"> </script>
+        <script type="text/javascript">
+        //set current to the "en-IE" culture script
+            kendo.culture("en-IE");
+        </script>
     </body>
 </html>

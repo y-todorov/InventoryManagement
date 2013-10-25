@@ -64,7 +64,7 @@ namespace InventoryManagementMVC.Extensions
                         {
                             if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                columns.Bound(propertyInfo.Name);//.Format("{0:dd/MM/yyyy HH:mm:ss}"); 
+                                columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}"); 
                             }
                             else
                             {

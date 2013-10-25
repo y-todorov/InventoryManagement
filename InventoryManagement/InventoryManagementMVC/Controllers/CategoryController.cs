@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Objects;
+//using System.Data.Objects;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -85,16 +85,17 @@ namespace InventoryManagementMVC.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
         {
-            if (categories.Any() && ModelState.IsValid)
+            if (categories.Any())// && ModelState.IsValid)
             {
                 foreach (CategoryViewModel category in categories)
                 {
-                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
-                    ContextFactory.Current.ProductCategories.Remove(productCategory);// .ProductCategories.Remove(productCategory);
-            
+                    RecipiesEntities context = new RecipiesEntities();
+                    ProductCategory productCategory = context.ProductCategories.ToList().FirstOrDefault(c => c.CategoryId == category.CategoryId);
+                    context.ProductCategories.Remove(productCategory);// .ProductCategories.Remove(productCategory);
+                    
                     try
                     {
-                        ContextFactory.Current.SaveChanges();
+                        context.SaveChanges();
                     }
                     catch (Exception ex)
                     {
