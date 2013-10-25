@@ -31,8 +31,9 @@ namespace InventoryManagementMVC.Extensions
                     //toolbar.Custom().Text("test custom column");
                 })
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
-                //.Filterable(f => f.Extra(true).Messages(fm => fm.And("Yordan add").Filter("Yordan Filter")))
-                //.Reorderable(r => r.Columns(true))
+                .Filterable()//(f => f.Extra(true).Messages(fm => fm.And("Yordan add").Filter("Yordan Filter")))
+                .Reorderable(r => r.Columns(true))
+                .ColumnMenu()
                 //.ColumnMenu(
                 //    c => c.Enabled(true).Columns(true).Filterable(true).Messages(cm => cm.Columns("yordan colimns")
                 //        .Filter("yordan filter").SortAscending("yordan asc").SortDescending("yordan desc"))
