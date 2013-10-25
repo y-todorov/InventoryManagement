@@ -44,7 +44,7 @@ namespace InventoryManagementMVC.Controllers
             {
                 foreach (var category in categories)
                 {
-                    ContextFactory.Current.ProductCategories.Add(new ProductCategory()
+                    ProductCategory newCategory = ContextFactory.Current.ProductCategories.Add(new ProductCategory()
                     {
                         CategoryId = category.CategoryId,
                         Name = category.Name,

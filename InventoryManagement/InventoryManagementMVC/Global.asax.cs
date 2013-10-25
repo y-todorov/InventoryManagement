@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace InventoryManagementMVC
@@ -33,12 +34,40 @@ namespace InventoryManagementMVC
                 );
         }
 
+        public static void RegisterAuth()
+        {
+            // To let users of this site log in using their accounts from other sites such as Microsoft, Facebook, and Twitter,
+            // you must update this site. For more information visit http://go.microsoft.com/fwlink/?LinkID=252166
+
+            //OAuthWebSecurity.RegisterMicrosoftClient(
+            //    clientId: "",
+            //    clientSecret: "");
+
+            //OAuthWebSecurity.RegisterTwitterClient(
+            //    consumerKey: "",
+            //    consumerSecret: "");
+
+            //OAuthWebSecurity.RegisterFacebookClient(
+            //    appId: "",
+            //    appSecret: "");
+
+            //OAuthWebSecurity.RegisterGoogleClient();
+        }
+
         protected void Application_Start()
         {
+            //AreaRegistration.RegisterAllAreas();
+
+            //RegisterGlobalFilters(GlobalFilters.Filters);
+            //RegisterRoutes(RouteTable.Routes);
+
             AreaRegistration.RegisterAllAreas();
 
+            //Register(GlobalConfiguration.Configuration);
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            //BundleConfig.RegisterBundles(BundleTable.Bundles);
+            RegisterAuth();
         }
 
         protected void Application_Error(object sender, EventArgs e)

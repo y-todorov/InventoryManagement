@@ -1,39 +1,39 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <title>@ViewBag.Title</title>
-        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-        <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
-        <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.blueopal.min.css" rel="stylesheet" type="text/css" />
-        <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.dataviz.blueopal.min.css" rel="stylesheet" type="text/css" />
-        <script src="http://cdn.kendostatic.com/2013.2.918/js/jquery.min.js"> </script>
-    </head>
-    <body>
-        <header>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.blueopal.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.dataviz.blueopal.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.kendostatic.com/2013.2.918/js/jquery.min.js"> </script>
+</head>
+<body>
+    <header>
+       @* @Html.Partial("_LoginPartial")*@
+        @{
+            Html.Kendo().Menu()
+                .Name("Menu")
+                .BindTo("sitemap")
+                .Render();
+        }
 
-            @{
-                Html.Kendo().Menu()
-                    .Name("Menu")
-                    .BindTo("sitemap")
-                    .Render();
-            }
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        @RenderBody()
+    </div>
+    <footer>
+    </footer>
 
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            @RenderBody()
-        </div>
-        <footer>
-        </footer>
- 
-        <script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.all.min.js"> </script>
-        <script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.aspnetmvc.min.js"> </script>
-        <script src="http://cdn.kendostatic.com/2013.2.918/js/cultures/kendo.culture.en-IE.min.js"> </script>
-        <script type="text/javascript">
+    <script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.all.min.js"> </script>
+    <script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.aspnetmvc.min.js"> </script>
+    <script src="http://cdn.kendostatic.com/2013.2.918/js/cultures/kendo.culture.en-IE.min.js"> </script>
+    <script type="text/javascript">
         //set current to the "en-IE" culture script
-            kendo.culture("en-IE");
-        </script>
-    </body>
+        kendo.culture("en-IE");
+    </script>
+</body>
 </html>
