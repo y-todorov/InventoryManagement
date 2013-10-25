@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Diagnostics;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -38,5 +40,21 @@ namespace InventoryManagementMVC
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            string exMessage = ex.Message;
+            string exStackTrace = ex.StackTrace;
+            Exception innerEx = ex.InnerException;
+            if (innerEx != null)
+            {
+                string innerExMessage = innerEx.Message;
+                string innerExstackTrace = innerEx.StackTrace;
+                Debugger.Break();
+            }
+            Debugger.Break();
+        }
+        
     }
 }
