@@ -50,7 +50,7 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name);
+                            columns.Bound(propertyInfo.Name).Format("{0:F3}");
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))

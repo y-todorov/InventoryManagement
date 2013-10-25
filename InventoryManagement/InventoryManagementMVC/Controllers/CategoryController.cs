@@ -33,7 +33,7 @@ namespace InventoryManagementMVC.Controllers
                 }).ToList();
             return Json(cvms.ToDataSourceResult(request));
         }
-
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)

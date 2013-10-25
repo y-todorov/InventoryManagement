@@ -6,6 +6,12 @@
 @{
     Html.Kendo().Grid(Model)
         .Name("Grid")
+         .Columns(columns =>
+         {
+           
+             columns.ForeignKey(p => p.CategoryId, (System.Collections.IEnumerable)ViewData["categories"], "CategoryId", "Name")
+                 .Title("Category").Width(150);
+         })
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
             .Ajax()

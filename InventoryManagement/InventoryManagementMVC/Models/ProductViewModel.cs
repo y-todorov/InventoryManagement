@@ -13,7 +13,10 @@ namespace InventoryManagementMVC.Models
 
         public string UnitMeasure { get; set; }
         
-        public string Category { get; set; }
+        public int? CategoryId { get; set; }
+
+        [Association("Category", "CategoryId", "CategoryId")]
+        public CategoryViewModel Category { get; set; }
 
         public string Store { get; set; }
 
@@ -25,6 +28,7 @@ namespace InventoryManagementMVC.Models
 
         public double? UnitsInStock { get; set; }
 
+        //[DisplayFormat(DataFormatString="{0:F3}")]
         public double? UnitsOnOrder { get; set; }
 
         public double? ReorderLevel { get; set; }
