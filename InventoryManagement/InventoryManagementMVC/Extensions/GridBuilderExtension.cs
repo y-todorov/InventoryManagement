@@ -55,9 +55,9 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
                         {
-                            columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                                .FooterTemplate(f => f.Sum.Format("Yordan Sum:{0:C1}")
-                                /*f.Max.Format("Yordan Sum:{0:C1}"); */);
+                            columns.Bound(propertyInfo.Name).Format("{0:C3}");
+                            //.FooterTemplate(f => f.Sum.Format("Yordan Sum:{0:C1}")
+                            /*f.Max.Format("Yordan Sum:{0:C1}"); */
                             // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
                         }
                         if (propertyInfo.PropertyType == typeof (DateTime) ||
@@ -116,12 +116,12 @@ namespace InventoryManagementMVC.Extensions
                             }
                         }
                     })
-                    .ServerOperation(false)
+                    .ServerOperation(true)
                     .Events(events => events.Error("error_handler"))
-                    .Create("Create", "Category")
-                    .Read("Read", "Category")
-                    .Update("Update", "Category")
-                    .Destroy("Destroy", "Category")
+                    //.Create("Create", "Category")
+                    //.Read("Read", "Category")
+                    //.Update("Update", "Category")
+                    //.Destroy("Destroy", "Category")
                 )
                 ;
 
