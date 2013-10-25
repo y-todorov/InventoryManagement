@@ -52,6 +52,8 @@ namespace InventoryManagementMVC.Controllers
                         ModifiedDate = category.ModifiedDate
                     });
                     ContextFactory.Current.SaveChanges();
+                    category.ModifiedByUser = newCategory.ModifiedByUser;
+                    category.ModifiedDate = newCategory.ModifiedDate;
                     results.Add(category);
                 }
             }
@@ -75,6 +77,8 @@ namespace InventoryManagementMVC.Controllers
                         productCategory.ModifiedByUser = category.ModifiedByUser;
                         productCategory.ModifiedDate = category.ModifiedDate;
                         ContextFactory.Current.SaveChanges();
+                        category.ModifiedByUser = productCategory.ModifiedByUser;
+                        category.ModifiedDate = productCategory.ModifiedDate;
                     }
                 }
             }
