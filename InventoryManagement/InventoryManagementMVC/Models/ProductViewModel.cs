@@ -29,22 +29,22 @@ namespace InventoryManagementMVC.Models
 
         public string Code { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
         public decimal? UnitPrice { get; set; }
 
         [Required]
         [DisplayName("Units in stock")]
         [DataType("Double")]
-        [DisplayFormat(DataFormatString="{0:F3}", ApplyFormatInEditMode=true)]
+        //[DisplayFormat(DataFormatString="{0:F3}", ApplyFormatInEditMode=true)]
         [Range(0, int.MaxValue)]
         public double? UnitsInStock { get; set; }
 
         public decimal? StockValue { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
         public double? UnitsOnOrder { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
         public double? ReorderLevel { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
