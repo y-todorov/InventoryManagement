@@ -42,15 +42,9 @@ namespace InventoryManagementMVC.Controllers
                 (p => new ProductViewModel()
                 {
                     ProductId = p.ProductId,
-                    UnitMeasure = p.UnitMeasure.Name,
+                    UnitMeasureId = p.UnitMeasureId,
                     CategoryId = p.CategoryId,
-                    Category =
-                        new CategoryViewModel()
-                        {
-                            CategoryId = p.ProductCategory.CategoryId,
-                            Name = p.ProductCategory.Name
-                        },
-                    Store = p.Store.Name,
+                    StoreId = p.StoreId,
                     Name = p.Name,
                     Code = p.Code,
                     UnitPrice = Math.Round(p.UnitPrice.GetValueOrDefault(), 3),

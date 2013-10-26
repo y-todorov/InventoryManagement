@@ -12,19 +12,18 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int ProductId { get; set; }
 
-        public string UnitMeasure { get; set; }
+        public int? UnitMeasureId { get; set; }
+
+        //public string UnitMeasure { get; set; }
 
         [Required(ErrorMessage = "Please select a category!")]
-        //[Association("Category", "CategoryId", "CategoryId")]
         public int? CategoryId { get; set; }
 
-        //[Association("Category", "CategoryId", "CategoryId")]
-        //[UIHint("Category")]
-          [UIHint("ClientCategory")]
-         [Required]
-        public CategoryViewModel Category { get; set; }
+        //public string Category { get; set; }
 
-        public string Store { get; set; }
+        public int? StoreId { get; set; }
+        
+        //public string Store { get; set; }
 
         [Required]
         public string Name { get; set; }

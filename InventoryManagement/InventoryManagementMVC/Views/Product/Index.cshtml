@@ -10,9 +10,10 @@
         .Name("Grid")
          .Columns(columns =>
          {
-           
              columns.ForeignKey(p => p.CategoryId, (System.Collections.IEnumerable)ViewData["categories"], "CategoryId", "Name")
-                 .Title("Category").Width(150);
+                 .Title("Category");
+             columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
+                 .Title("Unit");
          })
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
@@ -21,6 +22,8 @@
             {
                 model.Field(p => p.CategoryId).DefaultValue(
                     (ViewData["defaultCategory"] as ProductCategory) != null ? (ViewData["defaultCategory"] as ProductCategory).CategoryId : default(int?));
+                  model.Field(p => p.UnitMeasureId).DefaultValue(
+                    (ViewData["defaultUnitMeasure"] as UnitMeasure) != null ? (ViewData["defaultUnitMeasure"] as UnitMeasure).UnitMeasureId : default(int?));
             })
             .Create("Create", "Product")
             .Read("Read", "Product")
@@ -29,18 +32,3 @@
         )
         .Render();
 }
-@*<script type="text/javascript">
-    function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function(key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function() {
-                        message += this + "\n";
-                    });
-                } 
-            });
-            alert(message);
-        }
-    }
-</script>*@
