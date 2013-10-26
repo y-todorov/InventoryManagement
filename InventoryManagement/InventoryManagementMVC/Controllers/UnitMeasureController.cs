@@ -19,12 +19,12 @@ namespace InventoryManagementMVC.Controllers
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<UnitMeasureViewModel> cvms = ContextFactory.Current.UnitMeasures.Select
+            List<UnitMeasureViewModel> cvms = ContextFactory.Current.UnitMeasures.ToList().Select
                 (unit => new UnitMeasureViewModel()
                 {
                     Name = unit.Name,
                     BaseUnitId = unit.BaseUnitId,
-                    IsBaseUnit = unit.IsBaseUnit,
+                    IsBaseUnit = unit.IsBaseUnit.GetValueOrDefault(),
                     UnitMeasureId = unit.UnitMeasureId,
                     ModifiedDate = unit.ModifiedDate,//.GetValueOrDefault().ToString(Thread.CurrentThread.CurrentUICulture);,
                     ModifiedByUser = unit.ModifiedByUser

@@ -13,7 +13,7 @@ namespace InventoryManagementMVC.Models
 
         public string Name { get; set; }
 
-        public bool? IsBaseUnit { get; set; }
+        public bool IsBaseUnit { get; set; }
 
         public int? BaseUnitId { get; set; }
 
