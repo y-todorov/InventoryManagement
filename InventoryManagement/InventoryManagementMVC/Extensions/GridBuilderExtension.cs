@@ -43,6 +43,12 @@ namespace InventoryManagementMVC.Extensions
                     //columns.AutoGenerate(false);
                     foreach (PropertyInfo propertyInfo in modelEntityProperties)
                     {
+                        // do not show foreign key columns
+                        if (propertyInfo.GetCustomAttributes<AssociationAttribute>().Any())
+                        {
+                            continue;
+                        }
+
                         if (propertyInfo.PropertyType == typeof (string))
                         {
                             columns.Bound(propertyInfo.Name);
@@ -50,7 +56,7 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name).Format("{0:F3}");
+                            columns.Bound(propertyInfo.Name); //.Format("{0:F3}"); Trim to 3 digits when loading from the database
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
@@ -101,8 +107,22 @@ namespace InventoryManagementMVC.Extensions
 
                             string idName = idPropertyInfo.Name;
                             model.Id(idName);
+                            model.Field(idName, typeof(int)).Editable(false);
                             model.Field("ModifiedDate", typeof (DateTime?)).Editable(false);
                             model.Field("ModifiedByUser", typeof (string)).Editable(false);
+                            foreach (PropertyInfo propertyInfo in modelEntityProperties)
+                            {
+                                if (propertyInfo.Name != idName && propertyInfo.Name != "ModifiedDate" &&
+                                    propertyInfo.Name != "ModifiedByUser")
+                                {
+                                    model.Field(propertyInfo.Name, propertyInfo.PropertyType)
+                                        .DefaultValue(GetDefaultValueForType(propertyInfo.PropertyType));
+
+                                }
+                            }
+
+                            // TEST
+                            //model.Field("UnitsInStock", typeof (double?)).DefaultValue(12.32);
                         }
                     ) // this is for editing and deleting
                     .Aggregates(a =>
@@ -126,6 +146,20 @@ namespace InventoryManagementMVC.Extensions
                 ;
 
             return builder;
+        }
+
+        private static object GetDefaultValueForType(Type t)
+        {
+            Type baseType = Nullable.GetUnderlyingType(t);
+            if (baseType != null)
+            {
+                return Activator.CreateInstance(baseType);
+            }
+            if (t.IsValueType)
+            {
+                return Activator.CreateInstance(t);
+            }
+            return null;
         }
     }
 }

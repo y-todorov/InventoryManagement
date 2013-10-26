@@ -60,5 +60,32 @@ namespace InventoryManagementMVC.Controllers
             return Json(cvms.ToDataSourceResult(request));
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<ProductViewModel> products)
+        {
+            var results = new List<CategoryViewModel>();
+
+            if (products != null && ModelState.IsValid)
+            {
+                foreach (var product in products)
+                {
+                    //ProductCategory newCategory = ContextFactory.Current.ProductCategories.Add(new ProductCategory()
+                    //{
+                    //    CategoryId = product.CategoryId,
+                    //    Name = product.Name,
+                    //    ModifiedByUser = product.ModifiedByUser,
+                    //    ModifiedDate = product.ModifiedDate
+                    //});
+                    //ContextFactory.Current.SaveChanges();
+                    //product.ModifiedByUser = newCategory.ModifiedByUser;
+                    //product.ModifiedDate = newCategory.ModifiedDate;
+                    //results.Add(product);
+                }
+            }
+
+            return Json(results.ToDataSourceResult(request, ModelState));
+        }
+
     }
 }
