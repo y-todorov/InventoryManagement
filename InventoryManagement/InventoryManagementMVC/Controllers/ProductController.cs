@@ -69,7 +69,7 @@ namespace InventoryManagementMVC.Controllers
                     };
                     newProduct = ContextFactory.Current.Products.Add(newProduct);
                     ContextFactory.Current.SaveChanges();
-
+                    product.ProductId = newProduct.ProductId;
                     product.ModifiedByUser = newProduct.ModifiedByUser;
                     product.ModifiedDate = newProduct.ModifiedDate;
                     product.StockValue = (decimal)newProduct.StockValue;

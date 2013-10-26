@@ -52,12 +52,13 @@ namespace InventoryManagementMVC.Controllers
                         ModifiedDate = category.ModifiedDate
                     });
                     ContextFactory.Current.SaveChanges();
+                    category.CategoryId = newCategory.CategoryId; // THIS IS DAMN IMPORTANT
                     category.ModifiedByUser = newCategory.ModifiedByUser;
                     category.ModifiedDate = newCategory.ModifiedDate;
                     results.Add(category);
                 }
             }
-
+            
             return Json(results.ToDataSourceResult(request, ModelState));
         }
 

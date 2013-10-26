@@ -7,7 +7,7 @@
 
 @{
     Html.Kendo().Grid(Model)
-        .Name("Grid")
+        .Name("ProductViewModelGrid")
          .Columns(columns =>
          {
              columns.ForeignKey(p => p.CategoryId, (System.Collections.IEnumerable)ViewData["categories"], "CategoryId", "Name")

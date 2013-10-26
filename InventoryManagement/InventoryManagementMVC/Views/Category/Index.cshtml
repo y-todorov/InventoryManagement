@@ -5,13 +5,13 @@
 
 @{
     Html.Kendo().Grid(Model)
-        .Name("Grid")
+        .Name("CategoryViewModelGrid")
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
             .Ajax()
             .Create("Create", "Category")
             .Read("Read", "Category")
             .Update("Update", "Category")
-            .Destroy("Destroy", "Category")
-        ).Render();
+            .Destroy("Destroy", "Category"))
+        .Render();
 }

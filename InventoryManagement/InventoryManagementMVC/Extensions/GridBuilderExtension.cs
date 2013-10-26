@@ -13,7 +13,7 @@ namespace InventoryManagementMVC.Extensions
     {
         public static GridBuilder<T> AddDefaultOptions<T>(this GridBuilder<T> builder) where T : class
         {
-            Type modelEntityType = typeof(T);
+            Type modelEntityType = typeof (T);
             PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
 
             builder
@@ -21,7 +21,13 @@ namespace InventoryManagementMVC.Extensions
                     gsb =>
                         gsb.Messages(mb => mb.Empty("Drag a column header and drop it here to group by that column"))
                             .Enabled(true))
-                .Pageable(pb => pb.PageSizes(new[] { 5, 10, 20, 50, 100, 500, 1000 }).Refresh(true).Info(true).Enabled(true).Input(true))
+                .Pageable(
+                    pb =>
+                        pb.PageSizes(new[] {5, 10, 20, 50, 100, 500, 1000})
+                            .Refresh(true)
+                            .Info(true)
+                            .Enabled(true)
+                            .Input(true))
                 .Sortable(ssb => ssb.AllowUnsort(true).Enabled(true).SortMode(GridSortMode.SingleColumn))
                 .ToolBar(toolbar =>
                 {
@@ -42,36 +48,39 @@ namespace InventoryManagementMVC.Extensions
                             continue;
                         }
 
-                        if (propertyInfo.PropertyType == typeof(bool) ||
-                            propertyInfo.PropertyType == typeof(bool?))
+                        if (propertyInfo.PropertyType == typeof (bool) ||
+                            propertyInfo.PropertyType == typeof (bool?))
                         {
                             columns.Bound(propertyInfo.Name);
                         }
-                        if (propertyInfo.PropertyType == typeof(string))
+                        if (propertyInfo.PropertyType == typeof (string))
                         {
                             columns.Bound(propertyInfo.Name);
                         }
-                        if (propertyInfo.PropertyType == typeof(double) ||
-                            propertyInfo.PropertyType == typeof(double?))
+                        if (propertyInfo.PropertyType == typeof (double) ||
+                            propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name).FooterTemplate(a => a.Sum); //.Format("{0:F3}"); Trim to 3 digits when loading from the database
+                            columns.Bound(propertyInfo.Name).FooterTemplate(a => a.Sum);
+                                //.Format("{0:F3}"); Trim to 3 digits when loading from the database
                         }
-                        if (propertyInfo.PropertyType == typeof(decimal) ||
-                            propertyInfo.PropertyType == typeof(decimal?))
+                        if (propertyInfo.PropertyType == typeof (decimal) ||
+                            propertyInfo.PropertyType == typeof (decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                            .FooterTemplate(f => f.Count);
+                                .FooterTemplate(f => f.Count);
                             /*f.Max.Format("Yordan Sum:{0:C1}"); */
                             // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
                         }
-                        if (propertyInfo.PropertyType == typeof(DateTime) ||
-                            propertyInfo.PropertyType == typeof(DateTime?))
+                        if (propertyInfo.PropertyType == typeof (DateTime) ||
+                            propertyInfo.PropertyType == typeof (DateTime?))
                         {
                             if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 //columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate(a => a.Max); 
                                 //columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate("@<text><div>Min: @item.Min </div><div>Max: @item.Max </div></text>");
-                                columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate(a => a.Max);
+                                columns.Bound(propertyInfo.Name)
+                                    .Format("{0:dd/MM/yyyy HH:mm:ss}")
+                                    .FooterTemplate(a => a.Max);
                             }
                             else
                             {
@@ -104,9 +113,9 @@ namespace InventoryManagementMVC.Extensions
 
                             string idName = idPropertyInfo.Name;
                             model.Id(idName);
-                            model.Field(idName, typeof(int)).Editable(false);
-                            model.Field("ModifiedDate", typeof(DateTime?)).Editable(false);
-                            model.Field("ModifiedByUser", typeof(string)).Editable(false);
+                            model.Field(idName, typeof (int)).Editable(false);
+                            model.Field("ModifiedDate", typeof (DateTime?)).Editable(false);
+                            model.Field("ModifiedByUser", typeof (string)).Editable(false);
                             foreach (PropertyInfo propertyInfo in modelEntityProperties)
                             {
                                 if (propertyInfo.Name != idName && propertyInfo.Name != "ModifiedDate" &&
@@ -114,7 +123,6 @@ namespace InventoryManagementMVC.Extensions
                                 {
                                     model.Field(propertyInfo.Name, propertyInfo.PropertyType)
                                         .DefaultValue(GetDefaultValueForType(propertyInfo.PropertyType));
-
                                 }
                             }
                         }
@@ -123,16 +131,16 @@ namespace InventoryManagementMVC.Extensions
                     {
                         foreach (PropertyInfo pi in modelEntityProperties)
                         {
-                            if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
+                            if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
                             {
                                 //a.Add(pi.Name, typeof(T)).Sum();
                                 a.Add(pi.Name, pi.PropertyType).Sum().Max().Min().Count().Average();
                             }
-                            else if (pi.PropertyType == typeof(double) || pi.PropertyType == typeof(double?))
+                            else if (pi.PropertyType == typeof (double) || pi.PropertyType == typeof (double?))
                             {
                                 a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();
                             }
-                            else if (pi.PropertyType == typeof(DateTime) || pi.PropertyType == typeof(DateTime?))
+                            else if (pi.PropertyType == typeof (DateTime) || pi.PropertyType == typeof (DateTime?))
                             {
                                 a.Add(pi.Name, pi.PropertyType).Max().Min();
                             }
@@ -140,8 +148,7 @@ namespace InventoryManagementMVC.Extensions
                     })
                     .ServerOperation(false)
                     .Events(events => events.Error("error_handler"))
-                )
-                ;
+                );
 
             return builder;
         }
