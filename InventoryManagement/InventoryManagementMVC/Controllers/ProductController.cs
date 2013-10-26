@@ -12,29 +12,27 @@ namespace InventoryManagementMVC.Controllers
 {
     public class ProductController : Controller
     {
-       
         public ActionResult Index()
         {
             PopulateCategories();
+            PopulateUnitMeasures();
             return View();
+        }
+
+        private void PopulateUnitMeasures()
+        {
+            List<UnitMeasure> unitMeasures = ContextFactory.Current.UnitMeasures.ToList();
+
+            ViewData["unitMeasures"] = unitMeasures;
+            ViewData["defaultUnitMeasure"] = unitMeasures.First();
         }
 
         public void PopulateCategories()
         {
-            //List<CategoryViewModel> cvms = ContextFactory.Current.ProductCategories.Select
-            //    (c => new CategoryViewModel()
-            //    {
-            //        CategoryId = c.CategoryId,
-            //        Name = c.Name,
-            //        ModifiedDate = c.ModifiedDate,//.GetValueOrDefault().ToString(Thread.CurrentThread.CurrentUICulture);,
-            //        ModifiedByUser = c.ModifiedByUser
-            //    }).ToList();
-
             List<ProductCategory> categories = ContextFactory.Current.ProductCategories.ToList();
 
             ViewData["categories"] = categories;
-            ViewData["defaultCategory"] = categories.First();        
-           
+            ViewData["defaultCategory"] = categories.First();
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
@@ -46,14 +44,20 @@ namespace InventoryManagementMVC.Controllers
                     ProductId = p.ProductId,
                     UnitMeasure = p.UnitMeasure.Name,
                     CategoryId = p.CategoryId,
+                    Category =
+                        new CategoryViewModel()
+                        {
+                            CategoryId = p.ProductCategory.CategoryId,
+                            Name = p.ProductCategory.Name
+                        },
                     Store = p.Store.Name,
                     Name = p.Name,
                     Code = p.Code,
                     UnitPrice = Math.Round(p.UnitPrice.GetValueOrDefault(), 3),
                     UnitsInStock = Math.Round(p.UnitsInStock.GetValueOrDefault(), 3),
-                    UnitsOnOrder =  Math.Round(p.UnitsOnOrder.GetValueOrDefault(), 3),
+                    UnitsOnOrder = Math.Round(p.UnitsOnOrder.GetValueOrDefault(), 3),
                     ReorderLevel = Math.Round(p.ReorderLevel.GetValueOrDefault(), 3),
-                    StockValue = (decimal)p.StockValue,
+                    StockValue = (decimal) p.StockValue,
                     ModifiedDate = p.ModifiedDate,
                     ModifiedByUser = p.ModifiedByUser
                 }).ToList();
@@ -86,6 +90,5 @@ namespace InventoryManagementMVC.Controllers
 
             return Json(results.ToDataSourceResult(request, ModelState));
         }
-
     }
 }

@@ -15,6 +15,11 @@
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
             .Ajax()
+            .Model(model =>
+            {
+                //model.Field(p => p.CategoryId).DefaultValue(
+                //ViewData["defaultCategory"] as CategoryViewModel);
+            })
             .Create("Create", "Product")
             .Read("Read", "Product")
             .Update("Update", "Product")

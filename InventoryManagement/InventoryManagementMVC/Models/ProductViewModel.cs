@@ -14,12 +14,13 @@ namespace InventoryManagementMVC.Models
 
         public string UnitMeasure { get; set; }
 
-        [Required]
-        [Association("Category", "CategoryId", "CategoryId")]
+        [Required(ErrorMessage = "Please select a category!")]
+        //[Association("Category", "CategoryId", "CategoryId")]
         public int? CategoryId { get; set; }
 
-        [Association("Category", "CategoryId", "CategoryId")]
-        [UIHint("Category")]
+        //[Association("Category", "CategoryId", "CategoryId")]
+        //[UIHint("Category")]
+         [Required]
         public CategoryViewModel Category { get; set; }
 
         public string Store { get; set; }
@@ -31,14 +32,14 @@ namespace InventoryManagementMVC.Models
 
         //[DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]
         public decimal? UnitPrice { get; set; }
-
-        [Required]
+        
         [DisplayName("Units in stock")]
         [DataType("Double")]
         //[DisplayFormat(DataFormatString="{0:F3}", ApplyFormatInEditMode=true)]
         [Range(0, int.MaxValue)]
         public double? UnitsInStock { get; set; }
 
+        [ReadOnly(true)]
         public decimal? StockValue { get; set; }
 
         //[DisplayFormat(DataFormatString = "{0:F3}", ApplyFormatInEditMode = true)]

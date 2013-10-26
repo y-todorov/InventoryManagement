@@ -130,6 +130,7 @@
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\UnitMeasureViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
