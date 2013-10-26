@@ -17,7 +17,7 @@ namespace InventoryManagementMVC.Models
 
         public int? BaseUnitId { get; set; }
 
-        public double BaseUnitFactor { get; set; }
+        public double? BaseUnitFactor { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 

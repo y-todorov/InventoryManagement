@@ -14,7 +14,16 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
+            PopulateUnitMeasures();
             return View();
+        }
+
+        private void PopulateUnitMeasures()
+        {
+            List<UnitMeasure> unitMeasures = ContextFactory.Current.UnitMeasures.ToList();
+
+            ViewData["unitMeasures"] = unitMeasures;
+            ViewData["defaultUnitMeasure"] = unitMeasures.FirstOrDefault();
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
@@ -24,6 +33,7 @@ namespace InventoryManagementMVC.Controllers
                 {
                     Name = unit.Name,
                     BaseUnitId = unit.BaseUnitId,
+                    BaseUnitFactor = unit.BaseUnitFactor,
                     IsBaseUnit = unit.IsBaseUnit.GetValueOrDefault(),
                     UnitMeasureId = unit.UnitMeasureId,
                     ModifiedDate = unit.ModifiedDate,//.GetValueOrDefault().ToString(Thread.CurrentThread.CurrentUICulture);,

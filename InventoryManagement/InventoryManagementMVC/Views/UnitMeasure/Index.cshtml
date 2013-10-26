@@ -1,14 +1,26 @@
 ﻿@using InventoryManagementMVC.Models;
 @using InventoryManagementMVC.Extensions;
+@using RecipiesModelNS
 
 @model IEnumerable<UnitMeasureViewModel>
 
 @{
     Html.Kendo().Grid(Model)
         .Name("Grid")
+        .Columns(columns =>
+        {
+            columns.ForeignKey(p => p.BaseUnitId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
+                .Title("Base unit");   
+        })
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
             .Ajax()
+             .Model(model =>
+             {
+                 model.Field(p => p.BaseUnitId).DefaultValue(
+                   (ViewData["defaultUnitMeasure"] as UnitMeasure) != null ? (ViewData["defaultUnitMeasure"] as UnitMeasure).UnitMeasureId : default(int?));
+                
+             })
             .Create("Create", "UnitMeasure")
             .Read("Read", "UnitMeasure")
             .Update("Update", "UnitMeasure")
