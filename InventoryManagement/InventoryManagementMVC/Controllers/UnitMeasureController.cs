@@ -14,16 +14,8 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
-            PopulateUnitMeasures();
+            ControllerHelper.PopulateUnitMeasures(ViewData);
             return View();
-        }
-
-        private void PopulateUnitMeasures()
-        {
-            List<UnitMeasure> unitMeasures = ContextFactory.Current.UnitMeasures.ToList();
-
-            ViewData["unitMeasures"] = unitMeasures;
-            ViewData["defaultUnitMeasure"] = unitMeasures.FirstOrDefault();
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)

@@ -14,35 +14,12 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
-            PopulateCategories();
-            PopulateUnitMeasures();
-            PopulateStores();
+            ControllerHelper.PopulateCategories(ViewData);
+            ControllerHelper.PopulateUnitMeasures(ViewData);
+            ControllerHelper.PopulateStores(ViewData);
             return View();
         }
-
-        private void PopulateStores()
-        {
-            List<Store> stores = ContextFactory.Current.Stores.ToList();
-
-            ViewData["stores"] = stores;
-            ViewData["defaultStore"] = stores.FirstOrDefault();
-        }
-
-        private void PopulateUnitMeasures()
-        {
-            List<UnitMeasure> unitMeasures = ContextFactory.Current.UnitMeasures.ToList();
-
-            ViewData["unitMeasures"] = unitMeasures;
-            ViewData["defaultUnitMeasure"] = unitMeasures.FirstOrDefault();
-        }
-
-        public void PopulateCategories()
-        {
-            List<ProductCategory> categories = ContextFactory.Current.ProductCategories.ToList();
-
-            ViewData["categories"] = categories;
-            ViewData["defaultCategory"] = categories.FirstOrDefault();
-        }
+     
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -95,6 +72,7 @@ namespace InventoryManagementMVC.Controllers
 
                     product.ModifiedByUser = newProduct.ModifiedByUser;
                     product.ModifiedDate = newProduct.ModifiedDate;
+                    product.StockValue = (decimal)newProduct.StockValue;
                     results.Add(product);
                 }
             }
@@ -127,6 +105,7 @@ namespace InventoryManagementMVC.Controllers
                         ContextFactory.Current.SaveChanges();
                         productViewModel.ModifiedByUser = product.ModifiedByUser;
                         productViewModel.ModifiedDate = product.ModifiedDate;
+                        productViewModel.StockValue = (decimal)product.StockValue;
                     }
                 }
             }

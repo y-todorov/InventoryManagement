@@ -11,6 +11,7 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int UnitMeasureId { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public bool IsBaseUnit { get; set; }
