@@ -101,5 +101,37 @@ namespace InventoryManagementMVC.Controllers
 
             return Json(results.ToDataSourceResult(request, ModelState));
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<ProductViewModel> products)
+        {
+            if (products != null && ModelState.IsValid)
+            {
+                foreach (ProductViewModel productViewModel in products)
+                {
+                    Product product = ContextFactory.Current.Products.FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
+                    if (product != null)
+                    {
+                        product.CategoryId = productViewModel.CategoryId;
+                        product.Code = productViewModel.Code;
+                        product.Name = productViewModel.Name;
+                        product.ReorderLevel = productViewModel.ReorderLevel;
+                        product.StockValue = (double) productViewModel.StockValue.GetValueOrDefault();
+                        product.StoreId = productViewModel.StoreId;
+                        product.UnitMeasureId = productViewModel.UnitMeasureId;
+                        product.UnitPrice = productViewModel.UnitPrice;
+                        product.UnitsInStock = productViewModel.UnitsInStock;
+                        product.UnitsOnOrder = productViewModel.UnitsOnOrder;
+
+                        ContextFactory.Current.SaveChanges();
+                        productViewModel.ModifiedByUser = product.ModifiedByUser;
+                        productViewModel.ModifiedDate = product.ModifiedDate;
+                    }
+                }
+            }
+
+            return Json(products.ToDataSourceResult(request, ModelState));
+        }
     }
 }
