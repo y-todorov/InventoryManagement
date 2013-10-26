@@ -33,7 +33,7 @@ namespace InventoryManagementMVC.Controllers
                 }).ToList();
             return Json(cvms.ToDataSourceResult(request));
         }
-        
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
@@ -93,18 +93,10 @@ namespace InventoryManagementMVC.Controllers
             {
                 foreach (CategoryViewModel category in categories)
                 {
-                    RecipiesEntities context = new RecipiesEntities();
-                    ProductCategory productCategory = context.ProductCategories.ToList().FirstOrDefault(c => c.CategoryId == category.CategoryId);
-                    context.ProductCategories.Remove(productCategory);// .ProductCategories.Remove(productCategory);
+                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.ToList().FirstOrDefault(c => c.CategoryId == category.CategoryId);
+                    ContextFactory.Current.ProductCategories.Remove(productCategory);// .ProductCategories.Remove(productCategory);
                     
-                    try
-                    {
-                        context.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
+                    ContextFactory.Current.SaveChanges();
                 }
             }
 
