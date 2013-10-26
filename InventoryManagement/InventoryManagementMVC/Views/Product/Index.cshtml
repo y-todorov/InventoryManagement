@@ -28,6 +28,7 @@
                     (ViewData["defaultUnitMeasure"] as UnitMeasure) != null ? (ViewData["defaultUnitMeasure"] as UnitMeasure).UnitMeasureId : default(int?));
                   model.Field(p => p.StoreId).DefaultValue(
                      (ViewData["defaultStore"] as Store) != null ? (ViewData["defaultStore"] as Store).StoreId : default(int?));
+                model.Field(p => p.Name).DefaultValue("[Enter a name]");
             })
             .Create("Create", "Product")
             .Read("Read", "Product")
