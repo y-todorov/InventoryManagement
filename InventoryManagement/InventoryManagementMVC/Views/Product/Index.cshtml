@@ -1,5 +1,7 @@
 ﻿@using InventoryManagementMVC.Models;
 @using InventoryManagementMVC.Extensions;
+@using RecipiesModelNS;
+
 
 @model IEnumerable<ProductViewModel>
 
@@ -17,8 +19,8 @@
             .Ajax()
             .Model(model =>
             {
-                //model.Field(p => p.CategoryId).DefaultValue(
-                //ViewData["defaultCategory"] as CategoryViewModel);
+                model.Field(p => p.CategoryId).DefaultValue(
+                    (ViewData["defaultCategory"] as ProductCategory) != null ? (ViewData["defaultCategory"] as ProductCategory).CategoryId : default(int?));
             })
             .Create("Create", "Product")
             .Read("Read", "Product")

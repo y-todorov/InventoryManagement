@@ -20,6 +20,7 @@ namespace InventoryManagementMVC.Models
 
         //[Association("Category", "CategoryId", "CategoryId")]
         //[UIHint("Category")]
+          [UIHint("ClientCategory")]
          [Required]
         public CategoryViewModel Category { get; set; }
 
