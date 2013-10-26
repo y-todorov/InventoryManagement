@@ -21,8 +21,8 @@ namespace InventoryManagementMVC.Extensions
                     gsb =>
                         gsb.Messages(mb => mb.Empty("Drag a column header and drop it here to group by that column"))
                             .Enabled(true))
-                .Pageable(pb => pb.PageSizes(true).Refresh(true).Info(true).Enabled(true).Input(true))
-                .Sortable(ssb => ssb.AllowUnsort(true).Enabled(true).SortMode(GridSortMode.MultipleColumn))
+                .Pageable(pb => pb.PageSizes(new[] {5, 10, 20, 50, 100, 500, 1000}).Refresh(true).Info(true).Enabled(true).Input(true))
+                .Sortable(ssb => ssb.AllowUnsort(true).Enabled(true).SortMode(GridSortMode.SingleColumn))
                 //.Scrollable(s => s.Virtual(true).Height(320))
                 .ToolBar(toolbar =>
                 {
@@ -38,6 +38,7 @@ namespace InventoryManagementMVC.Extensions
                 //    c => c.Enabled(true).Columns(true).Filterable(true).Messages(cm => cm.Columns("yordan colimns")
                 //        .Filter("yordan filter").SortAscending("yordan asc").SortDescending("yordan desc"))
                 //        .Sortable(true))
+                .DataSource(ds => ds.Ajax())
                 .Columns(columns =>
                 {
                     //columns.AutoGenerate(false);
@@ -56,13 +57,13 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name); //.Format("{0:F3}"); Trim to 3 digits when loading from the database
+                            columns.Bound(propertyInfo.Name).FooterTemplate(a => a.Sum); //.Format("{0:F3}"); Trim to 3 digits when loading from the database
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
                         {
-                            columns.Bound(propertyInfo.Name).Format("{0:C3}");
-                            //.FooterTemplate(f => f.Sum.Format("Yordan Sum:{0:C1}")
+                            columns.Bound(propertyInfo.Name).Format("{0:C3}")
+                            .FooterTemplate(f => f.Max);
                             /*f.Max.Format("Yordan Sum:{0:C1}"); */
                             // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
                         }
@@ -71,7 +72,9 @@ namespace InventoryManagementMVC.Extensions
                         {
                             if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}"); 
+                                //columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate(a => a.Max); 
+                                //columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate("@<text><div>Min: @item.Min </div><div>Max: @item.Max </div></text>");
+                                columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate(a => a.Max); 
                             }
                             else
                             {
@@ -129,14 +132,23 @@ namespace InventoryManagementMVC.Extensions
                     {
                         foreach (PropertyInfo pi in modelEntityProperties)
                         {
-                            if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
+                            if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
                             {
                                 //a.Add(pi.Name, typeof(T)).Sum();
                                 a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();
                             }
+                            else if (pi.PropertyType == typeof(double) || pi.PropertyType == typeof(double?))
+                            {
+                                a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();
+                            }
+                            else if (pi.PropertyType == typeof (DateTime) || pi.PropertyType == typeof (DateTime?))
+                            {
+                                a.Add(pi.Name, pi.PropertyType).Max().Min();
+                            }
                         }
                     })
                     .ServerOperation(false)
+                    .AutoSync(true)
                     .Events(events => events.Error("error_handler"))
                     //.Create("Create", "Category")
                     //.Read("Read", "Category")
