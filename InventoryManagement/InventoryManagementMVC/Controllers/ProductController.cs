@@ -60,7 +60,7 @@ namespace InventoryManagementMVC.Controllers
                     UnitsInStock = Math.Round(p.UnitsInStock.GetValueOrDefault(), 3),
                     UnitsOnOrder = Math.Round(p.UnitsOnOrder.GetValueOrDefault(), 3),
                     ReorderLevel = Math.Round(p.ReorderLevel.GetValueOrDefault(), 3),
-                    StockValue = (decimal) p.StockValue,
+                    StockValue = (decimal)p.StockValue,
                     ModifiedDate = p.ModifiedDate,
                     ModifiedByUser = p.ModifiedByUser
                 }).ToList();
@@ -71,23 +71,31 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<ProductViewModel> products)
         {
-            var results = new List<CategoryViewModel>();
+            var results = new List<ProductViewModel>();
 
             if (products != null && ModelState.IsValid)
             {
                 foreach (var product in products)
                 {
-                    //ProductCategory newCategory = ContextFactory.Current.ProductCategories.Add(new ProductCategory()
-                    //{
-                    //    CategoryId = product.CategoryId,
-                    //    Name = product.Name,
-                    //    ModifiedByUser = product.ModifiedByUser,
-                    //    ModifiedDate = product.ModifiedDate
-                    //});
-                    //ContextFactory.Current.SaveChanges();
-                    //product.ModifiedByUser = newCategory.ModifiedByUser;
-                    //product.ModifiedDate = newCategory.ModifiedDate;
-                    //results.Add(product);
+                    Product newProduct = new Product()
+                    {
+                        CategoryId = product.CategoryId,
+                        Code = product.Code,
+                        Name = product.Name,
+                        ReorderLevel = product.ReorderLevel,
+                        StockValue = (double)product.StockValue.GetValueOrDefault(),
+                        StoreId = product.StoreId,
+                        UnitMeasureId = product.UnitMeasureId,
+                        UnitPrice = product.UnitPrice,
+                        UnitsInStock = product.UnitsInStock,
+                        UnitsOnOrder = product.UnitsOnOrder,
+                    };
+                    newProduct = ContextFactory.Current.Products.Add(newProduct);
+                    ContextFactory.Current.SaveChanges();
+
+                    product.ModifiedByUser = newProduct.ModifiedByUser;
+                    product.ModifiedDate = newProduct.ModifiedDate;
+                    results.Add(product);
                 }
             }
 
