@@ -1,7 +1,7 @@
 ﻿@using InventoryManagementMVC.Models;
 @using InventoryManagementMVC.Extensions;
 
-@model IEnumerable<CategoryViewModel>
+@model IEnumerable<UnitMeasureViewModel>
 
 @{
     Html.Kendo().Grid(Model)
@@ -9,9 +9,9 @@
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Create("Create", "Category")
-            .Read("Read", "Category")
-            .Update("Update", "Category")
-            .Destroy("Destroy", "Category")
+            .Create("Create", "UnitMeasure")
+            .Read("Read", "UnitMeasure")
+            .Update("Update", "UnitMeasure")
+            .Destroy("Destroy", "UnitMeasure")
         ).Render();
 }

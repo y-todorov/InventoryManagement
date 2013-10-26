@@ -42,6 +42,11 @@ namespace InventoryManagementMVC.Extensions
                             continue;
                         }
 
+                        if (propertyInfo.PropertyType == typeof(bool) ||
+                            propertyInfo.PropertyType == typeof(bool?))
+                        {
+                            columns.Bound(propertyInfo.Name);
+                        }
                         if (propertyInfo.PropertyType == typeof(string))
                         {
                             columns.Bound(propertyInfo.Name);
@@ -55,7 +60,7 @@ namespace InventoryManagementMVC.Extensions
                             propertyInfo.PropertyType == typeof(decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                            .FooterTemplate(f => f.Max);
+                            .FooterTemplate(f => f.Count);
                             /*f.Max.Format("Yordan Sum:{0:C1}"); */
                             // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
                         }
@@ -121,7 +126,7 @@ namespace InventoryManagementMVC.Extensions
                             if (pi.PropertyType == typeof(decimal) || pi.PropertyType == typeof(decimal?))
                             {
                                 //a.Add(pi.Name, typeof(T)).Sum();
-                                a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();
+                                a.Add(pi.Name, pi.PropertyType).Sum().Max().Min().Count().Average();
                             }
                             else if (pi.PropertyType == typeof(double) || pi.PropertyType == typeof(double?))
                             {

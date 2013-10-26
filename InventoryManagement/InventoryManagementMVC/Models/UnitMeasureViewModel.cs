@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,13 +8,14 @@ namespace InventoryManagementMVC.Models
 {
     public class UnitMeasureViewModel
     {
+        [Key]
         public int UnitMeasureId { get; set; }
 
         public string Name { get; set; }
 
         public bool? IsBaseUnit { get; set; }
 
-        public int BaseUnitId { get; set; }
+        public int? BaseUnitId { get; set; }
 
         public double BaseUnitFactor { get; set; }
 
