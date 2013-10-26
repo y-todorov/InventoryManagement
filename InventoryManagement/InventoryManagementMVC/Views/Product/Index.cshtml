@@ -14,6 +14,8 @@
                  .Title("Category");
              columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
                  .Title("Unit");
+             columns.ForeignKey(p => p.StoreId, (System.Collections.IEnumerable)ViewData["stores"], "StoreId", "Name")
+                .Title("Store");
          })
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
@@ -24,6 +26,8 @@
                     (ViewData["defaultCategory"] as ProductCategory) != null ? (ViewData["defaultCategory"] as ProductCategory).CategoryId : default(int?));
                   model.Field(p => p.UnitMeasureId).DefaultValue(
                     (ViewData["defaultUnitMeasure"] as UnitMeasure) != null ? (ViewData["defaultUnitMeasure"] as UnitMeasure).UnitMeasureId : default(int?));
+                  model.Field(p => p.StoreId).DefaultValue(
+                     (ViewData["defaultStore"] as Store) != null ? (ViewData["defaultStore"] as Store).StoreId : default(int?));
             })
             .Create("Create", "Product")
             .Read("Read", "Product")

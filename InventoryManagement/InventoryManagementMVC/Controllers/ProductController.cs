@@ -16,7 +16,16 @@ namespace InventoryManagementMVC.Controllers
         {
             PopulateCategories();
             PopulateUnitMeasures();
+            PopulateStores();
             return View();
+        }
+
+        private void PopulateStores()
+        {
+            List<Store> stores = ContextFactory.Current.Stores.ToList();
+
+            ViewData["stores"] = stores;
+            ViewData["defaultStore"] = stores.FirstOrDefault();
         }
 
         private void PopulateUnitMeasures()
@@ -24,7 +33,7 @@ namespace InventoryManagementMVC.Controllers
             List<UnitMeasure> unitMeasures = ContextFactory.Current.UnitMeasures.ToList();
 
             ViewData["unitMeasures"] = unitMeasures;
-            ViewData["defaultUnitMeasure"] = unitMeasures.First();
+            ViewData["defaultUnitMeasure"] = unitMeasures.FirstOrDefault();
         }
 
         public void PopulateCategories()
@@ -32,7 +41,7 @@ namespace InventoryManagementMVC.Controllers
             List<ProductCategory> categories = ContextFactory.Current.ProductCategories.ToList();
 
             ViewData["categories"] = categories;
-            ViewData["defaultCategory"] = categories.First();
+            ViewData["defaultCategory"] = categories.FirstOrDefault();
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
