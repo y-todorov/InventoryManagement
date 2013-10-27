@@ -46,25 +46,58 @@ namespace InventoryManagementMVC.Models
 
         public string ModifiedByUser { get; set; }
 
-        public static ProductViewModel ConvertFromProductEntity(Product p)
+        public static ProductViewModel ConvertFromProductEntity(Product newOrExistingProductEntity, ProductViewModel productViewModel)
         {
-            ProductViewModel productViewModel = new ProductViewModel()
+            if (newOrExistingProductEntity == null)
             {
-                ProductId = p.ProductId,
-                UnitMeasureId = p.UnitMeasureId,
-                CategoryId = p.CategoryId,
-                StoreId = p.StoreId,
-                Name = p.Name,
-                Code = p.Code,
-                UnitPrice = Math.Round(p.UnitPrice.GetValueOrDefault(), 3),
-                UnitsInStock = Math.Round(p.UnitsInStock.GetValueOrDefault(), 3),
-                UnitsOnOrder = Math.Round(p.UnitsOnOrder.GetValueOrDefault(), 3),
-                ReorderLevel = Math.Round(p.ReorderLevel.GetValueOrDefault(), 3),
-                StockValue = (decimal)p.StockValue,
-                ModifiedDate = p.ModifiedDate,
-                ModifiedByUser = p.ModifiedByUser
-            };
+                throw new ApplicationException("newOrExistingProductEntity is null in method ConvertFromProductEntity!");
+            }
+            if (productViewModel == null)
+            {
+                throw new ApplicationException("productViewModel is null in method ConvertFromProductEntity!");
+            }
+            productViewModel.ProductId = newOrExistingProductEntity.ProductId;
+            productViewModel.UnitMeasureId = newOrExistingProductEntity.UnitMeasureId;
+            productViewModel.CategoryId = newOrExistingProductEntity.CategoryId;
+            productViewModel.StoreId = newOrExistingProductEntity.StoreId;
+            productViewModel.Name = newOrExistingProductEntity.Name;
+            productViewModel.Code = newOrExistingProductEntity.Code;
+            productViewModel.UnitPrice = Math.Round(newOrExistingProductEntity.UnitPrice.GetValueOrDefault(), 3);
+            productViewModel.UnitsInStock = Math.Round(newOrExistingProductEntity.UnitsInStock.GetValueOrDefault(), 3);
+            productViewModel.UnitsOnOrder = Math.Round(newOrExistingProductEntity.UnitsOnOrder.GetValueOrDefault(), 3);
+            productViewModel.ReorderLevel = Math.Round(newOrExistingProductEntity.ReorderLevel.GetValueOrDefault(), 3);
+            productViewModel.StockValue = (decimal) newOrExistingProductEntity.StockValue;
+            productViewModel.ModifiedDate = newOrExistingProductEntity.ModifiedDate;
+            productViewModel.ModifiedByUser = newOrExistingProductEntity.ModifiedByUser;
+           
             return productViewModel;
+        }
+
+        public static Product ConvertToProductEntity(ProductViewModel productViewModel, Product newOrExistingProductEntity)
+        {
+            if (newOrExistingProductEntity == null)
+            {
+                throw new ApplicationException("newOrExistingProductEntity is null in method ConvertToProductEntity!");
+            }
+            if (productViewModel == null)
+            {
+                throw new ApplicationException("productViewModel is null in method ConvertToProductEntity!");
+            }
+            newOrExistingProductEntity.ProductId = productViewModel.ProductId;
+            newOrExistingProductEntity.UnitMeasureId = productViewModel.UnitMeasureId;
+            newOrExistingProductEntity.CategoryId = productViewModel.CategoryId;
+            newOrExistingProductEntity.StoreId = productViewModel.StoreId;
+            newOrExistingProductEntity.Name = productViewModel.Name;
+            newOrExistingProductEntity.Code = productViewModel.Code;
+            newOrExistingProductEntity.UnitPrice = Math.Round(productViewModel.UnitPrice.GetValueOrDefault(), 3);
+            newOrExistingProductEntity.UnitsInStock = Math.Round(productViewModel.UnitsInStock.GetValueOrDefault(), 3);
+            newOrExistingProductEntity.UnitsOnOrder = Math.Round(productViewModel.UnitsOnOrder.GetValueOrDefault(), 3);
+            newOrExistingProductEntity.ReorderLevel = Math.Round(productViewModel.ReorderLevel.GetValueOrDefault(), 3);
+            newOrExistingProductEntity.StockValue = (double) productViewModel.StockValue.GetValueOrDefault();
+            newOrExistingProductEntity.ModifiedDate = productViewModel.ModifiedDate;
+            newOrExistingProductEntity.ModifiedByUser = productViewModel.ModifiedByUser;
+
+            return newOrExistingProductEntity;
         }
     }
 }

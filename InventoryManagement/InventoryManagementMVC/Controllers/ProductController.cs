@@ -20,34 +20,11 @@ namespace InventoryManagementMVC.Controllers
             return View();
         }
 
-        private List<ProductViewModel> GetProducts()
-        {
-            List<Product> allProducts = ContextFactory.Current.Products.ToList();
-            List<ProductViewModel> cvms = allProducts.Select
-                (p => new ProductViewModel()
-                {
-                    ProductId = p.ProductId,
-                    UnitMeasureId = p.UnitMeasureId,
-                    CategoryId = p.CategoryId,
-                    StoreId = p.StoreId,
-                    Name = p.Name,
-                    Code = p.Code,
-                    UnitPrice = Math.Round(p.UnitPrice.GetValueOrDefault(), 3),
-                    UnitsInStock = Math.Round(p.UnitsInStock.GetValueOrDefault(), 3),
-                    UnitsOnOrder = Math.Round(p.UnitsOnOrder.GetValueOrDefault(), 3),
-                    ReorderLevel = Math.Round(p.ReorderLevel.GetValueOrDefault(), 3),
-                    StockValue = (decimal)p.StockValue,
-                    ModifiedDate = p.ModifiedDate,
-                    ModifiedByUser = p.ModifiedByUser
-                }).ToList();
-            return cvms;
-        }
-
-
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             List<Product> allProducts = ContextFactory.Current.Products.ToList();
-            List<ProductViewModel> productViewModels = allProducts.Select(ProductViewModel.ConvertFromProductEntity).ToList();
+            List<ProductViewModel> productViewModels =
+                allProducts.Select(p => ProductViewModel.ConvertFromProductEntity(p, new ProductViewModel())).ToList();
             return Json(productViewModels.ToDataSourceResult(request));
         }
 
@@ -55,32 +32,18 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<ProductViewModel> products)
         {
-            var results = new List<ProductViewModel>();
+            List<ProductViewModel> results = new List<ProductViewModel>();
 
             if (products != null && ModelState.IsValid)
             {
-                foreach (var product in products)
+                foreach (ProductViewModel productViewModel in products)
                 {
-                    Product newProduct = new Product()
-                    {
-                        CategoryId = product.CategoryId,
-                        Code = product.Code,
-                        Name = product.Name,
-                        ReorderLevel = product.ReorderLevel,
-                        StockValue = (double)product.StockValue.GetValueOrDefault(),
-                        StoreId = product.StoreId,
-                        UnitMeasureId = product.UnitMeasureId,
-                        UnitPrice = product.UnitPrice,
-                        UnitsInStock = product.UnitsInStock,
-                        UnitsOnOrder = product.UnitsOnOrder,
-                    };
-                    newProduct = ContextFactory.Current.Products.Add(newProduct);
+                    Product newProduct = ProductViewModel.ConvertToProductEntity(productViewModel, new Product());
+                    ContextFactory.Current.Products.Add(newProduct);
                     ContextFactory.Current.SaveChanges();
-                    product.ProductId = newProduct.ProductId;
-                    product.ModifiedByUser = newProduct.ModifiedByUser;
-                    product.ModifiedDate = newProduct.ModifiedDate;
-                    product.StockValue = (decimal)newProduct.StockValue;
-                    results.Add(product);
+
+                    ProductViewModel.ConvertFromProductEntity(newProduct, productViewModel);
+                    results.Add(productViewModel);
                 }
             }
 
@@ -95,25 +58,12 @@ namespace InventoryManagementMVC.Controllers
             {
                 foreach (ProductViewModel productViewModel in products)
                 {
-                    Product product = ContextFactory.Current.Products.FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
-                    if (product != null)
-                    {
-                        product.CategoryId = productViewModel.CategoryId;
-                        product.Code = productViewModel.Code;
-                        product.Name = productViewModel.Name;
-                        product.ReorderLevel = productViewModel.ReorderLevel;
-                        product.StockValue = (double)productViewModel.StockValue.GetValueOrDefault();
-                        product.StoreId = productViewModel.StoreId;
-                        product.UnitMeasureId = productViewModel.UnitMeasureId;
-                        product.UnitPrice = productViewModel.UnitPrice;
-                        product.UnitsInStock = productViewModel.UnitsInStock;
-                        product.UnitsOnOrder = productViewModel.UnitsOnOrder;
+                    Product product =
+                        ContextFactory.Current.Products.FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
+                    ProductViewModel.ConvertToProductEntity(productViewModel, product);
+                    ContextFactory.Current.SaveChanges();
 
-                        ContextFactory.Current.SaveChanges();
-                        productViewModel.ModifiedByUser = product.ModifiedByUser;
-                        productViewModel.ModifiedDate = product.ModifiedDate;
-                        productViewModel.StockValue = (decimal)product.StockValue;
-                    }
+                    ProductViewModel.ConvertFromProductEntity(product, productViewModel);
                 }
             }
 
@@ -121,15 +71,18 @@ namespace InventoryManagementMVC.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ProductViewModel> products)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<ProductViewModel> products)
         {
             if (products.Any())
             {
                 foreach (ProductViewModel productViewModel in products)
                 {
-                    Product product = ContextFactory.Current.Products.ToList().FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
+                    Product product =
+                        ContextFactory.Current.Products.ToList()
+                            .FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
                     ContextFactory.Current.Products.Remove(product);
-                    
+
                     ContextFactory.Current.SaveChanges();
                 }
             }

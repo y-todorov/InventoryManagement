@@ -31,7 +31,7 @@ namespace InventoryManagementMVC.Filters
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (UsersContext context = new UsersContext())
                     {
                         if (!context.Database.Exists())
                         {

@@ -38,11 +38,11 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
         {
-            var results = new List<CategoryViewModel>();
+            List<CategoryViewModel> results = new List<CategoryViewModel>();
 
             if (categories != null && ModelState.IsValid)
             {
-                foreach (var category in categories)
+                foreach (CategoryViewModel category in categories)
                 {
                     ProductCategory newCategory = ContextFactory.Current.ProductCategories.Add(new ProductCategory()
                     {
