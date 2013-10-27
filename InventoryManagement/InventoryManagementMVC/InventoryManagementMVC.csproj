@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\ControllerHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -130,6 +131,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\Chart\ProductsPerCategory.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\UnitMeasureViewModel.cs" />
