@@ -17,9 +17,32 @@ namespace InventoryManagementMVC.Controllers
             ControllerHelper.PopulateCategories(ViewData);
             ControllerHelper.PopulateUnitMeasures(ViewData);
             ControllerHelper.PopulateStores(ViewData);
-            return View();
+            return View(GetProducts());
         }
-     
+
+        private List<ProductViewModel> GetProducts()
+        {
+            List<Product> allProducts = ContextFactory.Current.Products.ToList();
+            List<ProductViewModel> cvms = allProducts.Select
+                (p => new ProductViewModel()
+                {
+                    ProductId = p.ProductId,
+                    UnitMeasureId = p.UnitMeasureId,
+                    CategoryId = p.CategoryId,
+                    StoreId = p.StoreId,
+                    Name = p.Name,
+                    Code = p.Code,
+                    UnitPrice = Math.Round(p.UnitPrice.GetValueOrDefault(), 3),
+                    UnitsInStock = Math.Round(p.UnitsInStock.GetValueOrDefault(), 3),
+                    UnitsOnOrder = Math.Round(p.UnitsOnOrder.GetValueOrDefault(), 3),
+                    ReorderLevel = Math.Round(p.ReorderLevel.GetValueOrDefault(), 3),
+                    StockValue = (decimal)p.StockValue,
+                    ModifiedDate = p.ModifiedDate,
+                    ModifiedByUser = p.ModifiedByUser
+                }).ToList();
+            return cvms;
+        }
+
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {

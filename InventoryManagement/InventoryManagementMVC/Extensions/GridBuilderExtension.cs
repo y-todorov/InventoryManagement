@@ -23,7 +23,7 @@ namespace InventoryManagementMVC.Extensions
                             .Enabled(true))
                 .Pageable(
                     pb =>
-                        pb.PageSizes(new[] {5, 10, 20, 50, 100, 500, 1000})
+                        pb.PageSizes(new[] {5, 10, 20, 50, 100, 500, 999})
                             .Refresh(true)
                             .Info(true)
                             .Enabled(true)
@@ -60,27 +60,22 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name).FooterTemplate(a => a.Sum);
-                                //.Format("{0:F3}"); Trim to 3 digits when loading from the database
+                            columns.Bound(propertyInfo.Name).ClientFooterTemplate("Σ: #= kendo.format('{0:F2}', sum)#"); ;
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                                .FooterTemplate(f => f.Count);
-                            /*f.Max.Format("Yordan Sum:{0:C1}"); */
-                            // .FooterTemplate("<div>Min: #= min #</div><div>Max: #= max #</div>");
+                                .ClientFooterTemplate("Σ: #= kendo.format('{0:C2}', sum)#");
                         }
                         if (propertyInfo.PropertyType == typeof (DateTime) ||
                             propertyInfo.PropertyType == typeof (DateTime?))
                         {
                             if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                //columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate(a => a.Max); 
-                                //columns.Bound(propertyInfo.Name).Format("{0:dd/MM/yyyy HH:mm:ss}").FooterTemplate("@<text><div>Min: @item.Min </div><div>Max: @item.Max </div></text>");
                                 columns.Bound(propertyInfo.Name)
                                     .Format("{0:dd/MM/yyyy HH:mm:ss}")
-                                    .FooterTemplate(a => a.Max);
+                                    .ClientFooterTemplate("");
                             }
                             else
                             {
