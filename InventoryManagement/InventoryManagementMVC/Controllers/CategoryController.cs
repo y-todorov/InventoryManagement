@@ -1,16 +1,10 @@
-﻿using System;
-//using System.Data.Objects;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using InventoryManagementMVC.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using RecipiesModelNS;
-using System.Threading;
 
 namespace InventoryManagementMVC.Controllers
 {
