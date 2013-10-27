@@ -16,8 +16,10 @@ namespace InventoryManagementMVC.Models
 
         public bool IsBaseUnit { get; set; }
 
+        [Association("", "", "")]
         public int? BaseUnitId { get; set; }
 
+        [Range(0, int.MaxValue)]
         public double? BaseUnitFactor { get; set; }
 
         public DateTime? ModifiedDate { get; set; }

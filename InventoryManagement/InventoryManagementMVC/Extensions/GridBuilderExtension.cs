@@ -37,14 +37,15 @@ namespace InventoryManagementMVC.Extensions
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .Filterable()
                 .Reorderable(r => r.Columns(true))
-                .Resizable(resize => resize.Columns(true))
+                //.Resizable(resize => resize.Columns(true))
                 .ColumnMenu()
                 .Columns(columns =>
                 {
                     foreach (PropertyInfo propertyInfo in modelEntityProperties)
                     {
                         // do not show foreign key columns
-                        if (propertyInfo.GetCustomAttributes<AssociationAttribute>().Any())
+                        if (propertyInfo.GetCustomAttributes<AssociationAttribute>().Any() ||
+                            propertyInfo.GetCustomAttributes<KeyAttribute>().Any())
                         {
                             continue;
                         }

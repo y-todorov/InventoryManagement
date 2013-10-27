@@ -8,12 +8,9 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int CategoryId { get; set; }
 
-        [Display(Name = "Name")]
-        [Required(ErrorMessage = "Please enter a name!")]
+        [Required(ErrorMessage = "Please enter a name for the category!")]
         public string Name { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(ApplyFormatInEditMode = true)] 
         public DateTime? ModifiedDate { get; set; }
 
         public string ModifiedByUser { get; set; }
