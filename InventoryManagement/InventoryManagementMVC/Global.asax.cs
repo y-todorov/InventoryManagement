@@ -5,6 +5,7 @@ using System.Timers;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Kendo.Mvc;
 
 namespace InventoryManagementMVC
 {
@@ -57,6 +58,12 @@ namespace InventoryManagementMVC
 
         protected void Application_Start()
         {
+            if (!SiteMapManager.SiteMaps.ContainsKey("sitemap"))
+            {
+                SiteMapManager.SiteMaps.Register<XmlSiteMap>("sitemap", sitemap =>
+                    sitemap.LoadFrom("~/sitemap.sitemap"));
+            }
+
             //AreaRegistration.RegisterAllAreas();
 
             //RegisterGlobalFilters(GlobalFilters.Filters);
