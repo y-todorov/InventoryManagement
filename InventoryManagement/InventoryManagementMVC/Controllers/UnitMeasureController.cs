@@ -18,19 +18,71 @@ namespace InventoryManagementMVC.Controllers
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<UnitMeasureViewModel> cvms = ContextFactory.Current.UnitMeasures.ToList().Select
-                (unit => new UnitMeasureViewModel()
-                {
-                    Name = unit.Name,
-                    BaseUnitId = unit.BaseUnitId,
-                    BaseUnitFactor = unit.BaseUnitFactor,
-                    IsBaseUnit = unit.IsBaseUnit.GetValueOrDefault(),
-                    UnitMeasureId = unit.UnitMeasureId,
-                    ModifiedDate = unit.ModifiedDate,//.GetValueOrDefault().ToString(Thread.CurrentThread.CurrentUICulture);,
-                    ModifiedByUser = unit.ModifiedByUser
-                }).ToList();
-            return Json(cvms.ToDataSourceResult(request));
+            List<UnitMeasureViewModel> unitMeasuresViewModels = ContextFactory.Current.UnitMeasures.ToList().Select
+                (unit => UnitMeasureViewModel.ConvertFromUnitMeasureEntity(unit, new UnitMeasureViewModel())).ToList();
+            return Json(unitMeasuresViewModels.ToDataSourceResult(request));
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<UnitMeasureViewModel> unitMeasures)
+        {
+            if (unitMeasures != null && ModelState.IsValid)
+            {
+                foreach (UnitMeasureViewModel unitMeasureViewModel in unitMeasures)
+                {
+                    UnitMeasure newUnitMeasure = UnitMeasureViewModel.ConvertToUnitMeasureEntity(unitMeasureViewModel,
+                        new UnitMeasure());
+                    ContextFactory.Current.UnitMeasures.Add(newUnitMeasure);
+                    ContextFactory.Current.SaveChanges();
+                    UnitMeasureViewModel.ConvertFromUnitMeasureEntity(newUnitMeasure, unitMeasureViewModel);
+                }
+            }
+
+            return Json(unitMeasures.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<UnitMeasureViewModel> unitMeasures)
+        {
+            if (unitMeasures != null && ModelState.IsValid)
+            {
+                foreach (UnitMeasureViewModel unitMeasureViewModel in unitMeasures)
+                {
+                    UnitMeasure unitMeasureEntity =
+                        ContextFactory.Current.UnitMeasures.FirstOrDefault(
+                            u => u.UnitMeasureId == unitMeasureViewModel.UnitMeasureId);
+
+                    UnitMeasureViewModel.ConvertToUnitMeasureEntity(unitMeasureViewModel, unitMeasureEntity);
+
+                    ContextFactory.Current.SaveChanges();
+
+                    UnitMeasureViewModel.ConvertFromUnitMeasureEntity(unitMeasureEntity, unitMeasureViewModel);
+                }
+            }
+
+            return Json(unitMeasures.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<UnitMeasureViewModel> unitMeasures)
+        {
+            if (unitMeasures.Any())
+            {
+                foreach (UnitMeasureViewModel unitMeasureViewModel in unitMeasures)
+                {
+                    UnitMeasure unitMeasure =
+                        ContextFactory.Current.UnitMeasures.FirstOrDefault(
+                            unit => unit.UnitMeasureId == unitMeasureViewModel.UnitMeasureId);
+                    ContextFactory.Current.UnitMeasures.Remove(unitMeasure);
+
+                    ContextFactory.Current.SaveChanges();
+                }
+            }
+
+            return Json(unitMeasures.ToDataSourceResult(request, ModelState));
+        }
     }
 }
