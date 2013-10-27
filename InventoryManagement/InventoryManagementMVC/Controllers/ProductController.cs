@@ -32,7 +32,7 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<ProductViewModel> products)
         {
-            List<ProductViewModel> results = new List<ProductViewModel>();
+            //List<ProductViewModel> results = new List<ProductViewModel>();
 
             if (products != null && ModelState.IsValid)
             {
@@ -43,11 +43,11 @@ namespace InventoryManagementMVC.Controllers
                     ContextFactory.Current.SaveChanges();
 
                     ProductViewModel.ConvertFromProductEntity(newProduct, productViewModel);
-                    results.Add(productViewModel);
+                    //results.Add(productViewModel);
                 }
             }
 
-            return Json(results.ToDataSourceResult(request, ModelState));
+            return Json(products.ToDataSourceResult(request, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]

@@ -22,11 +22,12 @@ namespace InventoryManagementMVC.Models
         [Association("", "", "")]
         public int? StoreId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter a name for the product!")]
         public string Name { get; set; }
 
         public string Code { get; set; }
 
+        [Range(0, int.MaxValue)]
         public decimal? UnitPrice { get; set; }
 
         [Range(0, int.MaxValue)]

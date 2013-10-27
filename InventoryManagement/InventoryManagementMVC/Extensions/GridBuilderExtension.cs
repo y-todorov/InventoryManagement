@@ -112,9 +112,10 @@ namespace InventoryManagementMVC.Extensions
                     }
                     columns.Command(command =>
                     {
-                        command.Destroy();
+                        command.Destroy().Text("Delete");
+                        
                         //command.Edit();
-                    }); //.Width(160);
+                    }).ClientFooterTemplate("Delete"); //.Width(160);
                     //columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
                 })
                 .DataSource(dataSource => dataSource

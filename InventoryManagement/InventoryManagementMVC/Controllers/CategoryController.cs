@@ -23,43 +23,28 @@ namespace InventoryManagementMVC.Controllers
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<CategoryViewModel> cvms = ContextFactory.Current.ProductCategories.Select
-                (c => new CategoryViewModel()
-                {
-                    CategoryId = c.CategoryId,
-                    Name = c.Name,
-                    ModifiedDate = c.ModifiedDate,//.GetValueOrDefault().ToString(Thread.CurrentThread.CurrentUICulture);,
-                    ModifiedByUser = c.ModifiedByUser
-                }).ToList();
-            return Json(cvms.ToDataSourceResult(request));
+            List<CategoryViewModel> categoryViewModels = ContextFactory.Current.ProductCategories.ToList().Select
+                (c => CategoryViewModel.ConvertFromCategoryEntity(c, new CategoryViewModel())).ToList();
+            return Json(categoryViewModels.ToDataSourceResult(request));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request,
             [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
         {
-            List<CategoryViewModel> results = new List<CategoryViewModel>();
-
             if (categories != null && ModelState.IsValid)
             {
-                foreach (CategoryViewModel category in categories)
+                foreach (CategoryViewModel categoryViewModel in categories)
                 {
-                    ProductCategory newCategory = ContextFactory.Current.ProductCategories.Add(new ProductCategory()
-                    {
-                        CategoryId = category.CategoryId,
-                        Name = category.Name,
-                        ModifiedByUser = category.ModifiedByUser,
-                        ModifiedDate = category.ModifiedDate
-                    });
+                    ProductCategory newCategory = CategoryViewModel.ConvertToCategoryEntity(categoryViewModel,
+                        new ProductCategory());
+                    ContextFactory.Current.ProductCategories.Add(newCategory);
                     ContextFactory.Current.SaveChanges();
-                    category.CategoryId = newCategory.CategoryId; // THIS IS DAMN IMPORTANT
-                    category.ModifiedByUser = newCategory.ModifiedByUser;
-                    category.ModifiedDate = newCategory.ModifiedDate;
-                    results.Add(category);
+                    CategoryViewModel.ConvertFromCategoryEntity(newCategory, categoryViewModel);
                 }
             }
-            
-            return Json(results.ToDataSourceResult(request, ModelState));
+
+            return Json(categories.ToDataSourceResult(request, ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -68,19 +53,16 @@ namespace InventoryManagementMVC.Controllers
         {
             if (categories != null && ModelState.IsValid)
             {
-                foreach (CategoryViewModel category in categories)
+                foreach (CategoryViewModel categoryViewModel in categories)
                 {
-                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
-                    if (productCategory != null)
-                    {
-                        productCategory.CategoryId = category.CategoryId;
-                        productCategory.Name = category.Name;
-                        productCategory.ModifiedByUser = category.ModifiedByUser;
-                        productCategory.ModifiedDate = category.ModifiedDate;
-                        ContextFactory.Current.SaveChanges();
-                        category.ModifiedByUser = productCategory.ModifiedByUser;
-                        category.ModifiedDate = productCategory.ModifiedDate;
-                    }
+                    ProductCategory categoryEntity =
+                        ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == categoryViewModel.CategoryId);
+
+                    CategoryViewModel.ConvertToCategoryEntity(categoryViewModel, categoryEntity);
+                    
+                    ContextFactory.Current.SaveChanges();
+
+                    CategoryViewModel.ConvertFromCategoryEntity(categoryEntity, categoryViewModel);
                 }
             }
 
@@ -90,24 +72,18 @@ namespace InventoryManagementMVC.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
         {
-            if (categories.Any())// && ModelState.IsValid)
+            if (categories.Any())
             {
                 foreach (CategoryViewModel category in categories)
                 {
                     ProductCategory productCategory = ContextFactory.Current.ProductCategories.ToList().FirstOrDefault(c => c.CategoryId == category.CategoryId);
-                    ContextFactory.Current.ProductCategories.Remove(productCategory);// .ProductCategories.Remove(productCategory);
-                    
+                    ContextFactory.Current.ProductCategories.Remove(productCategory);
+
                     ContextFactory.Current.SaveChanges();
                 }
             }
 
             return Json(categories.ToDataSourceResult(request, ModelState));
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            //db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }
