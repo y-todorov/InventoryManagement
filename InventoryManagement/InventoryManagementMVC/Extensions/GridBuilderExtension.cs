@@ -60,13 +60,13 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name).ClientFooterTemplate("Σ: #= kendo.format('{0:F2}', sum)#"); ;
+                            columns.Bound(propertyInfo.Name).ClientFooterTemplate("#= kendo.format('{0:F3}', sum)#"); //Σ: 
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                                .ClientFooterTemplate("Σ: #= kendo.format('{0:C2}', sum)#");
+                                .ClientFooterTemplate("#= kendo.format('{0:C3}', sum)#");
                         }
                         if (propertyInfo.PropertyType == typeof (DateTime) ||
                             propertyInfo.PropertyType == typeof (DateTime?))
