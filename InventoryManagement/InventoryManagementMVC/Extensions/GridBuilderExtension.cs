@@ -35,7 +35,7 @@ namespace InventoryManagementMVC.Extensions
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .Filterable()
                 .Reorderable(r => r.Columns(true))
-                //.Resizable(resize => resize.Columns(true))
+                .Resizable(resize => resize.Columns(true))
                 .ColumnMenu()
                 .Columns(columns =>
                 {

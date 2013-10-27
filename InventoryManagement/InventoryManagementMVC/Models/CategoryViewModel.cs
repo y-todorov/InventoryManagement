@@ -20,11 +20,11 @@ namespace InventoryManagementMVC.Models
         {
             if (newOrExistingCategoryEntity == null)
             {
-                throw new ApplicationException("newOrExistingProductEntity is null in method ConvertFromProductEntity!");
+                throw new ApplicationException("newOrExistingCategoryEntity is null in method ConvertFromCategoryEntity!");
             }
             if (categoryViewModel == null)
             {
-                throw new ApplicationException("productViewModel is null in method ConvertFromProductEntity!");
+                throw new ApplicationException("categoryViewModel is null in method ConvertFromCategoryEntity!");
             }
           
             categoryViewModel.CategoryId = newOrExistingCategoryEntity.CategoryId;
@@ -39,11 +39,11 @@ namespace InventoryManagementMVC.Models
         {
             if (newOrExistingCategoryEntity == null)
             {
-                throw new ApplicationException("newOrExistingProductEntity is null in method ConvertToProductEntity!");
+                throw new ApplicationException("newOrExistingCategoryEntity is null in method ConvertToCategoryEntity!");
             }
             if (categoryViewModel == null)
             {
-                throw new ApplicationException("productViewModel is null in method ConvertToProductEntity!");
+                throw new ApplicationException("categoryViewModel is null in method ConvertToCategoryEntity!");
             }
         
             newOrExistingCategoryEntity.CategoryId = categoryViewModel.CategoryId;
