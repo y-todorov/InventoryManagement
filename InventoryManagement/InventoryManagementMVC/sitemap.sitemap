@@ -18,14 +18,14 @@
       <siteMapNode controller="store" action="index" title="Stores" />
       <siteMapNode controller="recipie" action="index" title="Recipies" />
       <siteMapNode controller="productinventory" action="index" title="Product inventories" />
-      <siteMapNode controller="productwaste" action="index" title="Product sastes" />
-      <siteMapNode controller="recipiewaste" action="index" title="Recipies sastes" />
+      <siteMapNode controller="productwaste" action="index" title="Product wastes" />
+      <siteMapNode controller="recipiewaste" action="index" title="Recipie wastes" />
     </siteMapNode>
     <siteMapNode title="Sales">
 
     </siteMapNode>
     <siteMapNode title="Purchasing">
-
+      <siteMapNode controller="PurchaseOrderDetail" action="index" title="Purchase order details" />
     </siteMapNode>
     <!--<siteMapNode title="Human resources">
 
