@@ -37,7 +37,7 @@ namespace InventoryManagementMVC.Extensions
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .Filterable()
                 .Reorderable(r => r.Columns(true))
-                .Resizable(resize => resize.Columns(true))    
+                .Resizable(resize => resize.Columns(true))
                 .ColumnMenu()
                 .Columns(columns =>
                 {
@@ -52,26 +52,41 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (bool) ||
                             propertyInfo.PropertyType == typeof (bool?))
                         {
-                            columns.Bound(propertyInfo.Name);
+                            columns.Bound(propertyInfo.Name)
+                                .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+                            //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
                         if (propertyInfo.PropertyType == typeof (string))
                         {
-                            columns.Bound(propertyInfo.Name);
+                            columns.Bound(propertyInfo.Name)
+                                .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+                            //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
                             columns.Bound(propertyInfo.Name)
-                                .ClientFooterTemplate("#= kendo.format('{0:F3}', sum)#")
-                                .ClientGroupFooterTemplate("#= kendo.format('{0:F3}', sum)#");
-                            //.ClientGroupHeaderTemplate("#= kendo.format('{0:F3}', count)#"); 
+                                .ClientFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#")
+                                .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#");
+                            //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                                .ClientFooterTemplate("#= kendo.format('{0:C3}', sum)#")
-                                .ClientGroupFooterTemplate("#= kendo.format('{0:C3}', sum)#");
+                                .ClientFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#")
+                                .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#");
+                            //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
+                        }
+                        if (propertyInfo.PropertyType == typeof(int) ||
+                           propertyInfo.PropertyType == typeof(int?))
+                        {
+                            columns.Bound(propertyInfo.Name).Format("{0:N}")
+                                .ClientFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#")
+                                .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#");
+                            //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
                         if (propertyInfo.PropertyType == typeof (DateTime) ||
                             propertyInfo.PropertyType == typeof (DateTime?))
@@ -80,11 +95,17 @@ namespace InventoryManagementMVC.Extensions
                             {
                                 columns.Bound(propertyInfo.Name)
                                     .Format("{0:dd/MM/yyyy HH:mm:ss}")
-                                    .ClientFooterTemplate("");
+                                    .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                    .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+                                //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                             }
                             else
                             {
-                                columns.Bound(propertyInfo.Name);
+                                columns.Bound(propertyInfo.Name)
+                                    .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                    .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+
+                                //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                             }
                         }
                     }
@@ -131,19 +152,19 @@ namespace InventoryManagementMVC.Extensions
                     {
                         foreach (PropertyInfo pi in modelEntityProperties)
                         {
-                            if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
-                            {
-                                //a.Add(pi.Name, typeof(T)).Sum();
-                                a.Add(pi.Name, pi.PropertyType).Sum().Max().Min().Count().Average();
-                            }
-                            else if (pi.PropertyType == typeof (double) || pi.PropertyType == typeof (double?))
-                            {
-                                a.Add(pi.Name, pi.PropertyType).Sum().Max().Min();
-                            }
-                            else if (pi.PropertyType == typeof (DateTime) || pi.PropertyType == typeof (DateTime?))
-                            {
-                                a.Add(pi.Name, pi.PropertyType).Max().Min();
-                            }
+                            a.Add(pi.Name, pi.PropertyType).Average().Count().Max().Min().Sum();
+                            //if (pi.PropertyType == typeof (decimal) || pi.PropertyType == typeof (decimal?))
+                            //{
+                            //    a.Add(pi.Name, pi.PropertyType).Average().Count().Max().Min().Sum();
+                            //}
+                            //else if (pi.PropertyType == typeof (double) || pi.PropertyType == typeof (double?))
+                            //{
+                            //    a.Add(pi.Name, pi.PropertyType).Sum().Max().Min().Count();
+                            //}
+                            //else if (pi.PropertyType == typeof (DateTime) || pi.PropertyType == typeof (DateTime?))
+                            //{
+                            //    a.Add(pi.Name, pi.PropertyType).Max().Min();
+                            //}
                         }
                     })
                     .ServerOperation(false)

@@ -11,11 +11,14 @@
         .Columns(columns =>
         {
             columns.ForeignKey(p => p.CategoryId, (System.Collections.IEnumerable) ViewData["categories"], "CategoryId", "Name")
-                .Title("Category");
+                .Title("Category").ClientFooterTemplate("Count: #=count#")
+                                .ClientGroupFooterTemplate("Count: #=count#");
             columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable) ViewData["unitMeasures"], "UnitMeasureId", "Name")
-                .Title("Unit");
+                .Title("Unit").ClientFooterTemplate("Count: #=count#")
+                                .ClientGroupFooterTemplate("Count: #=count#");
             columns.ForeignKey(p => p.StoreId, (System.Collections.IEnumerable) ViewData["stores"], "StoreId", "Name")
-                .Title("Store");
+                .Title("Store").ClientFooterTemplate("Count: #=count#")
+                                .ClientGroupFooterTemplate("Count: #=count#");
         })
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
