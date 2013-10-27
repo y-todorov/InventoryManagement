@@ -77,8 +77,7 @@ namespace InventoryManagementMVC.Controllers
                 foreach (ProductViewModel productViewModel in products)
                 {
                     Product product =
-                        ContextFactory.Current.Products.ToList()
-                            .FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
+                        ContextFactory.Current.Products.FirstOrDefault(p => p.ProductId == productViewModel.ProductId);
                     ContextFactory.Current.Products.Remove(product);
 
                     ContextFactory.Current.SaveChanges();

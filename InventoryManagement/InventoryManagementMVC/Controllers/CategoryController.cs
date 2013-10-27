@@ -70,7 +70,7 @@ namespace InventoryManagementMVC.Controllers
             {
                 foreach (CategoryViewModel category in categories)
                 {
-                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.ToList().FirstOrDefault(c => c.CategoryId == category.CategoryId);
+                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
                     ContextFactory.Current.ProductCategories.Remove(productCategory);
 
                     ContextFactory.Current.SaveChanges();
