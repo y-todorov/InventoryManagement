@@ -37,6 +37,7 @@ namespace InventoryManagementMVC.Extensions
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .Filterable()
                 .Reorderable(r => r.Columns(true))
+                .Resizable(resize => resize.Columns(true))    
                 .ColumnMenu()
                 .Columns(columns =>
                 {
@@ -60,13 +61,17 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof (double) ||
                             propertyInfo.PropertyType == typeof (double?))
                         {
-                            columns.Bound(propertyInfo.Name).ClientFooterTemplate("#= kendo.format('{0:F3}', sum)#"); //Σ: 
+                            columns.Bound(propertyInfo.Name)
+                                .ClientFooterTemplate("#= kendo.format('{0:F3}', sum)#")
+                                .ClientGroupFooterTemplate("#= kendo.format('{0:F3}', sum)#");
+                            //.ClientGroupHeaderTemplate("#= kendo.format('{0:F3}', count)#"); 
                         }
                         if (propertyInfo.PropertyType == typeof (decimal) ||
                             propertyInfo.PropertyType == typeof (decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                                .ClientFooterTemplate("#= kendo.format('{0:C3}', sum)#");
+                                .ClientFooterTemplate("#= kendo.format('{0:C3}', sum)#")
+                                .ClientGroupFooterTemplate("#= kendo.format('{0:C3}', sum)#");
                         }
                         if (propertyInfo.PropertyType == typeof (DateTime) ||
                             propertyInfo.PropertyType == typeof (DateTime?))
