@@ -10,15 +10,15 @@
         .Name("PurchaseOrderDetailViewModelGrid")
         .Columns(columns =>
         {
-            //columns.ForeignKey(p => p.CategoryId, (System.Collections.IEnumerable) ViewData["categories"], "CategoryId", "Name")
-            //    .Title("Category").ClientFooterTemplate("Count: #=count#")
-            //                    .ClientGroupFooterTemplate("Count: #=count#");
-            //columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable) ViewData["unitMeasures"], "UnitMeasureId", "Name")
-            //    .Title("Unit").ClientFooterTemplate("Count: #=count#")
-            //                    .ClientGroupFooterTemplate("Count: #=count#");
-            //columns.ForeignKey(p => p.StoreId, (System.Collections.IEnumerable) ViewData["stores"], "StoreId", "Name")
-            //    .Title("Store").ClientFooterTemplate("Count: #=count#")
-            //                    .ClientGroupFooterTemplate("Count: #=count#");
+            columns.ForeignKey(p => p.PurchaseOrderHeaderId, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
+                .Title("Purchase Order").ClientFooterTemplate("Count: #=count#")
+                                .ClientGroupFooterTemplate("Count: #=count#");
+            columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
+                .Title("Unit").ClientFooterTemplate("Count: #=count#")
+                                .ClientGroupFooterTemplate("Count: #=count#");
+            columns.ForeignKey(p => p.ProductId, (System.Collections.IEnumerable)ViewData["products"], "ProductId", "Name")
+                .Title("Product").ClientFooterTemplate("Count: #=count#")
+                                .ClientGroupFooterTemplate("Count: #=count#");
         })
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource

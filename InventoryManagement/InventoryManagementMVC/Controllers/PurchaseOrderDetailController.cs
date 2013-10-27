@@ -14,6 +14,10 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
+            ControllerHelper.PopulateProducts(ViewData);
+            ControllerHelper.PopulatePurchaseOrderHeaders(ViewData);
+            ControllerHelper.PopulateUnitMeasures(ViewData);
+
             return View();
         }
 

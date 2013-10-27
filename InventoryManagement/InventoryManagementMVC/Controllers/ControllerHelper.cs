@@ -30,5 +30,21 @@ namespace InventoryManagementMVC.Controllers
             viewData["stores"] = stores;
             viewData["defaultStore"] = stores.FirstOrDefault();
         }
+
+        public static void PopulatePurchaseOrderHeaders(ViewDataDictionary viewData)
+        {
+            List<PurchaseOrderHeader> purchaseOrderHeaders = ContextFactory.Current.PurchaseOrderHeaders.ToList();
+
+            viewData["purchaseOrderHeaders"] = purchaseOrderHeaders;
+            viewData["defaultPurchaseOrderHeader"] = purchaseOrderHeaders.FirstOrDefault();
+        }
+
+        public static void PopulateProducts(ViewDataDictionary viewData)
+        {
+            List<Product> products = ContextFactory.Current.Products.ToList();
+
+            viewData["products"] = products;
+            viewData["defaultProduct"] = products.FirstOrDefault();
+        }
     }
 }
