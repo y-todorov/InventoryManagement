@@ -18,6 +18,7 @@ namespace InventoryManagementMVC.Controllers
                            new ProductsPerCategory
                            {
                                CategoryName = cat.Name.Substring(0, cat.Name.Length >= 10 ? 10 : cat.Name.Length),
+                               //CategoryName = cat.Name,
                                ProductCount = cat.Products.Count,
 
                                ProductValue = (decimal)(cat.Products.Count != 0 ? Math.Round(cat.Products.Sum(p => p.StockValue), 3) : 0)
