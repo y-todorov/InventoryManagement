@@ -8,6 +8,7 @@
 @{
     Html.Kendo().Grid<PurchaseOrderDetailViewModel>()
         .Name("PurchaseOrderDetailViewModelGrid")
+       
         .Columns(columns =>
         {
             columns.ForeignKey(p => p.PurchaseOrderHeaderId, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
@@ -20,23 +21,10 @@
                 .Title("Product").ClientFooterTemplate("Count: #=count#")
                                 .ClientGroupFooterTemplate("Count: #=count#");
         })
-        .AddDefaultOptions()
+        .ReadOnlyOptions() 
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Model(model =>
-            {
-                //model.Field(p => p.CategoryId).DefaultValue(
-                //    (ViewData["defaultCategory"] as ProductCategory) != null ? (ViewData["defaultCategory"] as ProductCategory).CategoryId : default(int?));
-                //model.Field(p => p.UnitMeasureId).DefaultValue(
-                //    (ViewData["defaultUnitMeasure"] as UnitMeasure) != null ? (ViewData["defaultUnitMeasure"] as UnitMeasure).UnitMeasureId : default(int?));
-                //model.Field(p => p.StoreId).DefaultValue(
-                //    (ViewData["defaultStore"] as Store) != null ? (ViewData["defaultStore"] as Store).StoreId : default(int?));
-                //model.Field(p => p.Name).DefaultValue("[Enter a name]");
-            })
-            .Create("Create", "PurchaseOrderDetail")
             .Read("Read", "PurchaseOrderDetail")
-            .Update("Update", "PurchaseOrderDetail")
-            .Destroy("Destroy", "PurchaseOrderDetail")
         )
         .Render();
 }
