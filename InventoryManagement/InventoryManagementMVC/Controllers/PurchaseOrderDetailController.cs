@@ -23,7 +23,8 @@ namespace InventoryManagementMVC.Controllers
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels = ContextFactory.Current.PurchaseOrderDetails.ToList().Select
+            List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels = 
+                ContextFactory.Current.PurchaseOrderDetails.ToList().Select
                 (pod => PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod, new PurchaseOrderDetailViewModel())).ToList();
             return Json(purchaseOrderDetailViewModels.ToDataSourceResult(request));
         }

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using InventoryManagementMVC.Models.Chart;
 using RecipiesModelNS;
+using System.Data.Objects;
+using System.Data.Entity; // .Include !!!!!!! THIS IS SO IMPROTANT
 
 namespace InventoryManagementMVC.Controllers
 {
@@ -12,7 +14,7 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult ProductsCountByCategory()
         {
-            var pc = ContextFactory.Current.ProductCategories.ToList()
+            var pc = ContextFactory.Current.ProductCategories.Include(c => c.Products).ToList()
                    .Select(
                        cat =>
                            new ProductsPerCategory
