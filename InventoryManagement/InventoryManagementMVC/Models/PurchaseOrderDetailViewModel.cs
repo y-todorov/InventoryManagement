@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using RecipiesModelNS;
+using System.ComponentModel;
 
 namespace InventoryManagementMVC.Models
 {
@@ -21,21 +22,37 @@ namespace InventoryManagementMVC.Models
         [Association("", "", "")]
         public int? UnitMeasureId { get; set; }
 
+        [Display(Name = "Order QTY")]
         public double? OrderQuantity { get; set; }
 
         public decimal? UnitPrice { get; set; }
 
         public decimal LineTotal { get; set; }
 
+        [Display(Name = "Received QTY")]
         public double? ReceivedQuantity { get; set; }
 
+        [Display(Name = "Returned QTY")]
         public double? ReturnedQuantity { get; set; }
 
+        [Display(Name = "Stocked QTY")]
         public double StockedQuantity { get; set; }
-
+        
         public DateTime? ModifiedDate { get; set; }
 
         public string ModifiedByUser { get; set; }
+
+        [ReadOnly(true)]
+        public DateTime? ShipDate { get; set; }
+
+        [ReadOnly(true)]
+        public string Vendor { get; set; }
+
+        [ReadOnly(true)]
+        public string Category { get; set; }
+
+        [ReadOnly(true)]
+        public string Status { get; set; }
 
         public static PurchaseOrderDetailViewModel ConvertFromPurchaseOrderDetailEntity(PurchaseOrderDetail newOrExistingPod, PurchaseOrderDetailViewModel podViewModel)
         {
@@ -58,8 +75,25 @@ namespace InventoryManagementMVC.Models
             podViewModel.ReceivedQuantity = newOrExistingPod.ReceivedQuantity;
             podViewModel.ReturnedQuantity = newOrExistingPod.ReturnedQuantity;
             podViewModel.StockedQuantity = newOrExistingPod.StockedQuantity;
+
             podViewModel.UnitMeasureId = newOrExistingPod.UnitMeasureId;
             podViewModel.UnitPrice = newOrExistingPod.UnitPrice;
+            if (newOrExistingPod.PurchaseOrderHeader != null)
+            {
+                podViewModel.ShipDate = newOrExistingPod.PurchaseOrderHeader.ShipDate;
+            }
+            if (newOrExistingPod.PurchaseOrderHeader != null && newOrExistingPod.PurchaseOrderHeader.Vendor != null)
+            {
+                podViewModel.Vendor = newOrExistingPod.PurchaseOrderHeader.Vendor.Name;
+            }
+            if (newOrExistingPod.Product != null && newOrExistingPod.Product.ProductCategory != null)
+            {
+                podViewModel.Category = newOrExistingPod.Product.ProductCategory.Name;
+            }
+            if (newOrExistingPod.PurchaseOrderHeader != null && newOrExistingPod.PurchaseOrderHeader.PurchaseOrderStatu != null)
+            {
+                podViewModel.Status = newOrExistingPod.PurchaseOrderHeader.PurchaseOrderStatu.Name;
+            }
 
             return podViewModel;
         }

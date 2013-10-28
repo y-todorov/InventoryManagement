@@ -95,6 +95,7 @@ namespace InventoryManagementMVC.Extensions
                             else
                             {
                                 columns.Bound(propertyInfo.Name)
+                                     .Format("{0:dd/MM/yyyy}")
                                     .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
                                     .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
 
@@ -163,7 +164,7 @@ namespace InventoryManagementMVC.Extensions
 
         public static GridBuilder<T> AddDefaultOptions<T>(this GridBuilder<T> builder) where T : class
         {
-            Type modelEntityType = typeof (T);
+            Type modelEntityType = typeof(T);
             PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
 
             builder
@@ -173,7 +174,7 @@ namespace InventoryManagementMVC.Extensions
                             .Enabled(true))
                 .Pageable(
                     pb =>
-                        pb.PageSizes(new[] {5, 10, 20, 50, 100, 500, 999})
+                        pb.PageSizes(new[] { 5, 10, 20, 50, 100, 500, 999 })
                             .Refresh(true)
                             .Info(true)
                             .Enabled(true)
@@ -200,31 +201,31 @@ namespace InventoryManagementMVC.Extensions
                             continue;
                         }
 
-                        if (propertyInfo.PropertyType == typeof (bool) ||
-                            propertyInfo.PropertyType == typeof (bool?))
+                        if (propertyInfo.PropertyType == typeof(bool) ||
+                            propertyInfo.PropertyType == typeof(bool?))
                         {
                             columns.Bound(propertyInfo.Name)
                                 .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
                                 .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
                             //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
-                        if (propertyInfo.PropertyType == typeof (string))
+                        if (propertyInfo.PropertyType == typeof(string))
                         {
                             columns.Bound(propertyInfo.Name)
                                 .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
                                 .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
                             //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
-                        if (propertyInfo.PropertyType == typeof (double) ||
-                            propertyInfo.PropertyType == typeof (double?))
+                        if (propertyInfo.PropertyType == typeof(double) ||
+                            propertyInfo.PropertyType == typeof(double?))
                         {
                             columns.Bound(propertyInfo.Name)
                                 .ClientFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#")
                                 .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#");
                             //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
-                        if (propertyInfo.PropertyType == typeof (decimal) ||
-                            propertyInfo.PropertyType == typeof (decimal?))
+                        if (propertyInfo.PropertyType == typeof(decimal) ||
+                            propertyInfo.PropertyType == typeof(decimal?))
                         {
                             columns.Bound(propertyInfo.Name).Format("{0:C3}")
                                 .ClientFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#")
@@ -239,8 +240,8 @@ namespace InventoryManagementMVC.Extensions
                                 .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#");
                             //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
                         }
-                        if (propertyInfo.PropertyType == typeof (DateTime) ||
-                            propertyInfo.PropertyType == typeof (DateTime?))
+                        if (propertyInfo.PropertyType == typeof(DateTime) ||
+                            propertyInfo.PropertyType == typeof(DateTime?))
                         {
                             if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
                             {
@@ -253,6 +254,7 @@ namespace InventoryManagementMVC.Extensions
                             else
                             {
                                 columns.Bound(propertyInfo.Name)
+                                    .Format("{0:dd/MM/yyyy}")
                                     .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
                                     .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
 
@@ -263,7 +265,7 @@ namespace InventoryManagementMVC.Extensions
                     columns.Command(command =>
                     {
                         command.Destroy().Text("Delete");
-                        
+
                         //command.Edit();
                     }).ClientFooterTemplate("Delete"); //.Width(160);
                     //columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
@@ -286,9 +288,9 @@ namespace InventoryManagementMVC.Extensions
 
                             string idName = idPropertyInfo.Name;
                             model.Id(idName);
-                            model.Field(idName, typeof (int)).Editable(false);
-                            model.Field("ModifiedDate", typeof (DateTime?)).Editable(false);
-                            model.Field("ModifiedByUser", typeof (string)).Editable(false);
+                            model.Field(idName, typeof(int)).Editable(false);
+                            model.Field("ModifiedDate", typeof(DateTime?)).Editable(false);
+                            model.Field("ModifiedByUser", typeof(string)).Editable(false);
                             foreach (PropertyInfo propertyInfo in modelEntityProperties)
                             {
                                 if (propertyInfo.Name != idName && propertyInfo.Name != "ModifiedDate" &&
