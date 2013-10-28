@@ -1,6 +1,7 @@
 ﻿using RecipiesModelNS;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -18,18 +19,25 @@ namespace InventoryManagementMVC.Models
 
         public double? QuantityByDocuments { get; set; }
 
+        [ReadOnly(true)]
         public decimal? ValueByDocuments { get; set; }
 
+        [ReadOnly(true)]
         public double? StocktakeQuantity { get; set; }
 
+        [ReadOnly(true)]
         public decimal? StocktakeValue { get; set; }
 
+        [ReadOnly(true)]
         public double? DeficiencyQuantity { get; set; }
 
+        [ReadOnly(true)]
         public decimal? DeficiencyValue { get; set; }
 
+        [ReadOnly(true)]
         public double? SurplusQuantity { get; set; }
 
+        [ReadOnly(true)]
         public decimal? SurplusValue { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
