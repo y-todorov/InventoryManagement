@@ -7,6 +7,7 @@ using InventoryManagementMVC.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using RecipiesModelNS;
+using System.Data.Entity; // .Include !!!!!!! THIS IS SO IMPROTANT
 
 namespace InventoryManagementMVC.Controllers
 {
@@ -24,7 +25,12 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels = 
-                ContextFactory.Current.PurchaseOrderDetails.ToList().Select
+                ContextFactory.Current.PurchaseOrderDetails
+                //.Include(pod => pod.PurchaseOrderHeader)
+                .Include(pod => pod.PurchaseOrderHeader.Vendor)
+                //.Include(pod => pod.Product)
+                .Include(pod => pod.Product.ProductCategory)
+                .ToList().Select
                 (pod => PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod, new PurchaseOrderDetailViewModel())).ToList();
             return Json(purchaseOrderDetailViewModels.ToDataSourceResult(request));
         }
