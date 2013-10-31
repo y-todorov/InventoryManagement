@@ -159,6 +159,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductInventoryController.cs" />
     <Compile Include="Controllers\PurchaseOrderDetailController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\UnitMeasureController.cs" />
     <Compile Include="Extensions\GridBuilderExtension.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Models\ProductInventoryViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\PurchaseOrderDetailViewModel.cs" />
+    <Compile Include="Models\StoreViewModel.cs" />
     <Compile Include="Models\UnitMeasureViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -257,6 +259,7 @@
     <Content Include="Views\UnitMeasure\Index.cshtml" />
     <Content Include="Views\PurchaseOrderDetail\Index.cshtml" />
     <Content Include="Views\ProductInventory\Index.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

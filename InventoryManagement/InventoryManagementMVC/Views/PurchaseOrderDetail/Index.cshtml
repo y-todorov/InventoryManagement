@@ -7,8 +7,7 @@
 
 @{
     Html.Kendo().Grid<PurchaseOrderDetailViewModel>()
-        .Name("PurchaseOrderDetailViewModelGrid")
-       
+        .AddReadOnlyOptions()
         .Columns(columns =>
         {
             columns.ForeignKey(p => p.PurchaseOrderHeaderId, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
@@ -21,7 +20,7 @@
                 .Title("Product").ClientFooterTemplate("Count: #=count#")
                                 .ClientGroupFooterTemplate("Count: #=count#");
         })
-        .ReadOnlyOptions() 
+        //.ReadOnlyOptions() 
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read("Read", "PurchaseOrderDetail")

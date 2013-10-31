@@ -25,7 +25,9 @@ namespace InventoryManagementMVC.Controllers
 
         public static void PopulateStores(ViewDataDictionary viewData)
         {
-            List<Store> stores = ContextFactory.Current.Stores.ToList();
+            //List<Store> stores = ContextFactory.Current.Stores.ToList();
+            var stores = ContextFactory.Current.Stores.ToList();
+
 
             viewData["stores"] = stores;
             viewData["defaultStore"] = stores.FirstOrDefault();
