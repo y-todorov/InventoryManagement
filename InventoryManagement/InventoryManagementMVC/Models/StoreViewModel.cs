@@ -12,6 +12,7 @@ namespace RecipiesModelNS
         [Key]
         public int StoreId { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
