@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Kendo.Mvc;
+using Microsoft.AspNet.SignalR;
 
 namespace InventoryManagementMVC
 {
@@ -64,19 +65,13 @@ namespace InventoryManagementMVC
                     sitemap.LoadFrom("~/sitemap.sitemap"));
             }
 
-            //AreaRegistration.RegisterAllAreas();
-
-            //RegisterGlobalFilters(GlobalFilters.Filters);
-            //RegisterRoutes(RouteTable.Routes);
-
             AreaRegistration.RegisterAllAreas();
 
-            //Register(GlobalConfiguration.Configuration);
-            RegisterGlobalFilters(GlobalFilters.Filters);
+         
             RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
+           
             RegisterAuth();
-
+            
             // Yordan, test that site is not asleep after 20 mins. of inactivity
             // By the way this works very well :)
             Timer timerRequestPage = new Timer(TimeSpan.FromMinutes(10).TotalMilliseconds); // 10 minutes

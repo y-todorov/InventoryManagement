@@ -5,8 +5,9 @@
 
 @{
     Html.Kendo().Grid(Model)
-        .Name("CategoryViewModelGrid")
+
         .AddDefaultOptions()
+        .Name("grid")
         .DataSource(dataSource => dataSource
             .Ajax()
             .Create("Create", "Category")
@@ -15,3 +16,30 @@
             .Destroy("Destroy", "Category"))
         .Render();
 }
+
+
+
+@*<script>
+    $(function () {
+        //debugger;
+        var rebindHub = $.connection.rebindHub;
+        //rebindHub.client.rebindHub = function (model) {
+        //    debugger;
+        //    var grid = $("#grid").data("kendoGrid");
+        //    grid.refresh();
+        //};
+        $.connection.hub.start();
+    });
+
+
+
+    function saveChanges(caller, c1, c2) {
+
+        debugger;
+        var rebindHub = $.connection.rebindHub;
+        rebindHub.server.RebindGrids();
+        //var grid = $("#grid").data("kendoGrid");
+        //grid.refresh();
+    }
+
+</script>*@

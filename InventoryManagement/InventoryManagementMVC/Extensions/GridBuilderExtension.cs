@@ -214,6 +214,8 @@ namespace InventoryManagementMVC.Extensions
         public static GridBuilder<T> AddDefaultOptions<T>(this GridBuilder<T> builder) where T : class
         {
             builder
+                // THIS WILL BE FOR SIGNAL R
+                //.Events(ev => ev.SaveChanges("saveChanges"))
                 .AddBaseOptions()
                 .Editable(editable => editable.Mode(GridEditMode.InCell))
                 .AddToolbarOptions(true, true)
