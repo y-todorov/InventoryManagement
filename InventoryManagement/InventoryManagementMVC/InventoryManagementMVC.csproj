@@ -175,17 +175,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
-    <Compile Include="Controllers\ChartController.cs" />
-    <Compile Include="Controllers\ControllerHelper.cs" />
-    <Compile Include="Controllers\CustomControllerBase.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\ProductInventoryController.cs" />
-    <Compile Include="Controllers\PurchaseOrderDetailController.cs" />
-    <Compile Include="Controllers\StoreController.cs" />
-    <Compile Include="Controllers\UnitMeasureController.cs" />
+    <Compile Include="Controllers\Shared\AccountController.cs" />
+    <Compile Include="Controllers\Production\CategoryController.cs" />
+    <Compile Include="Controllers\Charts\ChartController.cs" />
+    <Compile Include="Controllers\Shared\ControllerHelper.cs" />
+    <Compile Include="Controllers\Shared\CustomControllerBase.cs" />
+    <Compile Include="Controllers\Dashboard\HomeController.cs" />
+    <Compile Include="Controllers\Production\ProductController.cs" />
+    <Compile Include="Controllers\Production\ProductInventoryController.cs" />
+    <Compile Include="Controllers\Purchasing\PurchaseOrderDetailController.cs" />
+    <Compile Include="Controllers\Production\StoreController.cs" />
+    <Compile Include="Controllers\Production\UnitMeasureController.cs" />
     <Compile Include="Extensions\GridBuilderExtension.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
@@ -193,16 +193,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\RebindHub.cs" />
-    <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\Account\AccountModels.cs" />
+    <Compile Include="Models\Production\CategoryViewModel.cs" />
     <Compile Include="Models\Chart\ProductsPerCategory.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InventoryViewModel.cs" />
-    <Compile Include="Models\ProductInventoryViewModel.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
-    <Compile Include="Models\PurchaseOrderDetailViewModel.cs" />
-    <Compile Include="Models\StoreViewModel.cs" />
-    <Compile Include="Models\UnitMeasureViewModel.cs" />
+    <Compile Include="Models\Account\IdentityModels.cs" />
+    <Compile Include="Models\Production\InventoryViewModel.cs" />
+    <Compile Include="Models\Production\ProductInventoryViewModel.cs" />
+    <Compile Include="Models\Production\ProductViewModel.cs" />
+    <Compile Include="Models\Purchasing\PurchaseOrderDetailViewModel.cs" />
+    <Compile Include="Models\Production\StoreViewModel.cs" />
+    <Compile Include="Models\Production\UnitMeasureViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -294,6 +294,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\HumanResources\" />
+    <Folder Include="Controllers\Sales\" />
+    <Folder Include="Models\HumanResources\" />
+    <Folder Include="Models\Sales\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
