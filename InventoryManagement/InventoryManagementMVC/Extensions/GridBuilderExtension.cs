@@ -4,11 +4,30 @@ using System.Linq;
 using System.Reflection;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.UI.Fluent;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security.AntiXss;
+using System.Web.Util;
 
 namespace InventoryManagementMVC.Extensions
 {
     public static class GridBuilderExtension
     {
+
+            public static IHtmlString ToMvcClientTemplate(this MvcHtmlString mvcString)
+            {
+                if (HttpEncoder.Current.GetType() == typeof(AntiXssEncoder))
+                {
+                    var initial = mvcString.ToHtmlString();
+                    var corrected = initial.Replace("\\u0026", "&").Replace("%23", "#").Replace("%3D", "=").Replace("&#32;", " ");
+                    return new HtmlString(corrected);
+                }
+
+                return mvcString;
+            }
+        
+
+
         public static GridBuilder<T> AddReadOnlyOptions<T>(this GridBuilder<T> builder) where T : class
         {
             builder
@@ -88,37 +107,36 @@ namespace InventoryManagementMVC.Extensions
                         if (propertyInfo.PropertyType == typeof(bool) ||
                             propertyInfo.PropertyType == typeof(bool?))
                         {
-                            columns.Bound(propertyInfo.Name)
-                                .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
-                                .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
-                            //.ClientGroupHeaderTemplate(string.Format("{0}: #= value # (Count: #= count#)", propertyInfo.Name));
+                            columns.Bound(propertyInfo.Name);
+                                //.ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                //.ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
                         }
                         if (propertyInfo.PropertyType == typeof(string))
                         {
-                            columns.Bound(propertyInfo.Name)
-                                .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
-                                .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+                            columns.Bound(propertyInfo.Name);
+                                //.ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                //.ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
                         }
                         if (propertyInfo.PropertyType == typeof(double) ||
                             propertyInfo.PropertyType == typeof(double?))
                         {
-                            columns.Bound(propertyInfo.Name)
-                                .ClientFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#")
-                                .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#");
+                            columns.Bound(propertyInfo.Name);
+                                //.ClientFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#")
+                                //.ClientGroupFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#");
                         }
                         if (propertyInfo.PropertyType == typeof(decimal) ||
                             propertyInfo.PropertyType == typeof(decimal?))
                         {
-                            columns.Bound(propertyInfo.Name).Format("{0:C3}")
-                                .ClientFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#")
-                                .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#");
+                            columns.Bound(propertyInfo.Name).Format("{0:C3}");
+                                //.ClientFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#")
+                                //.ClientGroupFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#");
                         }
                         if (propertyInfo.PropertyType == typeof(int) ||
                             propertyInfo.PropertyType == typeof(int?))
                         {
-                            columns.Bound(propertyInfo.Name).Format("{0:N}")
-                                .ClientFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#")
-                                .ClientGroupFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#");
+                            columns.Bound(propertyInfo.Name).Format("{0:N}");
+                                //.ClientFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#")
+                                //.ClientGroupFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#");
                         }
                         if (propertyInfo.PropertyType == typeof(DateTime) ||
                             propertyInfo.PropertyType == typeof(DateTime?))
@@ -126,16 +144,16 @@ namespace InventoryManagementMVC.Extensions
                             if (propertyInfo.Name.Equals("ModifiedDate", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 columns.Bound(propertyInfo.Name)
-                                    .Format("{0:dd/MM/yyyy HH:mm:ss}")
-                                    .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
-                                    .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+                                    .Format("{0:dd/MM/yyyy HH:mm:ss}");
+                                    //.ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                    //.ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
                             }
                             else
                             {
                                 columns.Bound(propertyInfo.Name)
-                                    .Format("{0:dd/MM/yyyy}")
-                                    .ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
-                                    .ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
+                                    .Format("{0:dd/MM/yyyy}");
+                                    //.ClientFooterTemplate("Count: #= kendo.format('{0:F3}', count)#")
+                                    //.ClientGroupFooterTemplate("Count: #= kendo.format('{0:F3}', count)#");
                             }
                         }
                     }
@@ -161,7 +179,7 @@ namespace InventoryManagementMVC.Extensions
             return builder;
         }
 
-        public static GridBuilder<T> AddDataSourceOptions<T>(this GridBuilder<T> builder) where T : class
+        public static GridBuilder<T> AddDataSourceOptions<T>(this GridBuilder<T> builder,bool isBatch = true) where T : class
         {
             Type modelEntityType = typeof(T);
             PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
@@ -169,7 +187,7 @@ namespace InventoryManagementMVC.Extensions
             builder
                 .DataSource(dataSource => dataSource
                     .Ajax()
-                    .Batch(true)
+                    .Batch(isBatch)
                     .PageSize(10)
                     .Model(
                         model =>
@@ -221,6 +239,20 @@ namespace InventoryManagementMVC.Extensions
                 .AddToolbarOptions(true, true)
                 .AddColumnOptions(true, false, false)
                 .AddDataSourceOptions();
+
+            return builder;
+        }
+
+        public static GridBuilder<T> AddDefaultOptionsPopUpEdit<T>(this GridBuilder<T> builder) where T : class
+        {
+            builder
+                // THIS WILL BE FOR SIGNAL R
+                //.Events(ev => ev.SaveChanges("saveChanges"))
+                .AddBaseOptions()
+                .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                .AddToolbarOptions(true, true)
+                .AddColumnOptions(true, false, false)
+                .AddDataSourceOptions(false);
 
             return builder;
         }

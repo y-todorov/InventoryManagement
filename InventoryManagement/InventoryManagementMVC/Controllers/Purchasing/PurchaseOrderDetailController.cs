@@ -22,10 +22,10 @@ namespace InventoryManagementMVC.Controllers
             return View();
         }
 
-        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Read(int? purchaseOrderHeaderId, [DataSourceRequest] DataSourceRequest request)
         {
             List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels = 
-                ContextFactory.Current.PurchaseOrderDetails
+                ContextFactory.Current.PurchaseOrderDetails.Where(pod => purchaseOrderHeaderId.HasValue ? pod.PurchaseOrderId == purchaseOrderHeaderId.Value : true)
                 //.Include(pod => pod.PurchaseOrderHeader)
                 .Include(pod => pod.PurchaseOrderHeader.Vendor)
                 //.Include(pod => pod.Product)

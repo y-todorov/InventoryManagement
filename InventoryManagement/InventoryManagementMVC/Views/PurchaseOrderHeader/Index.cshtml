@@ -1,6 +1,6 @@
 ﻿@using InventoryManagementMVC.Extensions
 @using InventoryManagementMVC.Models.Purchasing;
-@using RecipiesModelNS;
+@using InventoryManagementMVC.Models;
 
 
 @model IEnumerable<PurchaseOrderHeaderViewModel>
@@ -8,9 +8,10 @@
 @{
     Html.Kendo().Grid<PurchaseOrderHeaderViewModel>()
         .AddDefaultOptions()
+         .ClientDetailTemplateId("template")
         .Columns(columns =>
         {
-            //columns.ForeignKey(p => p.PurchaseOrderHeaderId, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
+            //columns.ForeignKey(p => p.c, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
             //    .Title("Purchase Order").ClientFooterTemplate("Count: #=count#")
             //                    .ClientGroupFooterTemplate("Count: #=count#");
             //columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
@@ -20,9 +21,10 @@
             //    .Title("Product").ClientFooterTemplate("Count: #=count#")
             //                    .ClientGroupFooterTemplate("Count: #=count#");
         })
-        //.ReadOnlyOptions() 
+        //.ReadOnlyOptions()
         .DataSource(dataSource => dataSource
             .Ajax()
+            .Batch(false)
             .Read("Read", "PurchaseOrderHeader")
             .Create("Create", "PurchaseOrderHeader")
             .Update("Update", "PurchaseOrderHeader")
@@ -30,3 +32,28 @@
         )
         .Render();
 }
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<PurchaseOrderDetailViewModel>()
+    .AddDefaultOptions()
+
+                          //.Name("test")
+                          //.AddBaseOptions()
+                          //.AddToolbarOptions(false, true)
+                          //.AddDataSourceOptions(false)
+                          //.Editable(e => e.Mode(GridEditMode.InCell))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .PageSize(5).Model(m => m.Id(p => p.PurchaseOrderDetailId))
+                                                                                .Read(read => read.Action("Read", "PurchaseOrderDetail", new { purchaseOrderHeaderId = "#=PurchaseOrderHeaderId#" }))
+                                                                 .Create("Create", "PurchaseOrderDetail")
+                            .Update("Update", "PurchaseOrderDetail")
+                            .Destroy("Destroy", "PurchaseOrderDetail")
+            )
+
+            //.ToClientTemplate()
+            .ToClientTemplate().ToMvcClientTemplate()
+
+    )
+</script>
