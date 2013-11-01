@@ -175,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\Purchasing\PurchaseOrderHeaderController.cs" />
     <Compile Include="Controllers\Shared\AccountController.cs" />
     <Compile Include="Controllers\Production\CategoryController.cs" />
     <Compile Include="Controllers\Charts\ChartController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Models\Purchasing\PurchaseOrderDetailViewModel.cs" />
     <Compile Include="Models\Production\StoreViewModel.cs" />
     <Compile Include="Models\Production\UnitMeasureViewModel.cs" />
+    <Compile Include="Models\Purchasing\PurchaseOrderHeaderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +293,7 @@
     <Content Include="Views\PurchaseOrderDetail\Index.cshtml" />
     <Content Include="Views\ProductInventory\Index.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\PurchaseOrderHeader\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

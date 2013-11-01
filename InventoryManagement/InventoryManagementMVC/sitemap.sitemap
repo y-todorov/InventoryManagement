@@ -25,6 +25,7 @@
 
     </siteMapNode>
     <siteMapNode title="Purchasing">
+      <siteMapNode controller="PurchaseOrderHeader" action="index" title="Purchase order headers" />
       <siteMapNode controller="PurchaseOrderDetail" action="index" title="Purchase order details" />
     </siteMapNode>
     <!--<siteMapNode title="Human resources">
