@@ -19,7 +19,16 @@ namespace InventoryManagementMVC.Controllers
             ControllerHelper.PopulatePurchaseOrderHeaders(ViewData);
             ControllerHelper.PopulateUnitMeasures(ViewData);
 
-            return View();
+            List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels =
+               ContextFactory.Current.PurchaseOrderDetails
+                //.Include(pod => pod.PurchaseOrderHeader)
+               .Include(pod => pod.PurchaseOrderHeader.Vendor)
+                //.Include(pod => pod.Product)
+               .Include(pod => pod.Product.ProductCategory)
+               .ToList().Select
+               (pod => PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod, new PurchaseOrderDetailViewModel())).ToList();
+
+            return View(purchaseOrderDetailViewModels);
         }
 
         public ActionResult Read(int? purchaseOrderHeaderId, [DataSourceRequest] DataSourceRequest request)

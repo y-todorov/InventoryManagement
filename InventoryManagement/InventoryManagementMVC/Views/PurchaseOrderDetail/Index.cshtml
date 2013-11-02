@@ -5,25 +5,24 @@
 
 @model IEnumerable<PurchaseOrderDetailViewModel>
 
-@{
-    Html.Kendo().Grid<PurchaseOrderDetailViewModel>()
-        .AddReadOnlyOptions()
-        .Columns(columns =>
-        {
-            columns.ForeignKey(p => p.PurchaseOrderHeaderId, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
-                .Title("Purchase Order").ClientFooterTemplate("Count: #=count#")
-                                .ClientGroupFooterTemplate("Count: #=count#");
-            columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
-                .Title("Unit").ClientFooterTemplate("Count: #=count#")
-                                .ClientGroupFooterTemplate("Count: #=count#");
-            columns.ForeignKey(p => p.ProductId, (System.Collections.IEnumerable)ViewData["products"], "ProductId", "Name")
-                .Title("Product").ClientFooterTemplate("Count: #=count#")
-                                .ClientGroupFooterTemplate("Count: #=count#");
-        })
-        //.ReadOnlyOptions() 
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read("Read", "PurchaseOrderDetail")
-        )
-        .Render();
-}
+@(
+        Html.Kendo().Grid(Model)
+            .Columns(columns =>
+            {
+                columns.ForeignKey(p => p.PurchaseOrderHeaderId, (System.Collections.IEnumerable) ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
+                    .Title("Purchase Order").FooterTemplate(f => f.Count.Format("Count: {0}"))
+                    .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
+                columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable) ViewData["unitMeasures"], "UnitMeasureId", "Name")
+                    .Title("Unit").FooterTemplate(f => f.Count.Format("Count: {0}"))
+                    .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
+                columns.ForeignKey(p => p.ProductId, (System.Collections.IEnumerable) ViewData["products"], "ProductId", "Name")
+                    .Title("Product").FooterTemplate(f => f.Count.Format("Count: {0}"))
+                    .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
+            })
+            .AddReadOnlyOptions()
+            //.ReadOnlyOptions() 
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read("Read", "PurchaseOrderDetail")
+            )
+      )

@@ -13,7 +13,9 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Index()
         {
             ControllerHelper.PopulateUnitMeasures(ViewData);
-            return View();
+            List<UnitMeasureViewModel> unitMeasuresViewModels = ContextFactory.Current.UnitMeasures.ToList().Select
+               (unit => UnitMeasureViewModel.ConvertFromUnitMeasureEntity(unit, new UnitMeasureViewModel())).ToList();
+            return View(unitMeasuresViewModels);
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)

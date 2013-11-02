@@ -5,10 +5,10 @@
 
 @model IEnumerable<PurchaseOrderHeaderViewModel>
 
-@{
-    Html.Kendo().Grid<PurchaseOrderHeaderViewModel>()
+@(
+    Html.Kendo().Grid(Model)
         .AddDefaultOptions()
-         .ClientDetailTemplateId("template")
+        // .ClientDetailTemplateId("template")
         .Columns(columns =>
         {
             //columns.ForeignKey(p => p.c, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
@@ -30,12 +30,13 @@
             .Update("Update", "PurchaseOrderHeader")
             .Destroy("Destroy", "PurchaseOrderHeader")
         )
-        .Render();
-}
+      
+)
 
-<script id="template" type="text/kendo-tmpl">
+@*<script id="template" type="text/kendo-tmpl">
     @(Html.Kendo().Grid<PurchaseOrderDetailViewModel>()
-    .AddDefaultOptions()
+    .Name("test")
+    //.AddDefaultOptions()
 
                           //.Name("test")
                           //.AddBaseOptions()
@@ -56,4 +57,4 @@
             .ToClientTemplate().ToMvcClientTemplate()
 
     )
-</script>
+</script>*@

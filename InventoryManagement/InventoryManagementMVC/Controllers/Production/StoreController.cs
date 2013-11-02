@@ -14,7 +14,9 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            List<StoreViewModel> categoryViewModels = ContextFactory.Current.Stores.ToList().Select
+              (c => StoreViewModel.ConvertFromStoreEntity(c, new StoreViewModel())).ToList();
+            return View(categoryViewModels);
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)

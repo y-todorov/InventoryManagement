@@ -3,7 +3,7 @@
 
 @model IEnumerable<ProductInventoryViewModel>
 
-@{
+@(
     Html.Kendo().Grid(Model)
         .Name("ProductInventoryViewModelGrid")
         .AddDefaultOptions()
@@ -13,5 +13,4 @@
             .Read("Read", "ProductInventory")
             .Update("Update", "ProductInventory")
             .Destroy("Destroy", "ProductInventory"))
-        .Render();
-}
+)

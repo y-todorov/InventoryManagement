@@ -15,7 +15,11 @@ namespace InventoryManagementMVC.Controllers
             ControllerHelper.PopulateCategories(ViewData);
             ControllerHelper.PopulateUnitMeasures(ViewData);
             ControllerHelper.PopulateStores(ViewData);
-            return View();
+
+            List<Product> allProducts = ContextFactory.Current.Products.ToList();
+            List<ProductViewModel> productViewModels =
+                allProducts.Select(p => ProductViewModel.ConvertFromProductEntity(p, new ProductViewModel())).ToList();
+            return View(productViewModels);
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)

@@ -16,12 +16,12 @@
 <body>
     <header>
         @* @Html.Partial("_LoginPartial")*@
-        @{
+        @(
             Html.Kendo().Menu()
                 .Name("Menu")
                 .BindTo("sitemap")
-                .Render();
-        }
+             
+        )
 
     </header>
     <div id="body">

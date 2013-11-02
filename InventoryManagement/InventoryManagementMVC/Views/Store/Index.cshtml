@@ -3,7 +3,7 @@
 
 @model IEnumerable<StoreViewModel>
 
-@{
+@(
     Html.Kendo().Grid(Model)
         .AddDefaultOptions()
         .DataSource(dataSource => dataSource
@@ -12,5 +12,5 @@
             .Read("Read", "Store")
             .Update("Update", "Store")
             .Destroy("Destroy", "Store"))
-        .Render();
-}
+       
+)

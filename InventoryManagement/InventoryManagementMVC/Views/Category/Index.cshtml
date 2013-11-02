@@ -3,7 +3,7 @@
 
 @model IEnumerable<CategoryViewModel>
 
-@{
+@(
     Html.Kendo().Grid(Model)
 
         .AddDefaultOptions()
@@ -14,8 +14,8 @@
             .Read("Read", "Category")
             .Update("Update", "Category")
             .Destroy("Destroy", "Category"))
-        .Render();
-}
+       
+)
 
 
 

@@ -12,7 +12,9 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            List<CategoryViewModel> categoryViewModels = ContextFactory.Current.ProductCategories.ToList().Select
+                (c => CategoryViewModel.ConvertFromCategoryEntity(c, new CategoryViewModel())).ToList();
+            return View(categoryViewModels);
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
