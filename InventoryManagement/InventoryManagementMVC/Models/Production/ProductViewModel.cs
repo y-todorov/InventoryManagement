@@ -1,4 +1,5 @@
-﻿using RecipiesModelNS;
+﻿using InventoryManagementMVC.DataAnnotations;
+using RecipiesModelNS;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -10,13 +11,16 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int ProductId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof(UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
+        [Display(Name = "UnitMeasure")]
         public int? UnitMeasureId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType=typeof(ProductCategory), DataFieldValue = "CategoryId", DataFieldText = "Name")]
+        [Display(Name="Category")]
         public int? CategoryId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof(Store), DataFieldValue = "StoreId", DataFieldText = "Name")]
+        [Display(Name="Store")]
         public int? StoreId { get; set; }
 
         [Required(ErrorMessage = "Please enter a name for the product!")]

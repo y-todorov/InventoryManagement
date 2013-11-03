@@ -187,6 +187,7 @@
     <Compile Include="Controllers\Purchasing\PurchaseOrderDetailController.cs" />
     <Compile Include="Controllers\Production\StoreController.cs" />
     <Compile Include="Controllers\Production\UnitMeasureController.cs" />
+    <Compile Include="DataAnnotations\RelationAttribute.cs" />
     <Compile Include="Extensions\GridBuilderExtension.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />

@@ -21,9 +21,7 @@ namespace InventoryManagementMVC.Controllers
 
             List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels =
                ContextFactory.Current.PurchaseOrderDetails
-                //.Include(pod => pod.PurchaseOrderHeader)
                .Include(pod => pod.PurchaseOrderHeader.Vendor)
-                //.Include(pod => pod.Product)
                .Include(pod => pod.Product.ProductCategory)
                .ToList().Select
                (pod => PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod, new PurchaseOrderDetailViewModel())).ToList();
@@ -35,14 +33,14 @@ namespace InventoryManagementMVC.Controllers
         {
             List<PurchaseOrderDetailViewModel> purchaseOrderDetailViewModels = 
                 ContextFactory.Current.PurchaseOrderDetails.Where(pod => purchaseOrderHeaderId.HasValue ? pod.PurchaseOrderId == purchaseOrderHeaderId.Value : true)
-                //.Include(pod => pod.PurchaseOrderHeader)
                 .Include(pod => pod.PurchaseOrderHeader.Vendor)
-                //.Include(pod => pod.Product)
                 .Include(pod => pod.Product.ProductCategory)
                 .ToList().Select
                 (pod => PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod, new PurchaseOrderDetailViewModel())).ToList();
             return Json(purchaseOrderDetailViewModels.ToDataSourceResult(request));
         }
+
+
 
     }
 }

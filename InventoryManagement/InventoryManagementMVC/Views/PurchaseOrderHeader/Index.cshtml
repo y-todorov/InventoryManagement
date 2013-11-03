@@ -8,7 +8,7 @@
 @(
         Html.Kendo().Grid(Model)
             .AddDefaultOptions()
-            .ClientDetailTemplateId("template")
+          
             .Columns(columns =>
             {
                 //columns.ForeignKey(p => p.c, (System.Collections.IEnumerable)ViewData["purchaseOrderHeaders"], "PurchaseOrderId", "PurchaseOrderId")
@@ -28,7 +28,7 @@
                 .Create("Create", "PurchaseOrderHeader")
                 .Update("Update", "PurchaseOrderHeader")
                 .Destroy("Destroy", "PurchaseOrderHeader")
-            )
+            )  .ClientDetailTemplateId("template")
 
       )
 

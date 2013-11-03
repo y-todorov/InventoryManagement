@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using InventoryManagementMVC.Models;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.UI.Fluent;
 using System.Web;
@@ -9,6 +10,9 @@ using System.Web.Mvc;
 using System.Web.Security.AntiXss;
 using System.Web.Util;
 using System.Diagnostics;
+using InventoryManagementMVC.DataAnnotations;
+using RecipiesModelNS;
+using System.Collections;
 
 namespace InventoryManagementMVC.Extensions
 {
@@ -101,8 +105,17 @@ namespace InventoryManagementMVC.Extensions
                 {
                     foreach (PropertyInfo propertyInfo in modelEntityProperties)
                     {
+                        if (propertyInfo.GetCustomAttributes<RelationAttribute>().Any())
+                        {
+                            RelationAttribute rellAttribute = propertyInfo.GetCustomAttributes<RelationAttribute>().FirstOrDefault();
+                            columns.ForeignKey(propertyInfo.Name,
+                               ContextFactory.Current.Set(rellAttribute.EntityType), rellAttribute.DataFieldValue, rellAttribute.DataFieldText)
+                                .FooterTemplate(f => f.Count.Format("Count: {0}"))
+                                .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
+                        }
+
                         // do not show foreign key columns
-                        if (propertyInfo.GetCustomAttributes<AssociationAttribute>().Any() ||
+                        if (propertyInfo.GetCustomAttributes<RelationAttribute>().Any() ||
                             propertyInfo.GetCustomAttributes<KeyAttribute>().Any())
                         {
                             continue;
@@ -129,14 +142,16 @@ namespace InventoryManagementMVC.Extensions
                             if (!isClient)
                             {
                                 columns.Bound(propertyInfo.Name)
+                                //    .ClientFooterTemplate("Count: #= kendo.format('{0}', count)#")
+                                //.ClientGroupFooterTemplate("Count: #= kendo.format('{0}', count)#");
                                 .FooterTemplate(f => f.Count.Format("Count: {0}"))
                                 .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
                             }
                             else
                             {
                                 columns.Bound(propertyInfo.Name)
-                                 .FooterTemplate(f => f.Count)
-                                .GroupFooterTemplate(f => f.Count);
+                                     .FooterTemplate(f => f.Count)
+                                    .GroupFooterTemplate(f => f.Count);
                                 //.ClientFooterTemplate("Count: #= kendo.format('{0}', count)#")
                                 //.ClientGroupFooterTemplate("Count: #= kendo.format('{0}', count)#");
                             }
@@ -287,6 +302,30 @@ namespace InventoryManagementMVC.Extensions
                                     model.Field(propertyInfo.Name, propertyInfo.PropertyType)
                                         .DefaultValue(GetDefaultValueForType(propertyInfo.PropertyType));
                                 }
+                                    RelationAttribute rellAttribute = propertyInfo.GetCustomAttributes<RelationAttribute>().FirstOrDefault();
+                                    if (rellAttribute != null)
+                                {
+                                    model.Field(propertyInfo.Name, propertyInfo.PropertyType).DefaultValue(-1);
+                                    IEnumerator enumerator = ContextFactory.Current.Set(rellAttribute.EntityType).AsQueryable().GetEnumerator();
+                                    if (enumerator.MoveNext())
+                                    {
+                                        var obj = enumerator.Current;
+                                        if (obj != null)
+                                        {
+                                            Type objType = obj.GetType();
+                                            PropertyInfo pi = objType.GetProperty(rellAttribute.DataFieldValue);
+                                            if (pi != null)
+                                            {
+                                                object val = pi.GetValue(obj);
+                                                model.Field(propertyInfo.Name, propertyInfo.PropertyType).DefaultValue(val);
+                                            }
+                                        }
+                                    }
+  
+                                    //model.Field(propertyInfo.Name, propertyInfo.PropertyType).DefaultValue(ContextFactory.Current.Set(rellAttribute.EntityType));
+                                       
+                                }
+
                             }
                         }
                     ) // this is for editing and deleting

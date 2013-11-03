@@ -7,43 +7,9 @@
 
 @(
  Html.Kendo().Grid(Model)
-            .Name("ProductViewModelGrid")
-
-            .Columns(columns =>
-            {
-                columns.ForeignKey(p => p.CategoryId, (System.Collections.IEnumerable)ViewData["categories"], "CategoryId", "Name")
-                    .Title("Category")
-                .FooterTemplate(f => f.Count.Format("Count: {0}"))
-                .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
-                columns.ForeignKey(p => p.UnitMeasureId, (System.Collections.IEnumerable)ViewData["unitMeasures"], "UnitMeasureId", "Name")
-                    .Title("Unit")
-                .FooterTemplate(f => f.Count.Format("Count: {0}"))
-                .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
-                columns.ForeignKey(p => p.StoreId, (System.Collections.IEnumerable)ViewData["stores"], "StoreId", "Name")
-                    .Title("Store")
-                .FooterTemplate(f => f.Count.Format("Count: {0}"))
-                .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
-            })
             .AddDefaultOptions()
             .DataSource(dataSource => dataSource
-                .Ajax()
-                .Model(model =>
-                {
-                    model.Field(p => p.CategoryId).DefaultValue(
-                        (ViewData["defaultCategory"] as ProductCategory) != null ? (ViewData["defaultCategory"] as ProductCategory).CategoryId : default(int?));
-                    model.Field(p => p.UnitMeasureId).DefaultValue(
-                        (ViewData["defaultUnitMeasure"] as UnitMeasure) != null ? (ViewData["defaultUnitMeasure"] as UnitMeasure).UnitMeasureId : default(int?));
-                    model.Field(p => p.StoreId).DefaultValue(
-                        (ViewData["defaultStore"] as Store) != null ? (ViewData["defaultStore"] as Store).StoreId : default(int?));
-                    model.Field(p => p.Name).DefaultValue("[Enter a name]");
-                })
-                .Aggregates(agg =>
-                {
-                    //agg.Add(a => a.CategoryId).Count();
-                    //agg.Add(a => a.UnitMeasureId).Count();
-                    //agg.Add(a => a.StoreId).Count();
-                }
-                )
+                .Ajax()               
                 .Create("Create", "Product")
                 .Read("Read", "Product")
                 .Update("Update", "Product")
