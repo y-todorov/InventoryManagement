@@ -14,6 +14,7 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int PurchaseOrderDetailId { get; set; }
 
+        [ReadOnly(true)]
         [Relation(EntityType = typeof (PurchaseOrderHeader), DataFieldValue = "PurchaseOrderId",
             DataFieldText = "PurchaseOrderId")]
         [Display(Name = "Purchase Order")]
