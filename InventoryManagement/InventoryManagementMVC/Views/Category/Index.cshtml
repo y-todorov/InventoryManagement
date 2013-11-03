@@ -5,16 +5,13 @@
 
 @(
     Html.Kendo().Grid(Model)
-
-        .AddDefaultOptions()
-        .Name("grid")
+        .AddDefaultOptions()     
         .DataSource(dataSource => dataSource
             .Ajax()
             .Create("Create", "Category")
             .Read("Read", "Category")
             .Update("Update", "Category")
-            .Destroy("Destroy", "Category"))
-       
+            .Destroy("Destroy", "Category"))      
 )
 
 

@@ -8,13 +8,13 @@ using RecipiesModelNS;
 
 namespace InventoryManagementMVC.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : CustomControllerBase
     {
         public ActionResult Index()
         {
-            ControllerHelper.PopulateCategories(ViewData);
-            ControllerHelper.PopulateUnitMeasures(ViewData);
-            ControllerHelper.PopulateStores(ViewData);
+            //ControllerHelper.PopulateCategories(ViewData);
+            //ControllerHelper.PopulateUnitMeasures(ViewData);
+            //ControllerHelper.PopulateStores(ViewData);
 
             List<Product> allProducts = ContextFactory.Current.Products.ToList();
             List<ProductViewModel> productViewModels =

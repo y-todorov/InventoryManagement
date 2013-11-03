@@ -13,6 +13,7 @@ using System.Diagnostics;
 using InventoryManagementMVC.DataAnnotations;
 using RecipiesModelNS;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace InventoryManagementMVC.Extensions
 {
@@ -20,7 +21,7 @@ namespace InventoryManagementMVC.Extensions
     {
         public static IHtmlString ToMvcClientTemplate(this MvcHtmlString mvcString)
         {
-            if (HttpEncoder.Current.GetType() == typeof (AntiXssEncoder))
+            if (HttpEncoder.Current.GetType() == typeof(AntiXssEncoder))
             {
                 var initial = mvcString.ToHtmlString();
                 var corrected = initial.Replace("\\u0026", "&")
@@ -48,7 +49,7 @@ namespace InventoryManagementMVC.Extensions
 
         public static GridBuilder<T> AddBaseOptions<T>(this GridBuilder<T> builder) where T : class
         {
-            Type modelEntityType = typeof (T);
+            Type modelEntityType = typeof(T);
 
             builder
                 .Name(modelEntityType.Name + "Grid")
@@ -58,7 +59,7 @@ namespace InventoryManagementMVC.Extensions
                             .Enabled(true))
                 .Pageable(
                     pb =>
-                        pb.PageSizes(new[] {10, 20, 50, 100, 500, 999})
+                        pb.PageSizes(new[] { 10, 20, 50, 100, 500, 999 })
                             .Refresh(true)
                             .Info(true)
                             .Enabled(true)
@@ -74,7 +75,7 @@ namespace InventoryManagementMVC.Extensions
         public static GridBuilder<T> AddToolbarOptions<T>(this GridBuilder<T> builder, bool isCreateVisible = true,
             bool isSaveVisible = true) where T : class
         {
-            Type modelEntityType = typeof (T);
+            Type modelEntityType = typeof(T);
             PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
 
             builder
@@ -97,7 +98,7 @@ namespace InventoryManagementMVC.Extensions
             bool isDeleteColumnVisible = true,
             bool isEditColumnVisible = true, bool isSelectColumnVisible = true) where T : class
         {
-            Type modelEntityType = typeof (T);
+            Type modelEntityType = typeof(T);
             PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
 
             builder
@@ -105,11 +106,24 @@ namespace InventoryManagementMVC.Extensions
                 {
                     foreach (PropertyInfo propertyInfo in modelEntityProperties)
                     {
-                        if (propertyInfo.GetCustomAttributes<RelationAttribute>().Any())
+                        RelationAttribute rellAttribute = propertyInfo.GetCustomAttributes<RelationAttribute>().FirstOrDefault();
+                        if (rellAttribute != null)
                         {
-                            RelationAttribute rellAttribute = propertyInfo.GetCustomAttributes<RelationAttribute>().FirstOrDefault();
+                            // DOES NOT WORK
+                            //SelectList l = new SelectList(ContextFactory.Current.Set(rellAttribute.EntityType));
+
+                            IEnumerator enumerator = ContextFactory.Current.Set(rellAttribute.EntityType).AsQueryable().GetEnumerator();
+                            List<object> objects = new List<object>();
+
+                            // THIS FIXES THE MANY QUERIES PROBLEM :) :) :)
+                            while (enumerator.MoveNext())
+                            {
+                                objects.Add(enumerator.Current);
+                            }
+
+                            // THIS MAKES LOTS OF QUERIES TO THE DB IF WE USE ContextFactory.Current.Set(rellAttribute.EntityType), DUNNO WHY
                             columns.ForeignKey(propertyInfo.Name,
-                               ContextFactory.Current.Set(rellAttribute.EntityType), rellAttribute.DataFieldValue, rellAttribute.DataFieldText)
+                              objects, rellAttribute.DataFieldValue, rellAttribute.DataFieldText)                              
                                 .FooterTemplate(f => f.Count.Format("Count: {0}"))
                                 .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
                         }
@@ -121,8 +135,8 @@ namespace InventoryManagementMVC.Extensions
                             continue;
                         }
 
-                        if (propertyInfo.PropertyType == typeof (bool) ||
-                            propertyInfo.PropertyType == typeof (bool?))
+                        if (propertyInfo.PropertyType == typeof(bool) ||
+                            propertyInfo.PropertyType == typeof(bool?))
                         {
                             if (!isClient)
                             {
@@ -137,13 +151,13 @@ namespace InventoryManagementMVC.Extensions
                                 .ClientGroupFooterTemplate("Count: #= kendo.format('{0}', count)#");
                             }
                         }
-                        if (propertyInfo.PropertyType == typeof (string))
+                        if (propertyInfo.PropertyType == typeof(string))
                         {
                             if (!isClient)
                             {
                                 columns.Bound(propertyInfo.Name)
-                                //    .ClientFooterTemplate("Count: #= kendo.format('{0}', count)#")
-                                //.ClientGroupFooterTemplate("Count: #= kendo.format('{0}', count)#");
+                                    //    .ClientFooterTemplate("Count: #= kendo.format('{0}', count)#")
+                                    //.ClientGroupFooterTemplate("Count: #= kendo.format('{0}', count)#");
                                 .FooterTemplate(f => f.Count.Format("Count: {0}"))
                                 .GroupFooterTemplate(f => f.Count.Format("Count: {0}"));
                             }
@@ -156,8 +170,8 @@ namespace InventoryManagementMVC.Extensions
                                 //.ClientGroupFooterTemplate("Count: #= kendo.format('{0}', count)#");
                             }
                         }
-                        if (propertyInfo.PropertyType == typeof (double) ||
-                            propertyInfo.PropertyType == typeof (double?))
+                        if (propertyInfo.PropertyType == typeof(double) ||
+                            propertyInfo.PropertyType == typeof(double?))
                         {
                             if (!isClient)
                             {
@@ -172,8 +186,8 @@ namespace InventoryManagementMVC.Extensions
                                 //.ClientGroupFooterTemplate("Sum: #= kendo.format('{0:F3}', sum)#");
                             }
                         }
-                        if (propertyInfo.PropertyType == typeof (decimal) ||
-                            propertyInfo.PropertyType == typeof (decimal?))
+                        if (propertyInfo.PropertyType == typeof(decimal) ||
+                            propertyInfo.PropertyType == typeof(decimal?))
                         {
                             if (!isClient)
                             {
@@ -188,8 +202,8 @@ namespace InventoryManagementMVC.Extensions
                                 //.ClientGroupFooterTemplate("Sum: #= kendo.format('{0:C3}', sum)#");
                             }
                         }
-                        if (propertyInfo.PropertyType == typeof (int) ||
-                            propertyInfo.PropertyType == typeof (int?))
+                        if (propertyInfo.PropertyType == typeof(int) ||
+                            propertyInfo.PropertyType == typeof(int?))
                         {
                             if (!isClient)
                             {
@@ -204,8 +218,8 @@ namespace InventoryManagementMVC.Extensions
                                 //.ClientGroupFooterTemplate("Sum: #= kendo.format('{0:N}', sum)#");
                             }
                         }
-                        if (propertyInfo.PropertyType == typeof (DateTime) ||
-                            propertyInfo.PropertyType == typeof (DateTime?))
+                        if (propertyInfo.PropertyType == typeof(DateTime) ||
+                            propertyInfo.PropertyType == typeof(DateTime?))
                         {
                             if (!isClient)
                             {
@@ -269,7 +283,7 @@ namespace InventoryManagementMVC.Extensions
         public static GridBuilder<T> AddDataSourceOptions<T>(this GridBuilder<T> builder, bool isBatch = true)
             where T : class
         {
-            Type modelEntityType = typeof (T);
+            Type modelEntityType = typeof(T);
             PropertyInfo[] modelEntityProperties = modelEntityType.GetProperties();
 
             builder
@@ -291,9 +305,9 @@ namespace InventoryManagementMVC.Extensions
 
                             string idName = idPropertyInfo.Name;
                             model.Id(idName);
-                            model.Field(idName, typeof (int)).Editable(false);
-                            model.Field("ModifiedDate", typeof (DateTime?)).Editable(false);
-                            model.Field("ModifiedByUser", typeof (string)).Editable(false);
+                            model.Field(idName, typeof(int)).Editable(false);
+                            model.Field("ModifiedDate", typeof(DateTime?)).Editable(false);
+                            model.Field("ModifiedByUser", typeof(string)).Editable(false);
                             foreach (PropertyInfo propertyInfo in modelEntityProperties)
                             {
                                 if (propertyInfo.Name != idName && propertyInfo.Name != "ModifiedDate" &&
@@ -302,8 +316,8 @@ namespace InventoryManagementMVC.Extensions
                                     model.Field(propertyInfo.Name, propertyInfo.PropertyType)
                                         .DefaultValue(GetDefaultValueForType(propertyInfo.PropertyType));
                                 }
-                                    RelationAttribute rellAttribute = propertyInfo.GetCustomAttributes<RelationAttribute>().FirstOrDefault();
-                                    if (rellAttribute != null)
+                                RelationAttribute rellAttribute = propertyInfo.GetCustomAttributes<RelationAttribute>().FirstOrDefault();
+                                if (rellAttribute != null)
                                 {
                                     model.Field(propertyInfo.Name, propertyInfo.PropertyType).DefaultValue(-1);
                                     IEnumerator enumerator = ContextFactory.Current.Set(rellAttribute.EntityType).AsQueryable().GetEnumerator();
@@ -321,9 +335,8 @@ namespace InventoryManagementMVC.Extensions
                                             }
                                         }
                                     }
-  
-                                    //model.Field(propertyInfo.Name, propertyInfo.PropertyType).DefaultValue(ContextFactory.Current.Set(rellAttribute.EntityType));
-                                       
+
+
                                 }
 
                             }
