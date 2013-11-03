@@ -176,6 +176,7 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\Purchasing\PurchaseOrderHeaderController.cs" />
+    <Compile Include="Controllers\Purchasing\PurchaseOrderHeaderViewModelpohViewModel.cs" />
     <Compile Include="Controllers\Shared\AccountController.cs" />
     <Compile Include="Controllers\Production\CategoryController.cs" />
     <Compile Include="Controllers\Charts\ChartController.cs" />

@@ -16,17 +16,19 @@ namespace InventoryManagementMVC.Models
 
         public string ModifiedByUser { get; set; }
 
-        public static CategoryViewModel ConvertFromCategoryEntity(ProductCategory newOrExistingCategoryEntity, CategoryViewModel categoryViewModel)
+        public static CategoryViewModel ConvertFromCategoryEntity(ProductCategory newOrExistingCategoryEntity,
+            CategoryViewModel categoryViewModel)
         {
             if (newOrExistingCategoryEntity == null)
             {
-                throw new ApplicationException("newOrExistingCategoryEntity is null in method ConvertFromCategoryEntity!");
+                throw new ApplicationException(
+                    "newOrExistingCategoryEntity is null in method ConvertFromCategoryEntity!");
             }
             if (categoryViewModel == null)
             {
                 throw new ApplicationException("categoryViewModel is null in method ConvertFromCategoryEntity!");
             }
-          
+
             categoryViewModel.CategoryId = newOrExistingCategoryEntity.CategoryId;
             categoryViewModel.Name = newOrExistingCategoryEntity.Name;
             categoryViewModel.ModifiedDate = newOrExistingCategoryEntity.ModifiedDate;
@@ -35,7 +37,8 @@ namespace InventoryManagementMVC.Models
             return categoryViewModel;
         }
 
-        public static ProductCategory ConvertToCategoryEntity(CategoryViewModel categoryViewModel, ProductCategory newOrExistingCategoryEntity)
+        public static ProductCategory ConvertToCategoryEntity(CategoryViewModel categoryViewModel,
+            ProductCategory newOrExistingCategoryEntity)
         {
             if (newOrExistingCategoryEntity == null)
             {
@@ -45,7 +48,7 @@ namespace InventoryManagementMVC.Models
             {
                 throw new ApplicationException("categoryViewModel is null in method ConvertToCategoryEntity!");
             }
-        
+
             newOrExistingCategoryEntity.CategoryId = categoryViewModel.CategoryId;
             newOrExistingCategoryEntity.Name = categoryViewModel.Name;
             newOrExistingCategoryEntity.ModifiedDate = categoryViewModel.ModifiedDate;

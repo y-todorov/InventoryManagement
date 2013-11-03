@@ -67,11 +67,11 @@ namespace InventoryManagementMVC
 
             AreaRegistration.RegisterAllAreas();
 
-         
+
             RegisterRoutes(RouteTable.Routes);
-           
+
             RegisterAuth();
-            
+
             // Yordan, test that site is not asleep after 20 mins. of inactivity
             // By the way this works very well :)
             Timer timerRequestPage = new Timer(TimeSpan.FromMinutes(10).TotalMilliseconds); // 10 minutes
@@ -99,6 +99,5 @@ namespace InventoryManagementMVC
             }
             Debugger.Break();
         }
-        
     }
 }

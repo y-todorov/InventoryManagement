@@ -11,16 +11,16 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int ProductId { get; set; }
 
-        [Relation(EntityType = typeof(UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
+        [Relation(EntityType = typeof (UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
         [Display(Name = "UnitMeasure")]
         public int? UnitMeasureId { get; set; }
 
-        [Relation(EntityType=typeof(ProductCategory), DataFieldValue = "CategoryId", DataFieldText = "Name")]
-        [Display(Name="Category")]
+        [Relation(EntityType = typeof (ProductCategory), DataFieldValue = "CategoryId", DataFieldText = "Name")]
+        [Display(Name = "Category")]
         public int? CategoryId { get; set; }
 
-        [Relation(EntityType = typeof(Store), DataFieldValue = "StoreId", DataFieldText = "Name")]
-        [Display(Name="Store")]
+        [Relation(EntityType = typeof (Store), DataFieldValue = "StoreId", DataFieldText = "Name")]
+        [Display(Name = "Store")]
         public int? StoreId { get; set; }
 
         [Required(ErrorMessage = "Please enter a name for the product!")]
@@ -38,17 +38,18 @@ namespace InventoryManagementMVC.Models
         [Range(0, int.MaxValue)]
         public decimal? StockValue { get; set; }
 
-        [Range(0, int.MaxValue)]       
+        [Range(0, int.MaxValue)]
         public double? UnitsOnOrder { get; set; }
 
-        [Range(0, int.MaxValue)]       
+        [Range(0, int.MaxValue)]
         public double? ReorderLevel { get; set; }
 
         public DateTime? ModifiedDate { get; set; }
 
         public string ModifiedByUser { get; set; }
 
-        public static ProductViewModel ConvertFromProductEntity(Product newOrExistingProductEntity, ProductViewModel productViewModel)
+        public static ProductViewModel ConvertFromProductEntity(Product newOrExistingProductEntity,
+            ProductViewModel productViewModel)
         {
             if (newOrExistingProductEntity == null)
             {
@@ -71,11 +72,12 @@ namespace InventoryManagementMVC.Models
             productViewModel.StockValue = (decimal) newOrExistingProductEntity.StockValue;
             productViewModel.ModifiedDate = newOrExistingProductEntity.ModifiedDate;
             productViewModel.ModifiedByUser = newOrExistingProductEntity.ModifiedByUser;
-           
+
             return productViewModel;
         }
 
-        public static Product ConvertToProductEntity(ProductViewModel productViewModel, Product newOrExistingProductEntity)
+        public static Product ConvertToProductEntity(ProductViewModel productViewModel,
+            Product newOrExistingProductEntity)
         {
             if (newOrExistingProductEntity == null)
             {

@@ -44,43 +44,44 @@ namespace InventoryManagementMVC.Models
 
         public string ModifiedByUser { get; set; }
 
-        public static InventoryViewModel ConvertFromInventoryEntity(Inventory newOrExistingInventoryEntity, InventoryViewModel inventoryViewModel)
+        public static InventoryViewModel ConvertFromInventoryEntity(Inventory newOrExistingInventoryEntity,
+            InventoryViewModel inventoryViewModel)
         {
             inventoryViewModel.AverageUnitPrice = newOrExistingInventoryEntity.AverageUnitPrice;
             inventoryViewModel.DeficiencyQuantity = newOrExistingInventoryEntity.DeficiencyQuantity;
-            inventoryViewModel.DeficiencyValue = (decimal?)newOrExistingInventoryEntity.DeficiencyValue;
+            inventoryViewModel.DeficiencyValue = (decimal?) newOrExistingInventoryEntity.DeficiencyValue;
             inventoryViewModel.ForDate = newOrExistingInventoryEntity.ForDate;
             inventoryViewModel.InventoryId = newOrExistingInventoryEntity.InventoryId;
             inventoryViewModel.ModifiedByUser = newOrExistingInventoryEntity.ModifiedByUser;
             inventoryViewModel.ModifiedDate = newOrExistingInventoryEntity.ModifiedDate;
             inventoryViewModel.QuantityByDocuments = newOrExistingInventoryEntity.QuantityByDocuments;
             inventoryViewModel.StocktakeQuantity = newOrExistingInventoryEntity.StocktakeQuantity;
-            inventoryViewModel.StocktakeValue = (decimal?)newOrExistingInventoryEntity.StocktakeValue;
+            inventoryViewModel.StocktakeValue = (decimal?) newOrExistingInventoryEntity.StocktakeValue;
             inventoryViewModel.SurplusQuantity = newOrExistingInventoryEntity.SurplusQuantity;
-            inventoryViewModel.SurplusValue = (decimal?)newOrExistingInventoryEntity.SurplusValue;
-            inventoryViewModel.ValueByDocuments = (decimal?)newOrExistingInventoryEntity.ValueByDocuments;
+            inventoryViewModel.SurplusValue = (decimal?) newOrExistingInventoryEntity.SurplusValue;
+            inventoryViewModel.ValueByDocuments = (decimal?) newOrExistingInventoryEntity.ValueByDocuments;
 
             return inventoryViewModel;
         }
 
-        public static Inventory ConvertToInventoryEntity(InventoryViewModel inventoryViewModel, Inventory newOrExistingInventoryEntity)
+        public static Inventory ConvertToInventoryEntity(InventoryViewModel inventoryViewModel,
+            Inventory newOrExistingInventoryEntity)
         {
             newOrExistingInventoryEntity.AverageUnitPrice = inventoryViewModel.AverageUnitPrice;
             newOrExistingInventoryEntity.DeficiencyQuantity = inventoryViewModel.DeficiencyQuantity;
-            newOrExistingInventoryEntity.DeficiencyValue = (double?)inventoryViewModel.DeficiencyValue;
+            newOrExistingInventoryEntity.DeficiencyValue = (double?) inventoryViewModel.DeficiencyValue;
             newOrExistingInventoryEntity.ForDate = inventoryViewModel.ForDate;
             newOrExistingInventoryEntity.InventoryId = inventoryViewModel.InventoryId;
             newOrExistingInventoryEntity.ModifiedByUser = inventoryViewModel.ModifiedByUser;
             newOrExistingInventoryEntity.ModifiedDate = inventoryViewModel.ModifiedDate;
             newOrExistingInventoryEntity.QuantityByDocuments = inventoryViewModel.QuantityByDocuments;
             newOrExistingInventoryEntity.StocktakeQuantity = inventoryViewModel.StocktakeQuantity;
-            newOrExistingInventoryEntity.StocktakeValue = (double?)inventoryViewModel.StocktakeValue;
+            newOrExistingInventoryEntity.StocktakeValue = (double?) inventoryViewModel.StocktakeValue;
             newOrExistingInventoryEntity.SurplusQuantity = inventoryViewModel.SurplusQuantity;
-            newOrExistingInventoryEntity.SurplusValue = (double?)inventoryViewModel.SurplusValue;
-            newOrExistingInventoryEntity.ValueByDocuments = (double?)inventoryViewModel.ValueByDocuments;
+            newOrExistingInventoryEntity.SurplusValue = (double?) inventoryViewModel.SurplusValue;
+            newOrExistingInventoryEntity.ValueByDocuments = (double?) inventoryViewModel.ValueByDocuments;
 
             return newOrExistingInventoryEntity;
         }
-
     }
 }

@@ -18,9 +18,11 @@ namespace InventoryManagementMVC.Controllers.Purchasing
         public ActionResult Index()
         {
             List<PurchaseOrderHeaderViewModel> purchaseOrderHeaderViewModels =
-               ContextFactory.Current.PurchaseOrderHeaders
-               .ToList().Select
-               (pod => PurchaseOrderHeaderViewModel.ConvertFromPurchaseOrderHeaderEntity(pod, new PurchaseOrderHeaderViewModel())).ToList();
+                ContextFactory.Current.PurchaseOrderHeaders
+                    .ToList().Select
+                    (pod =>
+                        PurchaseOrderHeaderViewModel.ConvertFromPurchaseOrderHeaderEntity(pod,
+                            new PurchaseOrderHeaderViewModel())).ToList();
             return View(purchaseOrderHeaderViewModels);
         }
 
@@ -28,8 +30,10 @@ namespace InventoryManagementMVC.Controllers.Purchasing
         {
             List<PurchaseOrderHeaderViewModel> purchaseOrderHeaderViewModels =
                 ContextFactory.Current.PurchaseOrderHeaders
-                .ToList().Select
-                (pod => PurchaseOrderHeaderViewModel.ConvertFromPurchaseOrderHeaderEntity(pod, new PurchaseOrderHeaderViewModel())).ToList();
+                    .ToList().Select
+                    (pod =>
+                        PurchaseOrderHeaderViewModel.ConvertFromPurchaseOrderHeaderEntity(pod,
+                            new PurchaseOrderHeaderViewModel())).ToList();
             return Json(purchaseOrderHeaderViewModels.ToDataSourceResult(request));
         }
 
@@ -41,8 +45,9 @@ namespace InventoryManagementMVC.Controllers.Purchasing
             {
                 foreach (PurchaseOrderHeaderViewModel pohViewModel in purchaseOrderHeaders)
                 {
-                    PurchaseOrderHeader newPohEntity = PurchaseOrderHeaderViewModel.ConvertToPurchaseOrderHeaderEntity(pohViewModel,
-                        new PurchaseOrderHeader());
+                    PurchaseOrderHeader newPohEntity =
+                        PurchaseOrderHeaderViewModel.ConvertToPurchaseOrderHeaderEntity(pohViewModel,
+                            new PurchaseOrderHeader());
                     ContextFactory.Current.PurchaseOrderHeaders.Add(newPohEntity);
                     ContextFactory.Current.SaveChanges();
                     PurchaseOrderHeaderViewModel.ConvertFromPurchaseOrderHeaderEntity(newPohEntity, pohViewModel);
@@ -52,44 +57,44 @@ namespace InventoryManagementMVC.Controllers.Purchasing
             return Json(purchaseOrderHeaders.ToDataSourceResult(request, ModelState));
         }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Update([DataSourceRequest] DataSourceRequest request,
-        //    [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
-        //{
-        //    if (categories != null && ModelState.IsValid)
-        //    {
-        //        foreach (CategoryViewModel categoryViewModel in categories)
-        //        {
-        //            ProductCategory categoryEntity =
-        //                ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == categoryViewModel.CategoryId);
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<PurchaseOrderHeaderViewModel> purchaseOrderHeaders)
+        {
+            if (purchaseOrderHeaders != null && ModelState.IsValid)
+            {
+                foreach (PurchaseOrderHeaderViewModel pohViewModel in purchaseOrderHeaders)
+                {
+                    PurchaseOrderHeader pohEntity =
+                        ContextFactory.Current.PurchaseOrderHeaders.FirstOrDefault(
+                            c => c.PurchaseOrderId == pohViewModel.PurchaseOrderHeaderId);
 
-        //            CategoryViewModel.ConvertToCategoryEntity(categoryViewModel, categoryEntity);
+                    PurchaseOrderHeaderViewModel.ConvertToPurchaseOrderHeaderEntity(pohViewModel, pohEntity);
 
-        //            ContextFactory.Current.SaveChanges();
+                    ContextFactory.Current.SaveChanges();
 
-        //            CategoryViewModel.ConvertFromCategoryEntity(categoryEntity, categoryViewModel);
-        //        }
-        //    }
+                    PurchaseOrderHeaderViewModel.ConvertFromPurchaseOrderHeaderEntity(pohEntity, pohViewModel);
+                }
+            }
 
-        //    return Json(categories.ToDataSourceResult(request, ModelState));
-        //}
+            return Json(purchaseOrderHeaders.ToDataSourceResult(request, ModelState));
+        }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
-        //{
-        //    if (categories.Any())
-        //    {
-        //        foreach (CategoryViewModel category in categories)
-        //        {
-        //            ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
-        //            ContextFactory.Current.ProductCategories.Remove(productCategory);
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<PurchaseOrderHeaderViewModel> purchaseOrderHeaders)
+        {
+            foreach (PurchaseOrderHeaderViewModel poh in purchaseOrderHeaders)
+            {
+                PurchaseOrderHeader pod =
+                    ContextFactory.Current.PurchaseOrderHeaders.FirstOrDefault(
+                        c => c.PurchaseOrderId == poh.PurchaseOrderHeaderId);
+                ContextFactory.Current.PurchaseOrderHeaders.Remove(pod);
 
-        //            ContextFactory.Current.SaveChanges();
-        //        }
-        //    }
+                ContextFactory.Current.SaveChanges();
+            }
 
-        //    return Json(categories.ToDataSourceResult(request, ModelState));
-        //}
-
+            return Json(purchaseOrderHeaders.ToDataSourceResult(request, ModelState));
+        }
     }
 }

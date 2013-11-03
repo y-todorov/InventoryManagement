@@ -1,4 +1,5 @@
-﻿using RecipiesModelNS;
+﻿using InventoryManagementMVC.DataAnnotations;
+using RecipiesModelNS;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,7 +15,7 @@ namespace InventoryManagementMVC.Models
 
         public bool IsBaseUnit { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof (UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
         public int? BaseUnitId { get; set; }
 
         [Range(0, int.MaxValue)]
@@ -24,11 +25,13 @@ namespace InventoryManagementMVC.Models
 
         public string ModifiedByUser { get; set; }
 
-        public static UnitMeasureViewModel ConvertFromUnitMeasureEntity(UnitMeasure newOrExistingUnitMeasureEntity, UnitMeasureViewModel unitMeasureViewModel)
+        public static UnitMeasureViewModel ConvertFromUnitMeasureEntity(UnitMeasure newOrExistingUnitMeasureEntity,
+            UnitMeasureViewModel unitMeasureViewModel)
         {
             if (newOrExistingUnitMeasureEntity == null)
             {
-                throw new ApplicationException("newOrExistingUnitMeasureEntity is null in method ConvertFromUnitMeasureEntity!");
+                throw new ApplicationException(
+                    "newOrExistingUnitMeasureEntity is null in method ConvertFromUnitMeasureEntity!");
             }
             if (unitMeasureViewModel == null)
             {
@@ -46,11 +49,13 @@ namespace InventoryManagementMVC.Models
             return unitMeasureViewModel;
         }
 
-        public static UnitMeasure ConvertToUnitMeasureEntity(UnitMeasureViewModel unitMeasureViewModel, UnitMeasure newOrExistingUnitMeasureEntity)
+        public static UnitMeasure ConvertToUnitMeasureEntity(UnitMeasureViewModel unitMeasureViewModel,
+            UnitMeasure newOrExistingUnitMeasureEntity)
         {
             if (newOrExistingUnitMeasureEntity == null)
             {
-                throw new ApplicationException("newOrExistingUnitMeasureEntity is null in method ConvertToUnitMeasureEntity!");
+                throw new ApplicationException(
+                    "newOrExistingUnitMeasureEntity is null in method ConvertToUnitMeasureEntity!");
             }
             if (unitMeasureViewModel == null)
             {

@@ -16,18 +16,21 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Index()
         {
             List<ProductInventoryViewModel> productInventoriesViewModels =
-               ContextFactory.Current.Inventories.OfType<ProductInventory>().ToList().Select
-               (pi => ProductInventoryViewModel.ConvertFromProductInventoryEntity(pi, new ProductInventoryViewModel())).ToList();
+                ContextFactory.Current.Inventories.OfType<ProductInventory>().ToList().Select
+                    (pi =>
+                        ProductInventoryViewModel.ConvertFromProductInventoryEntity(pi, new ProductInventoryViewModel()))
+                    .ToList();
             return View(productInventoriesViewModels);
         }
-        
+
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            List<ProductInventoryViewModel> productInventoriesViewModels = 
+            List<ProductInventoryViewModel> productInventoriesViewModels =
                 ContextFactory.Current.Inventories.OfType<ProductInventory>().ToList().Select
-                (pi => ProductInventoryViewModel.ConvertFromProductInventoryEntity(pi, new ProductInventoryViewModel())).ToList();
+                    (pi =>
+                        ProductInventoryViewModel.ConvertFromProductInventoryEntity(pi, new ProductInventoryViewModel()))
+                    .ToList();
             return Json(productInventoriesViewModels.ToDataSourceResult(request));
         }
-
     }
 }

@@ -9,28 +9,29 @@
 
 @{
     @(Html.Kendo().Chart<ProductsPerCategory>()
-        .Name("chart").Theme("blueopal")
-        .Title("Products count and stock value by category")
-        .Legend(legend => legend
-            .Position(ChartLegendPosition.Top)
-        )
-        .DataSource(ds => ds.Read(read => read.Action("ProductsCountByCategory", "Chart")))
-        .Series(series => {
-            series.Column(p => p.ProductCount).Name("Product count").Labels(l => l.Format("{0:N}").Visible(true)).Axis("ProductCountAxis");
-            series.Column(p => p.ProductValue).Name("Product value").Labels(l => l.Format("{0:C3}").Visible(true)).Axis("ProductValueAxis");
-        })
-        .CategoryAxis(axis => axis.Categories(p => p.CategoryName)
-            .Labels(labels => labels.Rotation(90)).AxisCrossingValue(0, int.MaxValue)
-        )
-        .ValueAxis(axis => axis.Numeric("ProductCountAxis")
-            .Labels(labels => labels.Format("{0:N}"))
-        )
-        .ValueAxis(axis => axis.Numeric("ProductValueAxis")
-            .Labels(labels => labels.Format("{0:C3}"))
-        )
-        .Tooltip(tooltip => tooltip
-            .Visible(true)
-            .Format("{0:N0}")
-        )
-    ) 
+          .Name("chart").Theme("blueopal")
+          .Title("Products count and stock value by category")
+          .Legend(legend => legend
+              .Position(ChartLegendPosition.Top)
+          )
+          .DataSource(ds => ds.Read(read => read.Action("ProductsCountByCategory", "Chart")))
+          .Series(series =>
+          {
+              series.Column(p => p.ProductCount).Name("Product count").Labels(l => l.Format("{0:N}").Visible(true)).Axis("ProductCountAxis");
+              series.Column(p => p.ProductValue).Name("Product value").Labels(l => l.Format("{0:C3}").Visible(true)).Axis("ProductValueAxis");
+          })
+          .CategoryAxis(axis => axis.Categories(p => p.CategoryName)
+              .Labels(labels => labels.Rotation(90)).AxisCrossingValue(0, int.MaxValue)
+          )
+          .ValueAxis(axis => axis.Numeric("ProductCountAxis")
+              .Labels(labels => labels.Format("{0:N}"))
+          )
+          .ValueAxis(axis => axis.Numeric("ProductValueAxis")
+              .Labels(labels => labels.Format("{0:C3}"))
+          )
+          .Tooltip(tooltip => tooltip
+              .Visible(true)
+              .Format("{0:N0}")
+          )
+          )
 }

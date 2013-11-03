@@ -722,7 +722,8 @@
         b.b("isSubscribable", b.Pa);
         var B = [];
         b.r = {
-            lb: function(a) { B.push({ ha: a, Ka: [] }) }, end: function() { B.pop() },
+            lb: function(a) { B.push({ ha: a, Ka: [] }) },
+            end: function() { B.pop() },
             Va: function(a) {
                 b.Pa(a) || i(Error("Only subscribable things can act as dependencies"));
                 if (0 < B.length) {

@@ -15,7 +15,7 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult Index()
         {
             List<StoreViewModel> categoryViewModels = ContextFactory.Current.Stores.ToList().Select
-              (c => StoreViewModel.ConvertFromStoreEntity(c, new StoreViewModel())).ToList();
+                (c => StoreViewModel.ConvertFromStoreEntity(c, new StoreViewModel())).ToList();
             return View(categoryViewModels);
         }
 
@@ -68,7 +68,8 @@ namespace InventoryManagementMVC.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<StoreViewModel> stores)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<StoreViewModel> stores)
         {
             if (stores.Any())
             {
@@ -83,6 +84,5 @@ namespace InventoryManagementMVC.Controllers
 
             return Json(stores.ToDataSourceResult(request, ModelState));
         }
-
     }
 }

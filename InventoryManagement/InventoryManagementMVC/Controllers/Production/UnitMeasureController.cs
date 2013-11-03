@@ -14,7 +14,7 @@ namespace InventoryManagementMVC.Controllers
         {
             ControllerHelper.PopulateUnitMeasures(ViewData);
             List<UnitMeasureViewModel> unitMeasuresViewModels = ContextFactory.Current.UnitMeasures.ToList().Select
-               (unit => UnitMeasureViewModel.ConvertFromUnitMeasureEntity(unit, new UnitMeasureViewModel())).ToList();
+                (unit => UnitMeasureViewModel.ConvertFromUnitMeasureEntity(unit, new UnitMeasureViewModel())).ToList();
             return View(unitMeasuresViewModels);
         }
 

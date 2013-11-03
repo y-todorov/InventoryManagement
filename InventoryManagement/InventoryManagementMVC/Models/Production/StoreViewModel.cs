@@ -19,7 +19,8 @@ namespace RecipiesModelNS
 
         public string ModifiedByUser { get; set; }
 
-        public static StoreViewModel ConvertFromStoreEntity(Store newOrExistingStoreEntity, StoreViewModel storeViewModel)
+        public static StoreViewModel ConvertFromStoreEntity(Store newOrExistingStoreEntity,
+            StoreViewModel storeViewModel)
         {
             storeViewModel.StoreId = newOrExistingStoreEntity.StoreId;
             storeViewModel.Name = newOrExistingStoreEntity.Name;

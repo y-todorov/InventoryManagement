@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;
-[assembly: OwinStartup(typeof(InventoryManagementMVC.Startup))]
+
+[assembly: OwinStartup(typeof (InventoryManagementMVC.Startup))]
+
 namespace InventoryManagementMVC
 {
     public class Startup

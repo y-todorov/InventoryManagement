@@ -6,7 +6,7 @@ using System.Web;
 namespace InventoryManagementMVC.DataAnnotations
 {
     [AttributeUsageAttribute(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false,
-    Inherited = true)]
+        Inherited = true)]
     public class RelationAttribute : Attribute
     {
         public Type EntityType { get; set; }

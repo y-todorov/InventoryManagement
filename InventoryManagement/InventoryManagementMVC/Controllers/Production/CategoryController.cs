@@ -52,10 +52,11 @@ namespace InventoryManagementMVC.Controllers
                 foreach (CategoryViewModel categoryViewModel in categories)
                 {
                     ProductCategory categoryEntity =
-                        ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == categoryViewModel.CategoryId);
+                        ContextFactory.Current.ProductCategories.FirstOrDefault(
+                            c => c.CategoryId == categoryViewModel.CategoryId);
 
                     CategoryViewModel.ConvertToCategoryEntity(categoryViewModel, categoryEntity);
-                    
+
                     ContextFactory.Current.SaveChanges();
 
                     CategoryViewModel.ConvertFromCategoryEntity(categoryEntity, categoryViewModel);
@@ -66,13 +67,15 @@ namespace InventoryManagementMVC.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<CategoryViewModel> categories)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request,
+            [Bind(Prefix = "models")] IEnumerable<CategoryViewModel> categories)
         {
             if (categories.Any())
             {
                 foreach (CategoryViewModel category in categories)
                 {
-                    ProductCategory productCategory = ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
+                    ProductCategory productCategory =
+                        ContextFactory.Current.ProductCategories.FirstOrDefault(c => c.CategoryId == category.CategoryId);
                     ContextFactory.Current.ProductCategories.Remove(productCategory);
 
                     ContextFactory.Current.SaveChanges();

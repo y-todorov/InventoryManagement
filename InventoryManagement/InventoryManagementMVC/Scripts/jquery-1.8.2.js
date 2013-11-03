@@ -58,7 +58,7 @@
         // Make sure we trim BOM and NBSP (here's looking at you, Safari 5.0 and IE)
         rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
         // A simple way to check for HTML strings
-	// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
+        // Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
         rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
         // Match a standalone tag
         rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
@@ -1535,13 +1535,13 @@
                 internalKey = jQuery.expando,
                 getByName = typeof name === "string",
                 // We have to handle DOM nodes and JS objects differently because IE6-7
-			// can't GC object references properly across the DOM-JS boundary
+                // can't GC object references properly across the DOM-JS boundary
                 isNode = elem.nodeType,
                 // Only DOM nodes need the global jQuery cache; JS object data is
-			// attached directly to the object so GC can occur automatically
+                // attached directly to the object so GC can occur automatically
                 cache = isNode ? jQuery.cache : elem,
                 // Only defining an ID for JS objects if its cache already exists allows
-			// the code to shortcut on the same path as a DOM node with no cache
+                // the code to shortcut on the same path as a DOM node with no cache
                 id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
 
             // Avoid doing any more work than we need to when trying to get data on an
@@ -3718,12 +3718,12 @@
             compilerCache = createCache(),
             // Regex
 
-	// Whitespace characters http://www.w3.org/TR/css3-selectors/#whitespace
+            // Whitespace characters http://www.w3.org/TR/css3-selectors/#whitespace
             whitespace = "[\\x20\\t\\r\\n\\f]",
             // http://www.w3.org/TR/css3-syntax/#characters
             characterEncoding = "(?:\\\\.|[-\\w]|[^\\x00-\\xa0])+",
             // Loosely modeled on CSS identifier characters
-	// An unquoted value should be a CSS identifier (http://www.w3.org/TR/css3-selectors/#attribute-selectors)
+            // An unquoted value should be a CSS identifier (http://www.w3.org/TR/css3-selectors/#attribute-selectors)
 	// Proper syntax: http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
             identifier = characterEncoding.replace("w", "w#"),
             // Acceptable operators http://www.w3.org/TR/selectors/#attribute-selectors
@@ -3731,7 +3731,7 @@
             attributes = "\\[" + whitespace + "*(" + characterEncoding + ")" + whitespace +
                 "*(?:" + operators + whitespace + "*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|(" + identifier + ")|)|)" + whitespace + "*\\]",
             // Prefer arguments not in parens/brackets,
-	//   then attribute selectors and non-pseudos (denoted by :),
+            //   then attribute selectors and non-pseudos (denoted by :),
 	//   then anything else
 	// These preferences are here to reduce the number of selectors
 	//   needing tokenize in the PSEUDO preFilter
@@ -3768,7 +3768,7 @@
             },
             // Support
 
-	// Used for testing something on an element
+            // Used for testing something on an element
             assert = function(fn) {
                 var div = document.createElement("div");
 
@@ -3812,7 +3812,7 @@
                 return div.getElementsByClassName("e").length === 2;
             }),
             // Check if getElementById returns elements by name
-	// Check if getElementsByName privileges form controls or returns elements by ID
+            // Check if getElementsByName privileges form controls or returns elements by ID
             assertUsableName = assert(function(div) {
                 // Inject content
                 div.id = expando + 0;
@@ -5127,10 +5127,10 @@
                     rescape = /'|\\/g,
                     rattributeQuotes = /\=[\x20\t\r\n\f]*([^'"\]]*)[\x20\t\r\n\f]*\]/g,
                     // qSa(:focus) reports false when true (Chrome 21),
-			// A support test would require too much code (would include document ready)
+                    // A support test would require too much code (would include document ready)
                     rbuggyQSA = [":focus"],
                     // matchesSelector(:focus) reports false when true (Chrome 21),
-			// matchesSelector(:active) reports false when true (IE9/Opera 11.5)
+                    // matchesSelector(:active) reports false when true (IE9/Opera 11.5)
 			// A support test would require too much code (would include document ready)
 			// just skip matchesSelector for :active
                     rbuggyMatches = [":active", ":focus"],
@@ -5264,7 +5264,7 @@
                                 // IE 9's matchesSelector returns false on disconnected nodes
                                 if (ret || disconnectedMatch ||
                                     // As well, disconnected nodes are said to be in a document
-								// fragment in IE 9
+                                    // fragment in IE 9
                                     elem.document && elem.document.nodeType !== 11) {
                                     return ret;
                                 }
@@ -5376,7 +5376,7 @@
             return !!selector && (
                 typeof selector === "string" ?
                     // If this is a positional/relative selector, check membership in the returned set
-				// so $("p:first").is("p:last") won't return true for a doc with two "p".
+                    // so $("p:first").is("p:last") won't return true for a doc with two "p".
                     rneedsContext.test(selector) ?
                         jQuery(selector, this.context).index(this[0]) >= 0 :
                         jQuery.filter(selector, this).length > 0 :
@@ -6496,7 +6496,7 @@
         ropacity = /opacity=([^)]*)/,
         rposition = /^(top|right|bottom|left)$/,
         // swappable if display is none or starts with table except "table", "table-cell", or "table-caption"
-	// see here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
+        // see here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
         rdisplayswap = /^(none|table(?!-c[ea]).+)/,
         rmargin = /^margin/,
         rnumsplit = new RegExp("^(" + core_pnum + ")(.*)$", "i"),
@@ -6623,7 +6623,7 @@
 
     jQuery.extend({
         // Add in style property hooks for overriding the default
-	// behavior of getting and setting a style property
+        // behavior of getting and setting a style property
         cssHooks: {
             opacity: {
                 get: function(elem, computed) {
@@ -7426,7 +7426,7 @@
                 jQuery("<div>")
 
                     // inject the contents of the document in, removing the scripts
-				// to avoid any 'Permission Denied' errors in IE
+                    // to avoid any 'Permission Denied' errors in IE
                     .append(responseText.replace(rscript, ""))
 
                     // Locate the specified elements
@@ -7591,7 +7591,7 @@
                 // Callbacks context
                 callbackContext = s.context || s,
                 // Context for global events
-			// It's the callbackContext if one was provided in the options
+                // It's the callbackContext if one was provided in the options
 			// and if it's a DOM node or a jQuery collection
                 globalEventContext = callbackContext !== s &&
                     (callbackContext.nodeType || callbackContext instanceof jQuery) ?
@@ -8619,7 +8619,7 @@
                 stop: function(gotoEnd) {
                     var index = 0,
                         // if we are going to the end, we want to run all the tweens
-					// otherwise we skip this part
+                        // otherwise we skip this part
                         length = gotoEnd ? animation.tweens.length : 0;
 
                     for (; index < length; index++) {

@@ -1,4 +1,5 @@
-﻿using RecipiesModelNS;
+﻿using InventoryManagementMVC.DataAnnotations;
+using RecipiesModelNS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,12 +13,17 @@ namespace InventoryManagementMVC.Models.Purchasing
         [Key]
         public int PurchaseOrderHeaderId { get; set; }
 
+        [Relation(EntityType = typeof (PurchaseOrderStatu), DataFieldValue = "PurchaseOrderStatusId",
+            DataFieldText = "Name")]
         public int? StatusId { get; set; }
 
+        [Relation(EntityType = typeof (Employee), DataFieldValue = "EmployeeId", DataFieldText = "FirstName")]
         public int? EmployeeId { get; set; }
 
+        [Relation(EntityType = typeof (Vendor), DataFieldValue = "VendorId", DataFieldText = "Name")]
         public int? VendorId { get; set; }
 
+        [Relation(EntityType = typeof (ShipMethod), DataFieldValue = "ShipMethodId", DataFieldText = "Name")]
         public int? ShipMethodId { get; set; }
 
         [Required]
@@ -47,9 +53,9 @@ namespace InventoryManagementMVC.Models.Purchasing
         public List<PurchaseOrderDetailViewModel> PurchaseOrderDetailViewModels { get; set; }
 
 
-        public static PurchaseOrderHeaderViewModel ConvertFromPurchaseOrderHeaderEntity(PurchaseOrderHeader pohEntity, PurchaseOrderHeaderViewModel pohViewModel)
-        {          
-
+        public static PurchaseOrderHeaderViewModel ConvertFromPurchaseOrderHeaderEntity(PurchaseOrderHeader pohEntity,
+            PurchaseOrderHeaderViewModel pohViewModel)
+        {
             pohViewModel.EmployeeId = pohEntity.EmployeeId;
             pohViewModel.Freight = pohEntity.Freight;
             pohViewModel.InvoiceNumber = pohEntity.InvoiceNumber;
@@ -67,12 +73,14 @@ namespace InventoryManagementMVC.Models.Purchasing
             pohViewModel.VendorId = pohEntity.VendorId;
 
             pohViewModel.PurchaseOrderDetailViewModels = pohEntity.PurchaseOrderDetails.Select(pod =>
-                PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod, new PurchaseOrderDetailViewModel())).ToList();
-        
+                PurchaseOrderDetailViewModel.ConvertFromPurchaseOrderDetailEntity(pod,
+                    new PurchaseOrderDetailViewModel())).ToList();
+
             return pohViewModel;
         }
 
-        public static PurchaseOrderHeader ConvertToPurchaseOrderHeaderEntity(PurchaseOrderHeaderViewModel pohViewModel, PurchaseOrderHeader pohEntity)
+        public static PurchaseOrderHeader ConvertToPurchaseOrderHeaderEntity(PurchaseOrderHeaderViewModel pohViewModel,
+            PurchaseOrderHeader pohEntity)
         {
             pohEntity.EmployeeId = pohViewModel.EmployeeId;
             pohEntity.Freight = pohViewModel.Freight;

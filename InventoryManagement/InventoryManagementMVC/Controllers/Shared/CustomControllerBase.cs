@@ -33,7 +33,7 @@ namespace InventoryManagementMVC.Controllers
         protected override void OnResultExecuting(ResultExecutingContext filterContext)
         {
             stopwatch.Start();
-            base.OnResultExecuting(filterContext);          
+            base.OnResultExecuting(filterContext);
         }
 
         protected override void OnResultExecuted(ResultExecutedContext filterContext)
@@ -44,7 +44,5 @@ namespace InventoryManagementMVC.Controllers
             ViewData.Add("ResultMilliseconds", ResultMilliseconds);
             stopwatch.Reset();
         }
-
-        
     }
 }

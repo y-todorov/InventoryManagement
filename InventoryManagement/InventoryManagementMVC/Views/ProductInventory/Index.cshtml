@@ -4,13 +4,12 @@
 @model IEnumerable<ProductInventoryViewModel>
 
 @(
-    Html.Kendo().Grid(Model)
-        .Name("ProductInventoryViewModelGrid")
-        .AddDefaultOptions()
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Create("Create", "ProductInventory")
-            .Read("Read", "ProductInventory")
-            .Update("Update", "ProductInventory")
-            .Destroy("Destroy", "ProductInventory"))
-)
+        Html.Kendo().Grid(Model)
+            .AddDefaultOptions()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Create("Create", "ProductInventory")
+                .Read("Read", "ProductInventory")
+                .Update("Update", "ProductInventory")
+                .Destroy("Destroy", "ProductInventory"))
+      )

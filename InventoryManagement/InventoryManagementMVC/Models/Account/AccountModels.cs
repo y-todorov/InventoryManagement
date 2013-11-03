@@ -22,6 +22,7 @@ namespace InventoryManagementMVC.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         //public int UserId { get; set; }
         public Guid UserId { get; set; }
+
         public string UserName { get; set; }
     }
 

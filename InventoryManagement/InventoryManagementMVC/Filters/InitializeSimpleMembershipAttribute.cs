@@ -5,6 +5,7 @@ using System.Web.Mvc;
 //using WebMatrix.WebData;
 //using MvcApplication3.Models;
 using InventoryManagementMVC.Models;
+
 //using WebMatrix.WebData;
 
 namespace InventoryManagementMVC.Filters
@@ -43,7 +44,9 @@ namespace InventoryManagementMVC.Filters
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                    throw new InvalidOperationException(
+                        "The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588",
+                        ex);
                 }
             }
         }

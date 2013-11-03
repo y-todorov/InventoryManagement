@@ -15,22 +15,22 @@ namespace InventoryManagementMVC.Controllers
         public ActionResult ProductsCountByCategory()
         {
             var pc = ContextFactory.Current.ProductCategories.Include(c => c.Products).ToList()
-                   .Select(
-                       cat =>
-                           new ProductsPerCategory
-                           {
-                               CategoryName = cat.Name.Substring(0, cat.Name.Length >= 10 ? 10 : cat.Name.Length),
-                               //CategoryName = cat.Name,
-                               ProductCount = cat.Products.Count,
-
-                               ProductValue = (decimal)(cat.Products.Count != 0 ? Math.Round(cat.Products.Sum(p => p.StockValue), 3) : 0)
-                           })
-                   .OrderByDescending(res => res.ProductCount)
-                   .ToList();
+                .Select(
+                    cat =>
+                        new ProductsPerCategory
+                        {
+                            CategoryName = cat.Name.Substring(0, cat.Name.Length >= 10 ? 10 : cat.Name.Length),
+                            //CategoryName = cat.Name,
+                            ProductCount = cat.Products.Count,
+                            ProductValue =
+                                (decimal)
+                                    (cat.Products.Count != 0 ? Math.Round(cat.Products.Sum(p => p.StockValue), 3) : 0)
+                        })
+                .OrderByDescending(res => res.ProductCount)
+                .ToList();
 
 
             return Json(pc);
         }
-
     }
 }

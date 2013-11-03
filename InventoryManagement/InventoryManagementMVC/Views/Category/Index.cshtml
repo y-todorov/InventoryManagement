@@ -4,15 +4,15 @@
 @model IEnumerable<CategoryViewModel>
 
 @(
-    Html.Kendo().Grid(Model)
-        .AddDefaultOptions()     
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Create("Create", "Category")
-            .Read("Read", "Category")
-            .Update("Update", "Category")
-            .Destroy("Destroy", "Category"))      
-)
+        Html.Kendo().Grid(Model)
+            .AddDefaultOptions()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Create("Create", "Category")
+                .Read("Read", "Category")
+                .Update("Update", "Category")
+                .Destroy("Destroy", "Category"))      
+      )
 
 
 

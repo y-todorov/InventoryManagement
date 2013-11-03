@@ -1,4 +1,5 @@
-﻿using RecipiesModelNS;
+﻿using InventoryManagementMVC.DataAnnotations;
+using RecipiesModelNS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,10 +13,11 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int InventoryId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof (Product), DataFieldValue = "ProductId", DataFieldText = "Name")]
         public int? ProductId { get; set; }
 
-        public static ProductInventoryViewModel ConvertFromProductInventoryEntity(ProductInventory  newOrExistingProductInventoryEntity,
+        public static ProductInventoryViewModel ConvertFromProductInventoryEntity(
+            ProductInventory newOrExistingProductInventoryEntity,
             ProductInventoryViewModel productInventoryViewModel)
         {
             InventoryViewModel.ConvertFromInventoryEntity(newOrExistingProductInventoryEntity, productInventoryViewModel);
@@ -24,7 +26,8 @@ namespace InventoryManagementMVC.Models
             return productInventoryViewModel;
         }
 
-        public static ProductInventory ConvertToProductInventoryEntity(ProductInventoryViewModel productInventoryViewModel, ProductInventory newOrExistingProductInventoryEntity)
+        public static ProductInventory ConvertToProductInventoryEntity(
+            ProductInventoryViewModel productInventoryViewModel, ProductInventory newOrExistingProductInventoryEntity)
         {
             InventoryViewModel.ConvertToInventoryEntity(productInventoryViewModel, newOrExistingProductInventoryEntity);
             newOrExistingProductInventoryEntity.ProductId = productInventoryViewModel.ProductId;

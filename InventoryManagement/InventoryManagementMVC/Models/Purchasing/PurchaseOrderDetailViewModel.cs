@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using RecipiesModelNS;
 using System.ComponentModel;
+using InventoryManagementMVC.DataAnnotations;
 
 namespace InventoryManagementMVC.Models
 {
@@ -13,13 +14,14 @@ namespace InventoryManagementMVC.Models
         [Key]
         public int PurchaseOrderDetailId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof (PurchaseOrderHeader), DataFieldValue = "PurchaseOrderId",
+            DataFieldText = "PurchaseOrderId")]
         public int? PurchaseOrderHeaderId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof (Product), DataFieldValue = "ProductId", DataFieldText = "Name")]
         public int? ProductId { get; set; }
 
-        [Association("", "", "")]
+        [Relation(EntityType = typeof (UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
         public int? UnitMeasureId { get; set; }
 
         [Display(Name = "Order QTY")]
@@ -37,7 +39,7 @@ namespace InventoryManagementMVC.Models
 
         [Display(Name = "Stocked QTY")]
         public double StockedQuantity { get; set; }
-        
+
         public DateTime? ModifiedDate { get; set; }
 
         public string ModifiedByUser { get; set; }
@@ -54,18 +56,21 @@ namespace InventoryManagementMVC.Models
         [ReadOnly(true)]
         public string Status { get; set; }
 
-        public static PurchaseOrderDetailViewModel ConvertFromPurchaseOrderDetailEntity(PurchaseOrderDetail newOrExistingPod, PurchaseOrderDetailViewModel podViewModel)
+        public static PurchaseOrderDetailViewModel ConvertFromPurchaseOrderDetailEntity(
+            PurchaseOrderDetail newOrExistingPod, PurchaseOrderDetailViewModel podViewModel)
         {
             if (newOrExistingPod == null)
             {
-                throw new ApplicationException("PurchaseOrderDetail is null in method ConvertFromPurchaseOrderDetailEntity!");
+                throw new ApplicationException(
+                    "PurchaseOrderDetail is null in method ConvertFromPurchaseOrderDetailEntity!");
             }
             if (podViewModel == null)
             {
-                throw new ApplicationException("PurchaseOrderDetailViewModel is null in method ConvertFromPurchaseOrderDetailEntity!");
+                throw new ApplicationException(
+                    "PurchaseOrderDetailViewModel is null in method ConvertFromPurchaseOrderDetailEntity!");
             }
 
-            podViewModel.LineTotal = (decimal)newOrExistingPod.LineTotal;
+            podViewModel.LineTotal = (decimal) newOrExistingPod.LineTotal;
             podViewModel.ModifiedByUser = newOrExistingPod.ModifiedByUser;
             podViewModel.ModifiedDate = newOrExistingPod.ModifiedDate;
             podViewModel.OrderQuantity = newOrExistingPod.OrderQuantity;
@@ -90,7 +95,8 @@ namespace InventoryManagementMVC.Models
             {
                 podViewModel.Category = newOrExistingPod.Product.ProductCategory.Name;
             }
-            if (newOrExistingPod.PurchaseOrderHeader != null && newOrExistingPod.PurchaseOrderHeader.PurchaseOrderStatu != null)
+            if (newOrExistingPod.PurchaseOrderHeader != null &&
+                newOrExistingPod.PurchaseOrderHeader.PurchaseOrderStatu != null)
             {
                 podViewModel.Status = newOrExistingPod.PurchaseOrderHeader.PurchaseOrderStatu.Name;
             }
@@ -98,18 +104,21 @@ namespace InventoryManagementMVC.Models
             return podViewModel;
         }
 
-        public static PurchaseOrderDetail ConvertToPurchaseOrderDetailEntity(PurchaseOrderDetailViewModel podViewModel, PurchaseOrderDetail newOrExistingPod)
+        public static PurchaseOrderDetail ConvertToPurchaseOrderDetailEntity(PurchaseOrderDetailViewModel podViewModel,
+            PurchaseOrderDetail newOrExistingPod)
         {
             if (newOrExistingPod == null)
             {
-                throw new ApplicationException("PurchaseOrderDetail is null in method ConvertToPurchaseOrderDetailEntity!");
+                throw new ApplicationException(
+                    "PurchaseOrderDetail is null in method ConvertToPurchaseOrderDetailEntity!");
             }
             if (podViewModel == null)
             {
-                throw new ApplicationException("PurchaseOrderDetailViewModel is null in method ConvertToPurchaseOrderDetailEntity!");
+                throw new ApplicationException(
+                    "PurchaseOrderDetailViewModel is null in method ConvertToPurchaseOrderDetailEntity!");
             }
 
-            newOrExistingPod.LineTotal = (double)podViewModel.LineTotal;
+            newOrExistingPod.LineTotal = (double) podViewModel.LineTotal;
             newOrExistingPod.ModifiedByUser = podViewModel.ModifiedByUser;
             newOrExistingPod.ModifiedDate = podViewModel.ModifiedDate;
             newOrExistingPod.OrderQuantity = podViewModel.OrderQuantity;
