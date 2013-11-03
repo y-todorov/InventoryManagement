@@ -12,7 +12,7 @@ namespace InventoryManagementMVC.Models
         public int ProductId { get; set; }
 
         [Relation(EntityType = typeof (UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
-        [Display(Name = "UnitMeasure")]
+        [Display(Name = "Unit Measure")]
         public int? UnitMeasureId { get; set; }
 
         [Relation(EntityType = typeof (ProductCategory), DataFieldValue = "CategoryId", DataFieldText = "Name")]

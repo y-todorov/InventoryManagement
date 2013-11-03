@@ -12,10 +12,6 @@ namespace InventoryManagementMVC.Controllers
     {
         public ActionResult Index()
         {
-            //ControllerHelper.PopulateCategories(ViewData);
-            //ControllerHelper.PopulateUnitMeasures(ViewData);
-            //ControllerHelper.PopulateStores(ViewData);
-
             List<Product> allProducts = ContextFactory.Current.Products.ToList();
             List<ProductViewModel> productViewModels =
                 allProducts.Select(p => ProductViewModel.ConvertFromProductEntity(p, new ProductViewModel())).ToList();

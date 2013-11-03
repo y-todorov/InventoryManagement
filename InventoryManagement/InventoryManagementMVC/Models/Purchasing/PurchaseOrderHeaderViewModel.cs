@@ -15,15 +15,19 @@ namespace InventoryManagementMVC.Models.Purchasing
 
         [Relation(EntityType = typeof (PurchaseOrderStatu), DataFieldValue = "PurchaseOrderStatusId",
             DataFieldText = "Name")]
+        [Display(Name = "Status")]
         public int? StatusId { get; set; }
 
         [Relation(EntityType = typeof (Employee), DataFieldValue = "EmployeeId", DataFieldText = "FirstName")]
+        [Display(Name = "Employee")]
         public int? EmployeeId { get; set; }
 
         [Relation(EntityType = typeof (Vendor), DataFieldValue = "VendorId", DataFieldText = "Name")]
+        [Display(Name = "Vendor")]
         public int? VendorId { get; set; }
 
         [Relation(EntityType = typeof (ShipMethod), DataFieldValue = "ShipMethodId", DataFieldText = "Name")]
+        [Display(Name = "Ship Method")]
         public int? ShipMethodId { get; set; }
 
         [Required]

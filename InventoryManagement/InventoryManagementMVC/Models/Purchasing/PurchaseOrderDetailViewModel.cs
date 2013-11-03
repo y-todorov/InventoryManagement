@@ -16,12 +16,15 @@ namespace InventoryManagementMVC.Models
 
         [Relation(EntityType = typeof (PurchaseOrderHeader), DataFieldValue = "PurchaseOrderId",
             DataFieldText = "PurchaseOrderId")]
+        [Display(Name = "Purchase Order")]
         public int? PurchaseOrderHeaderId { get; set; }
 
         [Relation(EntityType = typeof (Product), DataFieldValue = "ProductId", DataFieldText = "Name")]
+        [Display(Name = "Product")]
         public int? ProductId { get; set; }
 
         [Relation(EntityType = typeof (UnitMeasure), DataFieldValue = "UnitMeasureId", DataFieldText = "Name")]
+        [Display(Name = "Unit Measure")]
         public int? UnitMeasureId { get; set; }
 
         [Display(Name = "Order QTY")]
@@ -37,6 +40,7 @@ namespace InventoryManagementMVC.Models
         [Display(Name = "Returned QTY")]
         public double? ReturnedQuantity { get; set; }
 
+        [ReadOnly(true)]
         [Display(Name = "Stocked QTY")]
         public double StockedQuantity { get; set; }
 

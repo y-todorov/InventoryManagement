@@ -27,7 +27,7 @@
               .Batch(true)
               .PageSize(5).Model(m => m.Id(p => p.PurchaseOrderDetailId))
               .Read(read => read.Action("Read", "PurchaseOrderDetail", new {purchaseOrderHeaderId = "#=PurchaseOrderHeaderId#"}))
-              .Create("Create", "PurchaseOrderDetail")
+              .Create("Create", "PurchaseOrderDetail", new {purchaseOrderHeaderId = "#=PurchaseOrderHeaderId#"})
               .Update("Update", "PurchaseOrderDetail")
               .Destroy("Destroy", "PurchaseOrderDetail")
           )

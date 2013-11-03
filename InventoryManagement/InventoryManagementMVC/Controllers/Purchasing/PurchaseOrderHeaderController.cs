@@ -12,9 +12,6 @@ namespace InventoryManagementMVC.Controllers.Purchasing
 {
     public class PurchaseOrderHeaderController : Controller
     {
-        //
-        // GET: /PurchaseOrder/
-
         public ActionResult Index()
         {
             List<PurchaseOrderHeaderViewModel> purchaseOrderHeaderViewModels =

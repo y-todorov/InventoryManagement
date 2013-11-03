@@ -14,6 +14,7 @@ namespace InventoryManagementMVC.Models
         public int InventoryId { get; set; }
 
         [Relation(EntityType = typeof (Product), DataFieldValue = "ProductId", DataFieldText = "Name")]
+        [Display(Name = "Product")]
         public int? ProductId { get; set; }
 
         public static ProductInventoryViewModel ConvertFromProductInventoryEntity(
