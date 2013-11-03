@@ -8,6 +8,7 @@
 @(
         Html.Kendo().Grid(Model)
             .AddDefaultOptions()
+            //.Columns(columns => columns.Command(c => c.Custom("Download").Text("Download").Action("Download", "PurchaseOrderHeader", new {purchaseOrderHeaderId = "#=PurchaseOrderHeaderId#"}).SendDataKeys.SendState(true)))
             .DataSource(dataSource => dataSource
                 .Ajax()
                 .Read("Read", "PurchaseOrderHeader")
