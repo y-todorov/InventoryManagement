@@ -20,6 +20,9 @@ namespace InventoryManagementMVC.Models
         [Editable(false)]
         public string ProductCategory { get; set; }
 
+        [Editable(false)]
+        public string ProductUnitMeasure { get; set; }
+
         public static ProductInventoryViewModel ConvertFromProductInventoryEntity(
             ProductInventory newOrExistingProductInventoryEntity,
             ProductInventoryViewModel productInventoryViewModel)
@@ -32,6 +35,12 @@ namespace InventoryManagementMVC.Models
             {
                 productInventoryViewModel.ProductCategory =
                     newOrExistingProductInventoryEntity.Product.ProductCategory.Name;
+            }
+            if (newOrExistingProductInventoryEntity.Product != null &&
+                newOrExistingProductInventoryEntity.Product.UnitMeasure != null)
+            {
+                productInventoryViewModel.ProductUnitMeasure =
+                    newOrExistingProductInventoryEntity.Product.UnitMeasure.Name;
             }
 
             return productInventoryViewModel;
