@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Web.Mvc;
 using System.Web.Security;
 using InventoryManagementMVC.Filters;
 using InventoryManagementMVC.Models;
-
 //using WebMatrix.WebData;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using WebMatrix.WebData;
 
 namespace InventoryManagementMVC.Controllers
 {
@@ -33,8 +36,8 @@ namespace InventoryManagementMVC.Controllers
         {
             try
             {
-                //if (ModelState.IsValid &&
-                //    WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+                if (ModelState.IsValid &&
+                    WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
                 //if (model.UserName == "admin")
                 {
                     return RedirectToLocal(returnUrl);

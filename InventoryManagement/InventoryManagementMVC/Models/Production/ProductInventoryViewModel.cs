@@ -17,12 +17,22 @@ namespace InventoryManagementMVC.Models
         [Display(Name = "Product")]
         public int? ProductId { get; set; }
 
+        [Editable(false)]
+        public string ProductCategory { get; set; }
+
         public static ProductInventoryViewModel ConvertFromProductInventoryEntity(
             ProductInventory newOrExistingProductInventoryEntity,
             ProductInventoryViewModel productInventoryViewModel)
         {
             InventoryViewModel.ConvertFromInventoryEntity(newOrExistingProductInventoryEntity, productInventoryViewModel);
             productInventoryViewModel.ProductId = newOrExistingProductInventoryEntity.ProductId;
+
+            if (newOrExistingProductInventoryEntity.Product != null &&
+                newOrExistingProductInventoryEntity.Product.ProductCategory != null)
+            {
+                productInventoryViewModel.ProductCategory =
+                    newOrExistingProductInventoryEntity.Product.ProductCategory.Name;
+            }
 
             return productInventoryViewModel;
         }
