@@ -55,12 +55,6 @@
     <Reference Include="DevTrends.MvcDonutCaching">
       <HintPath>..\Libs\DevTrends.MvcDonutCaching.dll</HintPath>
     </Reference>
-    <Reference Include="Elmah">
-      <HintPath>..\Libs\Elmah.dll</HintPath>
-    </Reference>
-    <Reference Include="Elmah.Mvc">
-      <HintPath>..\Libs\Elmah.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\EntityFramework.dll</HintPath>
@@ -451,7 +445,6 @@
     <Compile Include="Extensions\CustomHandleErrorAttribute.cs" />
     <Compile Include="Extensions\GridBuilderExtension.cs" />
     <Compile Include="Extensions\MyFileResult.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -495,8 +488,6 @@
     <Compile Include="HumanResources\Shifts.aspx.designer.cs">
       <DependentUpon>Shifts.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account\AccountModels.cs" />
-    <Compile Include="Models\Account\IdentityModels.cs" />
     <Compile Include="Models\Chart\GpPerDay.cs" />
     <Compile Include="Models\Chart\LowProducts.cs" />
     <Compile Include="Models\Chart\ProductsPerCategory.cs" />
@@ -785,6 +776,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\HumanResources\" />
+    <Folder Include="Filters\" />
+    <Folder Include="Models\Account\" />
     <Folder Include="Models\HumanResources\" />
   </ItemGroup>
   <PropertyGroup>
